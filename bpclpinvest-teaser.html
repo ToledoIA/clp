@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CertLedgerPro — A Oportunidade (Teaser para Investidores)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#080D1A;--bg2:#0D1526;--card:#131F38;--card2:#172244;--border:#1E2E50;--border2:#243660;
+    --ink:#E8EEF8;--ink2:#B4C0D8;--muted:#6B7FA8;--faint:#3D5080;
+    --blue:#4C6EF5;--blue2:#3D5DD4;--blue-soft:rgba(76,110,245,.15);
+    --purple:#7C5CFC;--purple-soft:rgba(124,92,252,.12);--cyan:#00D4FF;--cyan-soft:rgba(0,212,255,.10);
+    --green:#00E5A0;--green-soft:rgba(0,229,160,.10);--red:#FF4D6A;--amber:#F5A623;--amber-soft:rgba(245,166,35,.10);
+    --mono:'JetBrains Mono',monospace;--head:'Space Grotesk','Inter',sans-serif;--serif:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.65;}
+  ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+  .doc{max-width:860px;margin:20px auto;background:var(--bg2);border:1px solid var(--border);border-radius:8px;box-shadow:0 16px 64px rgba(0,0,0,.6);padding:0 0 8px;}
+  .print-only{display:none;}
+
+  .cover{padding:84px 64px 64px;border-bottom:1px solid var(--border);background:linear-gradient(145deg,var(--bg2),#0A1428 60%,#0D1230);position:relative;overflow:hidden;}
+  .cover::before{content:'';position:absolute;top:-40%;right:-10%;width:62%;padding-top:62%;border-radius:50%;background:radial-gradient(circle,rgba(76,110,245,.13),transparent 70%);}
+  .cover::after{content:'';position:absolute;bottom:-30%;left:-8%;width:42%;padding-top:42%;border-radius:50%;background:radial-gradient(circle,rgba(124,92,252,.09),transparent 70%);}
+  .cover .brand{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--blue);font-weight:500;text-transform:uppercase;position:relative;z-index:1;}
+  .cover h1{font-family:var(--head);font-size:50px;line-height:1.07;color:var(--ink);margin:22px 0 0;font-weight:700;letter-spacing:-.025em;position:relative;z-index:1;}
+  .cover h1 em{font-style:italic;color:var(--blue);}
+  .cover .tag{font-size:18px;color:var(--ink2);max-width:600px;margin:22px 0 0;line-height:1.55;position:relative;z-index:1;}
+  .cover .meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:46px;letter-spacing:.06em;position:relative;z-index:1;}
+  .cover .meta span{color:var(--green);}
+
+  section{padding:42px 64px 6px;}
+  .eyebrow{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--blue);letter-spacing:.2em;text-transform:uppercase;}
+  h2{font-family:var(--head);font-size:28px;font-weight:700;color:var(--ink);margin:8px 0 0;letter-spacing:-.02em;}
+  .rule{height:1px;background:linear-gradient(90deg,var(--blue),var(--purple) 60%,transparent);margin:14px 0 22px;opacity:.6;}
+  p{font-size:16px;color:var(--ink2);margin:0 0 18px;line-height:1.75;}
+  p b{color:var(--ink);font-weight:600;}p .hi{color:var(--blue);font-weight:600;}
+  .lead{font-size:18px;color:var(--ink);line-height:1.7;}
+
+  .big-stat{text-align:center;margin:20px 0 8px;}
+  .big-stat .n{font-family:var(--head);font-size:72px;font-weight:700;line-height:1;letter-spacing:-.03em;
+               background:linear-gradient(120deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .big-stat .c{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:10px;}
+
+  .arc{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:20px 0 8px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .arc-step{padding:18px 14px;text-align:center;border-right:1px solid var(--border);position:relative;background:var(--card);}
+  .arc-step:last-child{border-right:none;}
+  .arc-step.peak{background:linear-gradient(180deg,rgba(245,166,35,.12),var(--card));}
+  .arc-yr{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+  .arc-val{font-family:var(--head);font-size:24px;font-weight:700;color:var(--ink);margin:6px 0 2px;}
+  .arc-step.peak .arc-val{color:var(--amber);}
+  .arc-d{font-size:11px;color:var(--muted);line-height:1.4;}
+
+  .callout{border-left:3px solid var(--blue);background:var(--blue-soft);padding:18px 22px;margin:8px 0 20px;font-family:var(--head);font-size:18px;color:var(--ink);font-weight:500;line-height:1.5;border-radius:0 6px 6px 0;}
+  .callout.center{text-align:center;font-size:19px;border-left:none;border-radius:8px;background:var(--purple-soft);border:1px solid rgba(124,92,252,.2);}
+
+  ul{margin:0 0 18px;padding-left:0;list-style:none;}
+  ul li{position:relative;padding:9px 0 9px 24px;font-size:15.5px;color:var(--ink2);border-bottom:1px solid var(--border);}
+  ul li:last-child{border-bottom:none;}
+  ul li::before{content:'';position:absolute;left:5px;top:18px;width:6px;height:6px;border-radius:50%;background:var(--blue);}
+  ul li b{color:var(--ink);}
+
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 18px;}
+  .why{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;position:relative;overflow:hidden;}
+  .why::before{content:'';position:absolute;top:0;left:0;width:3px;bottom:0;background:linear-gradient(180deg,var(--blue),var(--purple));}
+  .why-h{font-family:var(--head);font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+  .why-d{font-size:13.5px;color:var(--ink2);line-height:1.55;}
+
+  /* CTA final */
+  .cta{margin:36px 64px 40px;padding:40px 44px;text-align:center;border-radius:14px;
+       background:linear-gradient(135deg,rgba(76,110,245,.16),rgba(124,92,252,.12));border:1px solid rgba(76,110,245,.3);position:relative;overflow:hidden;}
+  .cta::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:70%;padding-top:70%;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,.10),transparent 70%);}
+  .cta-eye{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:600;position:relative;z-index:1;}
+  .cta-h{font-family:var(--head);font-size:28px;font-weight:700;color:var(--ink);line-height:1.2;margin:12px 0 10px;position:relative;z-index:1;letter-spacing:-.02em;}
+  .cta-p{font-size:15.5px;color:var(--ink2);max-width:520px;margin:0 auto 24px;line-height:1.6;position:relative;z-index:1;}
+  .cta-btn{display:inline-block;font-family:var(--head);font-size:16px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--blue),var(--blue2));padding:15px 38px;border-radius:10px;text-decoration:none;box-shadow:0 8px 28px rgba(76,110,245,.4);position:relative;z-index:1;}
+  .cta-contact{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:20px;line-height:1.8;position:relative;z-index:1;}
+  .cta-contact b{color:var(--ink2);}
+
+  .footer-note{font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 64px 26px;line-height:1.7;text-align:center;}
+
+  @media(max-width:680px){
+    .doc{margin:0;border-radius:0;}.cover{padding:54px 28px 44px;}.cover h1{font-size:36px;}.cover .tag{font-size:16px;}
+    section{padding:32px 28px 6px;}.footer-note{padding-left:28px;padding-right:28px;}
+    .arc{grid-template-columns:1fr 1fr;}.arc-step:nth-child(2){border-right:none;}
+    .why-grid{grid-template-columns:1fr;}.big-stat .n{font-size:54px;}
+    .cta{margin-left:24px;margin-right:24px;padding:30px 24px;}.cta-h{font-size:23px;}
+  }
+  @page{size:A4;margin:16mm 14mm 18mm;}
+  @media print{
+    body{background:#fff;color:#111;}
+    .doc{box-shadow:none;border:none;margin:0;max-width:none;background:#fff;}
+    .print-only{display:flex;}
+    :root{--ink:#111;--ink2:#333;--muted:#555;--bg:#fff;--bg2:#fff;--card:#f5f5f7;--card2:#eaeaec;--border:#ddd;--border2:#ccc;
+          --blue:#2244BB;--purple:#5533AA;--cyan:#0077AA;--green:#1A6B3C;--red:#B30000;--amber:#8B5E00;}
+    .cover{min-height:150mm;background:#fff;}.cover::before,.cover::after{display:none;}
+    .big-stat .n,.cta-h{-webkit-text-fill-color:initial;color:#2244BB;}
+    section,.cta{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <div class="cover">
+    <div class="brand">CERTLEDGERPRO · OPORTUNIDADE DE INVESTIMENTO</div>
+    <h1>Uma regra mudou.<br>E criou um <em>mercado</em>.</h1>
+    <div class="tag">Toda empresa com presença na internet acaba de ganhar um problema com prazo de validade. Nós construímos a solução — antes da corrida começar.</div>
+    <div class="meta">certledgerpro.com &nbsp;·&nbsp; Junho de 2026 &nbsp;<span>— Confidencial</span></div>
+  </div>
+
+  <!-- O GANCHO -->
+  <section>
+    <div class="eyebrow">A oportunidade</div>
+    <h2>O que praticamente ninguém percebeu ainda</h2>
+    <div class="rule"></div>
+    <p class="lead">Em 2025, um comitê técnico global decidiu, por unanimidade, que os certificados digitais que mantêm a internet segura passariam a expirar quase <b>oito vezes mais rápido</b> até 2029.</p>
+    <p>Parece detalhe técnico. Não é. É um <span class="hi">choque de demanda com data marcada</span> sobre todas as organizações do planeta que dependem de um site, um aplicativo ou um sistema online — bancos, varejo, governo, saúde, qualquer uma. O trabalho de renovar certificados manualmente, hoje tolerável, torna-se impossível. E ninguém pode optar por ignorar: é regra obrigatória, com calendário público.</p>
+    <div class="callout center">Quando uma regulação transforma um "talvez no futuro" em "obrigatório até esta data", nasce um mercado inteiro de uma vez. A única pergunta é quem chega antes.</div>
+  </section>
+
+  <!-- O NÚMERO -->
+  <section>
+    <div class="eyebrow">A dinâmica</div>
+    <h2>Uma curva que só sobe</h2>
+    <div class="rule"></div>
+    <p>A frequência com que cada certificado precisa ser renovado é ditada por calendário regulatório — não por ciclo de vendas, não por moda de tecnologia. Ela cresce de forma escalonada, pública e inevitável:</p>
+    <div class="arc">
+      <div class="arc-step"><div class="arc-yr">Hoje</div><div class="arc-val">2×</div><div class="arc-d">Administrável à mão</div></div>
+      <div class="arc-step"><div class="arc-yr">2027</div><div class="arc-val">4×</div><div class="arc-d">Processo manual quebra</div></div>
+      <div class="arc-step peak"><div class="arc-yr">2029</div><div class="arc-val">8×</div><div class="arc-d">Automação obrigatória</div></div>
+      <div class="arc-step"><div class="arc-yr">Depois</div><div class="arc-val">∞</div><div class="arc-d">Categoria consolidada</div></div>
+    </div>
+    <p style="margin-top:18px;">Cada degrau dessa escada empurra mais clientes para a automação — e quem já estiver instalado colhe o crescimento sem precisar vender de novo. A demanda se expande sozinha, ano após ano, puxada pela regra.</p>
+  </section>
+
+  <!-- POR QUE NÓS -->
+  <section>
+    <div class="eyebrow">Por que a CertLedgerPro</div>
+    <h2>Produto pronto, diferenciais raros, hora certa</h2>
+    <div class="rule"></div>
+    <p>Não estamos vendendo uma ideia em slides. A plataforma está construída e faz o ciclo completo — encontra os certificados (inclusive os que o cliente nem sabe que tem), renova sozinha e gera prova de auditoria. E carrega diferenciais que os concorrentes não combinam:</p>
+    <div class="why-grid">
+      <div class="why"><div class="why-h">Auditoria em blockchain</div><div class="why-d">Registro imutável e à prova de adulteração — o que bancos e reguladores exigem. Único no segmento.</div></div>
+      <div class="why"><div class="why-h">Segurança pós-quântica</div><div class="why-d">Já preparada para a próxima geração de criptografia, antes de virar exigência.</div></div>
+      <div class="why"><div class="why-h">Vantagem local</div><div class="why-d">Construída para o Brasil e a América Latina — terreno onde os gigantes globais são lentos.</div></div>
+      <div class="why"><div class="why-h">Aquisição inteligente</div><div class="why-d">Um diagnóstico gratuito revela o risco do cliente e transforma o problema dele em pipeline nosso.</div></div>
+    </div>
+    <div class="callout">A janela é estreita e é exatamente por isso que existe a oportunidade: quem instalar a base de clientes antes do ponto de ruptura de 2027 define a categoria. Depois, a corrida fica cara para todos.</div>
+  </section>
+
+  <!-- O QUE PROCURAMOS -->
+  <section>
+    <div class="eyebrow">O momento</div>
+    <h2>Por que esta conversa, agora</h2>
+    <div class="rule"></div>
+    <ul>
+      <li><b>O timing é o ativo.</b> O valor não está só no produto — está em chegar antes da onda de 2027 que a própria regra garante.</li>
+      <li><b>O risco é de execução, não de mercado.</b> A demanda virá por força regulatória; o desafio é instalar base e concluir conformidade na janela certa.</li>
+      <li><b>O capital compra marcos.</b> Buscamos parceiros que entendam que financiar a janela pré-2027 é financiar a posição de liderança numa categoria nascente.</li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-eye">★ Vamos conversar</div>
+    <div class="cta-h">Os números completos<br>merecem uma conversa.</div>
+    <div class="cta-p">Este é um panorama da oportunidade. O modelo financeiro, as projeções, o valuation e o plano de uso de recursos estão no data room — e fazem mais sentido em diálogo do que em PDF. Se a tese ressoou, o próximo passo é uma conversa de 30 minutos.</div>
+    <a class="cta-btn" href="mailto:invest@certledgerpro.com?subject=Conversa%20sobre%20a%20oportunidade%20CertLedgerPro">Agendar uma conversa →</a>
+    <div class="cta-contact">
+      <b>Toledo</b> · Co-fundador &amp; CEO &nbsp;|&nbsp; <b>Galeno Garbe</b> · Co-fundador &amp; CTO<br>
+      invest@certledgerpro.com &nbsp;·&nbsp; certledgerpro.com
+    </div>
+  </div>
+
+  <div class="footer-note">
+    CertLedgerPro — Teaser de oportunidade · Confidencial · Junho de 2026.<br>
+    Documento informativo; não constitui oferta de valores mobiliários nem recomendação de investimento. Informações financeiras detalhadas disponíveis no data room mediante NDA.
+  </div>
+
+</div>
+</body>
+</html>

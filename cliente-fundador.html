@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CertLedgerPro — Programa Cliente Fundador (5 vagas)</title>
+<title>CertLedgerPro — Programa Cliente Fundador (10 vagas)</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
   :root{
@@ -20,13 +20,12 @@
   ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
   .wrap{max-width:720px;margin:24px auto;background:linear-gradient(160deg,var(--bg2),#0A1326);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);position:relative;}
-  .wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--amber),var(--blue),var(--purple));}
+  .wrap::before{content:none;}
 
-  .hero{padding:40px 48px 8px;text-align:center;position:relative;}
-  .brandwrap{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:24px;}
-  .logo{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:700;color:#fff;font-size:17px;box-shadow:0 0 18px rgba(76,110,245,.4);}
-  .brandtext{font-family:var(--head);font-size:17px;font-weight:700;color:var(--ink);}
-  .brandtext span{color:var(--blue);}
+  .topbar{background:#fff;padding:22px 48px;display:flex;align-items:center;justify-content:center;border-bottom:3px solid;border-image:linear-gradient(90deg,var(--amber),var(--blue),var(--purple)) 1;}
+  .topbar img{height:46px;width:auto;display:block;}
+
+  .hero{padding:34px 48px 8px;text-align:center;position:relative;}
   .badge-scarcity{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border:1px solid rgba(245,166,35,.3);padding:7px 16px;border-radius:20px;margin-bottom:22px;}
   .badge-scarcity .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 1.8s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,166,35,.6);}70%{box-shadow:0 0 0 8px rgba(245,166,35,0);}100%{box-shadow:0 0 0 0 rgba(245,166,35,0);}}
@@ -34,12 +33,11 @@
   h1 .accent{background:linear-gradient(120deg,var(--amber),#FF8C42);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
   .sub{font-size:16px;color:var(--ink2);max-width:540px;margin:14px auto 0;line-height:1.6;}
 
-  /* contador de vagas */
   .seats{display:flex;justify-content:center;gap:10px;margin:28px 48px 6px;}
   .seat{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:20px;font-weight:700;border:1px solid;}
   .seat.open{background:rgba(0,229,160,.08);border-color:rgba(0,229,160,.35);color:var(--green);}
   .seat.taken{background:rgba(255,255,255,.03);border-color:var(--border);color:var(--faint);position:relative;}
-  .seat.taken::after{content:'✓';font-size:16px;}
+  .seat.taken::after{content:'\2713';font-size:16px;}
   .seats-label{text-align:center;font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.06em;margin:12px 0 0;}
 
   .section{padding:18px 48px;}
@@ -58,14 +56,17 @@
   .exchange li{position:relative;padding:5px 0 5px 20px;font-size:13.5px;color:var(--ink2);}
   .exchange li::before{content:'';position:absolute;left:4px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue);}
 
-  .deadline-banner{text-align:center;background:var(--amber-soft);border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:16px 24px;margin:6px 48px;}
+  .deadline-banner{text-align:center;background:var(--amber-soft);border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:18px 24px;margin:6px 48px;}
   .deadline-banner .dl-h{font-family:var(--head);font-size:16px;font-weight:700;color:var(--ink);}
   .deadline-banner .dl-h span{color:var(--amber);}
   .deadline-banner .dl-s{font-size:13px;color:var(--ink2);margin-top:4px;}
+  .countdown{display:flex;justify-content:center;gap:10px;margin:14px 0 2px;}
+  .cd-box{background:rgba(8,13,26,.5);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:8px 14px;min-width:62px;}
+  .cd-num{font-family:var(--head);font-size:26px;font-weight:700;color:var(--amber);line-height:1;font-variant-numeric:tabular-nums;}
+  .cd-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:5px;}
 
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:24px 48px;}
 
-  /* formulario */
   form{padding:8px 48px 8px;}
   .form-intro{text-align:center;margin-bottom:20px;}
   .form-intro .fi-h{font-family:var(--head);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
@@ -111,30 +112,30 @@
 <body>
 <div class="wrap">
 
-  <!-- HERO -->
+  <div class="topbar"><img src="data:image/png;base64,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" alt="CertLedger Pro Enterprise"></div>
+
   <div class="hero">
-    <div class="brandwrap">
-      <div class="logo">C</div>
-      <div class="brandtext">CertLedger<span>Pro</span></div>
-    </div>
-    <div class="badge-scarcity"><span class="dot"></span>Apenas 5 vagas · por tempo limitado</div>
+    <div class="badge-scarcity"><span class="dot"></span>Apenas 10 vagas &middot; por tempo limitado</div>
     <h1>Programa <span class="accent">Cliente Fundador</span></h1>
-    <div class="sub">As cinco primeiras empresas a adotar a CertLedgerPro entram como parceiras fundadoras — com condições que nunca mais se repetirão e acesso direto a quem constrói o produto.</div>
+    <div class="sub">As dez primeiras empresas a adotar a CertLedgerPro entram para a Comunidade dos Fundadores — um grupo restrito com condições que nunca mais se repetirão, conteúdo exclusivo, novidades em primeira mão e voz direta no futuro da plataforma.</div>
   </div>
 
-  <!-- VAGAS -->
   <div class="seats">
     <div class="seat open">1</div>
     <div class="seat open">2</div>
     <div class="seat open">3</div>
     <div class="seat open">4</div>
     <div class="seat open">5</div>
+    <div class="seat open">6</div>
+    <div class="seat open">7</div>
+    <div class="seat open">8</div>
+    <div class="seat open">9</div>
+    <div class="seat open">10</div>
   </div>
-  <div class="seats-label">5 de 5 vagas disponíveis — as primeiras definem a categoria</div>
+  <div class="seats-label">10 de 10 vagas disponíveis — as primeiras definem a categoria</div>
 
-  <!-- BENEFICIOS -->
   <div class="section">
-    <div class="section-title">O que você recebe como fundador</div>
+    <div class="section-title">O que você recebe na Comunidade dos Fundadores</div>
     <div class="benefits">
       <div class="benefit">
         <div class="benefit-ico">01</div>
@@ -148,11 +149,21 @@
       </div>
       <div class="benefit">
         <div class="benefit-ico">03</div>
-        <div class="benefit-h">Acesso aos fundadores</div>
-        <div class="benefit-d">Canal direto com o CEO e o CTO. Suas demandas entram na frente — você ajuda a moldar o roadmap.</div>
+        <div class="benefit-h">Comunidade exclusiva</div>
+        <div class="benefit-d">Acesso a um grupo restrito de fundadores: troca entre pares, eventos fechados e contato direto com o CEO e o CTO.</div>
       </div>
       <div class="benefit">
         <div class="benefit-ico">04</div>
+        <div class="benefit-h">Conteúdo de primeira mão</div>
+        <div class="benefit-d">Materiais técnicos, análises do mercado de PKI e guias práticos sobre o novo regime de certificados, antes de todo mundo.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-ico">05</div>
+        <div class="benefit-h">Voz no futuro da plataforma</div>
+        <div class="benefit-d">Você conhece o roadmap antes do mercado, vota em prioridades e ajuda a definir o rumo do produto.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-ico">06</div>
         <div class="benefit-h">Status de fundador</div>
         <div class="benefit-d">Reconhecimento como uma das empresas pioneiras na conformidade com o novo regime de certificados.</div>
       </div>
@@ -163,22 +174,26 @@
       <ul>
         <li>Compromisso de contrato plurianual (até 2029).</li>
         <li>Disponibilidade para virar caso de referência e dar um depoimento.</li>
-        <li>Feedback periódico de produto durante os primeiros meses.</li>
+        <li>Participação ativa na comunidade e feedback periódico de produto.</li>
       </ul>
     </div>
   </div>
 
-  <!-- DEADLINE -->
   <div class="deadline-banner">
-    <div class="dl-h">As vagas fecham em <span>30 dias</span> — ou quando as 5 forem preenchidas.</div>
-    <div class="dl-s">O que vier primeiro. Depois disso, apenas condições comerciais padrão.</div>
+    <div class="dl-h">As inscrições encerram em <span>28 de agosto de 2026</span> — ou quando as 10 vagas forem preenchidas.</div>
+    <div class="dl-s">O que vier primeiro. Depois dessa data, apenas condições comerciais padrão.</div>
+    <div class="countdown" id="countdown">
+      <div class="cd-box"><div class="cd-num" id="cd-d">—</div><div class="cd-lbl">Dias</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-h">—</div><div class="cd-lbl">Horas</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-m">—</div><div class="cd-lbl">Min</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-s">—</div><div class="cd-lbl">Seg</div></div>
+    </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- MENSAGENS -->
   <div class="msg success" id="successMsg">
-    <div class="mtitle">✓ Candidatura recebida!</div>
+    <div class="mtitle">&#10003; Candidatura recebida!</div>
     Recebemos seu interesse no Programa Cliente Fundador. Entraremos em contato em breve para confirmar a vaga e os próximos passos.
   </div>
   <div class="msg error" id="errorMsg">
@@ -186,7 +201,6 @@
     Ocorreu um erro. Tente novamente ou escreva diretamente para toledo@certledgerpro.com.
   </div>
 
-  <!-- FORMULARIO -->
   <form id="founderForm" novalidate>
     <div class="form-intro">
       <div class="fi-h">Garanta sua vaga</div>
@@ -271,35 +285,55 @@
       <label for="consent" style="margin:0;font-weight:400;color:var(--muted);">Autorizo a CertLedgerPro a tratar meus dados para fins de avaliação e contato sobre o Programa Cliente Fundador, conforme a LGPD. <span class="req">*</span></label>
     </div>
 
-    <button type="submit" class="btn" id="submitBtn">Quero ser Cliente Fundador →</button>
+    <button type="submit" class="btn" id="submitBtn">Quero ser Cliente Fundador &rarr;</button>
   </form>
 
   <div class="foot">
-    <div class="foot-tag">CertLedger<span>Pro</span> · Programa Cliente Fundador · certledgerpro.com</div>
-    <div class="foot-note">Programa limitado a 5 empresas. Condições sujeitas à confirmação e formalização contratual. Dados tratados conforme a LGPD, usados exclusivamente para gestão do programa.</div>
+    <div class="foot-tag">CertLedger<span>Pro</span> &middot; Programa Cliente Fundador &middot; certledgerpro.com</div>
+    <div class="foot-note">Programa limitado a 10 empresas. Condições sujeitas à confirmação e formalização contratual. Dados tratados conforme a LGPD, usados exclusivamente para gestão do programa.</div>
   </div>
 
 </div>
 
 <script>
+  /* ===== Contador regressivo até 28/08/2026 ===== */
+  (function(){
+    var alvo = new Date('2026-08-28T23:59:59-03:00').getTime();
+    var elD=document.getElementById('cd-d'), elH=document.getElementById('cd-h'),
+        elM=document.getElementById('cd-m'), elS=document.getElementById('cd-s');
+    function tick(){
+      var diff = alvo - Date.now();
+      if(diff < 0){ diff = 0; }
+      var d=Math.floor(diff/86400000),
+          h=Math.floor((diff%86400000)/3600000),
+          m=Math.floor((diff%3600000)/60000),
+          s=Math.floor((diff%60000)/1000);
+      if(elD){ elD.textContent=d; }
+      if(elH){ elH.textContent=String(h).padStart(2,'0'); }
+      if(elM){ elM.textContent=String(m).padStart(2,'0'); }
+      if(elS){ elS.textContent=String(s).padStart(2,'0'); }
+    }
+    tick(); setInterval(tick,1000);
+  })();
+
 /* ============================================================
-   ENVIO DO FORMULÁRIO PARA: toledo@certledgerpro.com
+   ENVIO DO FORMULÁRIO — via backend próprio (Python / sendemail)
    ------------------------------------------------------------
-   Como HTML não envia e-mail sozinho, use UMA das opções:
+   Os registros vão para: toledo@certledgerpro.com
 
-   OPÇÃO A — Web3Forms (sem servidor, recomendado p/ GitHub Pages):
-     1) Crie conta em https://web3forms.com com o e-mail
-        toledo@certledgerpro.com (é para onde os registros chegam).
-     2) Copie a Access Key gerada.
-     3) Cole a chave em ACCESS_KEY abaixo. Pronto.
+   IMPORTANTE: esta página (no GitHub Pages) NÃO contém senha alguma.
+   Ela apenas chama o ENDPOINT abaixo, que roda em um host capaz de
+   executar Python (Render/Railway/etc.) e guarda as credenciais SMTP
+   com segurança, em variáveis de ambiente — fora do repositório.
 
-   OPÇÃO B — Backend próprio (sendemail_certledgerpro.py):
-     Aponte ENDPOINT para sua URL que recebe POST JSON e dispara
-     via SMTP, e troque USA_WEB3FORMS para false.
+   COMO LIGAR:
+   1) Faça deploy da pasta "clp-email-backend" (veja o README dela).
+   2) Cole a URL pública do backend + "/enviar" em ENDPOINT.
+   3) (Opcional) Use o MESMO FORM_TOKEN configurado no backend —
+      é só um filtro anti-spam; NÃO é uma credencial sensível.
    ============================================================ */
-  var ENDPOINT = "https://api.web3forms.com/submit";
-  var USA_WEB3FORMS = true;
-  var ACCESS_KEY = "COLE_SUA_ACCESS_KEY_AQUI"; // <-- chave do Web3Forms vinculada a toledo@certledgerpro.com
+  var ENDPOINT = "https://SEU-BACKEND.onrender.com/enviar"; // <-- URL do backend + /enviar
+  var FORM_TOKEN = "";  // <-- mesmo valor do FORM_TOKEN no backend (opcional)
   var DESTINO = "toledo@certledgerpro.com";
 
   var form = document.getElementById('founderForm');
@@ -320,13 +354,9 @@
     var data = {};
     fd.forEach(function(v,k){ data[k]=v; });
 
-    data.subject = "Cliente Fundador: " + (data.empresa||"(sem nome)") + " quer uma das 5 vagas";
+    data.subject = "Cliente Fundador: " + (data.empresa||"(sem nome)") + " quer uma das 10 vagas";
     data.from_name = "CertLedgerPro — Programa Cliente Fundador";
-    if(USA_WEB3FORMS){
-      data.access_key = ACCESS_KEY;
-      // Web3Forms também aceita campo de destino quando configurado na conta:
-      data.to = DESTINO;
-    }
+    if(FORM_TOKEN){ data.token = FORM_TOKEN; }
 
     fetch(ENDPOINT, {
       method:"POST",
@@ -335,7 +365,7 @@
     })
     .then(function(r){ return r.json().catch(function(){ return {success:r.ok}; }); })
     .then(function(res){
-      var success = res.success === true || res.ok === true || res.success === "true";
+      var success = res.success === true || res.ok === true;
       if(success){
         form.style.display='none';
         ok.classList.add('show');

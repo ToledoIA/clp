@@ -64,6 +64,7 @@
   .cd-box{background:rgba(8,13,26,.5);border:1px solid rgba(245,166,35,.25);border-radius:8px;padding:8px 14px;min-width:62px;}
   .cd-num{font-family:var(--head);font-size:26px;font-weight:700;color:var(--amber);line-height:1;font-variant-numeric:tabular-nums;}
   .cd-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:5px;}
+  .cd-target{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.04em;margin-top:12px;}
 
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:24px 48px;}
 
@@ -180,14 +181,15 @@
   </div>
 
   <div class="deadline-banner">
-    <div class="dl-h">As inscrições encerram em <span>28 de agosto de 2026</span> — ou quando as 10 vagas forem preenchidas.</div>
-    <div class="dl-s">O que vier primeiro. Depois dessa data, apenas condições comerciais padrão.</div>
+    <div class="dl-h">As inscrições encerram em <span>30 de julho de 2026</span> — ou quando as 10 vagas forem preenchidas.</div>
+    <div class="dl-s">O que vier primeiro. A compra precisará estar formalizada até <strong style="color:var(--amber);">28 de agosto de 2026</strong>. Depois desses prazos, apenas condições comerciais padrão.</div>
     <div class="countdown" id="countdown">
       <div class="cd-box"><div class="cd-num" id="cd-d">—</div><div class="cd-lbl">Dias</div></div>
       <div class="cd-box"><div class="cd-num" id="cd-h">—</div><div class="cd-lbl">Horas</div></div>
       <div class="cd-box"><div class="cd-num" id="cd-m">—</div><div class="cd-lbl">Min</div></div>
       <div class="cd-box"><div class="cd-num" id="cd-s">—</div><div class="cd-lbl">Seg</div></div>
     </div>
+    <div class="cd-target">⏱ Contagem regressiva para o encerramento das inscrições (30/07/2026)</div>
   </div>
 
   <div class="divider"></div>
@@ -298,7 +300,7 @@
 <script>
   /* ===== Contador regressivo até 28/08/2026 ===== */
   (function(){
-    var alvo = new Date('2026-08-28T23:59:59-03:00').getTime();
+    var alvo = new Date('2026-07-30T23:59:59-03:00').getTime();
     var elD=document.getElementById('cd-d'), elH=document.getElementById('cd-h'),
         elM=document.getElementById('cd-m'), elS=document.getElementById('cd-s');
     function tick(){

@@ -52,6 +52,12 @@
   .arc-step.peak .arc-val{color:var(--amber);}
   .arc-d{font-size:11px;color:var(--muted);line-height:1.4;}
 
+  .traction{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 8px;}
+  .tr-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 18px;text-align:center;position:relative;overflow:hidden;}
+  .tr-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));}
+  .tr-n{font-family:var(--head);font-size:26px;font-weight:700;line-height:1.05;letter-spacing:-.01em;background:linear-gradient(120deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .tr-l{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:10px;line-height:1.4;}
+
   .callout{border-left:3px solid var(--blue);background:var(--blue-soft);padding:18px 22px;margin:8px 0 20px;font-family:var(--head);font-size:18px;color:var(--ink);font-weight:500;line-height:1.5;border-radius:0 6px 6px 0;}
   .callout.center{text-align:center;font-size:19px;border-left:none;border-radius:8px;background:var(--purple-soft);border:1px solid rgba(124,92,252,.2);}
 
@@ -85,6 +91,7 @@
     section{padding:32px 28px 6px;}.footer-note{padding-left:28px;padding-right:28px;}
     .arc{grid-template-columns:1fr 1fr;}.arc-step:nth-child(2){border-right:none;}
     .why-grid{grid-template-columns:1fr;}.big-stat .n{font-size:54px;}
+    .traction{grid-template-columns:1fr;}
     .cta{margin-left:24px;margin-right:24px;padding:30px 24px;}.cta-h{font-size:23px;}
   }
   @page{size:A4;margin:16mm 14mm 18mm;}
@@ -107,7 +114,7 @@
   <div class="cover">
     <div class="brand">CERTLEDGERPRO · OPORTUNIDADE DE INVESTIMENTO</div>
     <h1>Uma regra mudou.<br>E criou um <em>mercado</em>.</h1>
-    <div class="tag">Toda empresa com presença na internet acaba de ganhar um problema com prazo de validade. Nós construímos a solução — antes da corrida começar.</div>
+    <div class="tag">Toda empresa com presença na internet acaba de ganhar um problema com prazo de validade. Nós construímos a solução — e o mercado já respondeu, com um pipeline comercial consistente e crescente, antes da corrida começar.</div>
     <div class="meta">certledgerpro.com &nbsp;·&nbsp; Junho de 2026 &nbsp;<span>— Confidencial</span></div>
   </div>
 
@@ -151,15 +158,29 @@
     <div class="callout">A janela é estreita e é exatamente por isso que existe a oportunidade: quem instalar a base de clientes antes do ponto de ruptura de 2027 define a categoria. Depois, a corrida fica cara para todos.</div>
   </section>
 
+  <!-- TRAÇÃO -->
+  <section>
+    <div class="eyebrow">A tração</div>
+    <h2>O mercado já está respondendo</h2>
+    <div class="rule"></div>
+    <p>Isto não é uma aposta em demanda futura — a demanda já chegou. Antes mesmo dos marcos regulatórios mais agudos, a CertLedgerPro construiu um pipeline comercial concreto, com empresas reais avaliando a adoção agora.</p>
+    <div class="traction">
+      <div class="tr-card"><div class="tr-n">Consistente</div><div class="tr-l">Pipeline comercial já formado</div></div>
+      <div class="tr-card"><div class="tr-n">Crescente</div><div class="tr-l">Novas oportunidades a cada semana</div></div>
+      <div class="tr-card"><div class="tr-n">Qualificado</div><div class="tr-l">Empresas reais em avaliação ativa</div></div>
+    </div>
+    <div class="callout green">A tese deixa de ser "será que há mercado?" e passa a ser "quem captura o mercado que já existe?". Com o pipeline crescendo semana a semana e a curva regulatória ainda subindo, a demanda comprovada antecede a aceleração — não o contrário.</div>
+  </section>
+
   <!-- O QUE PROCURAMOS -->
   <section>
     <div class="eyebrow">O momento</div>
     <h2>Por que esta conversa, agora</h2>
     <div class="rule"></div>
     <ul>
-      <li><b>O timing é o ativo.</b> O valor não está só no produto — está em chegar antes da onda de 2027 que a própria regra garante.</li>
-      <li><b>O risco é de execução, não de mercado.</b> A demanda virá por força regulatória; o desafio é instalar base e concluir conformidade na janela certa.</li>
-      <li><b>O capital compra marcos.</b> Buscamos parceiros que entendam que financiar a janela pré-2027 é financiar a posição de liderança numa categoria nascente.</li>
+      <li><b>A demanda já está provada.</b> Um pipeline comercial consistente e crescente mostra que o mercado não é hipótese — é fila. O risco de mercado, o maior de qualquer startup, está substancialmente reduzido.</li>
+      <li><b>O risco remanescente é de execução, não de mercado.</b> O desafio é converter o pipe, instalar base e concluir conformidade dentro da janela — capturar o que já está na mesa antes dos incumbentes.</li>
+      <li><b>O capital acelera a captura.</b> Buscamos parceiros que entendam que financiar a janela pré-2027, com pipeline já formado, é financiar a conversão de uma demanda existente em posição de liderança.</li>
     </ul>
   </section>
 

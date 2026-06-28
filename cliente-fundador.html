@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CertLedgerPro — Programa Cliente Fundador (5 vagas)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#080D1A;--bg2:#0D1526;--card:#131F38;--card2:#172244;--border:#1E2E50;--border2:#243660;
+    --ink:#E8EEF8;--ink2:#B4C0D8;--muted:#6B7FA8;--faint:#3D5080;
+    --blue:#4C6EF5;--blue2:#3D5DD4;--purple:#7C5CFC;--cyan:#00D4FF;--green:#00E5A0;--red:#FF4D6A;--amber:#F5A623;
+    --green-soft:rgba(0,229,160,.10);--red-soft:rgba(255,77,106,.10);--amber-soft:rgba(245,166,35,.12);
+    --mono:'JetBrains Mono',monospace;--head:'Space Grotesk','Inter',sans-serif;--serif:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.6;
+       background-image:radial-gradient(circle at 20% 0%,rgba(76,110,245,.10),transparent 45%),
+                        radial-gradient(circle at 90% 100%,rgba(245,166,35,.07),transparent 45%);min-height:100vh;}
+  ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+  .wrap{max-width:720px;margin:24px auto;background:linear-gradient(160deg,var(--bg2),#0A1326);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);position:relative;}
+  .wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--amber),var(--blue),var(--purple));}
+
+  .hero{padding:40px 48px 8px;text-align:center;position:relative;}
+  .brandwrap{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:24px;}
+  .logo{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--head);font-weight:700;color:#fff;font-size:17px;box-shadow:0 0 18px rgba(76,110,245,.4);}
+  .brandtext{font-family:var(--head);font-size:17px;font-weight:700;color:var(--ink);}
+  .brandtext span{color:var(--blue);}
+  .badge-scarcity{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border:1px solid rgba(245,166,35,.3);padding:7px 16px;border-radius:20px;margin-bottom:22px;}
+  .badge-scarcity .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,166,35,.6);}70%{box-shadow:0 0 0 8px rgba(245,166,35,0);}100%{box-shadow:0 0 0 0 rgba(245,166,35,0);}}
+  h1{font-family:var(--head);font-size:38px;line-height:1.1;font-weight:800;margin:0 0 8px;letter-spacing:-.025em;color:var(--ink);}
+  h1 .accent{background:linear-gradient(120deg,var(--amber),#FF8C42);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .sub{font-size:16px;color:var(--ink2);max-width:540px;margin:14px auto 0;line-height:1.6;}
+
+  /* contador de vagas */
+  .seats{display:flex;justify-content:center;gap:10px;margin:28px 48px 6px;}
+  .seat{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:20px;font-weight:700;border:1px solid;}
+  .seat.open{background:rgba(0,229,160,.08);border-color:rgba(0,229,160,.35);color:var(--green);}
+  .seat.taken{background:rgba(255,255,255,.03);border-color:var(--border);color:var(--faint);position:relative;}
+  .seat.taken::after{content:'✓';font-size:16px;}
+  .seats-label{text-align:center;font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.06em;margin:12px 0 0;}
+
+  .section{padding:18px 48px;}
+  .section-title{font-family:var(--head);font-size:13px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.08em;text-align:center;margin:8px 0 18px;}
+
+  .benefits{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .benefit{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden;}
+  .benefit::before{content:'';position:absolute;top:0;left:0;width:3px;bottom:0;background:linear-gradient(180deg,var(--amber),var(--blue));}
+  .benefit-ico{font-family:var(--head);font-size:15px;font-weight:700;color:var(--amber);margin-bottom:6px;}
+  .benefit-h{font-family:var(--head);font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+  .benefit-d{font-size:13px;color:var(--ink2);line-height:1.55;}
+
+  .exchange{background:rgba(76,110,245,.08);border:1px solid rgba(76,110,245,.25);border-radius:10px;padding:18px 22px;margin-top:14px;}
+  .exchange-h{font-family:var(--head);font-size:13px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+  .exchange ul{margin:0;padding-left:0;list-style:none;}
+  .exchange li{position:relative;padding:5px 0 5px 20px;font-size:13.5px;color:var(--ink2);}
+  .exchange li::before{content:'';position:absolute;left:4px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue);}
+
+  .deadline-banner{text-align:center;background:var(--amber-soft);border:1px solid rgba(245,166,35,.3);border-radius:10px;padding:16px 24px;margin:6px 48px;}
+  .deadline-banner .dl-h{font-family:var(--head);font-size:16px;font-weight:700;color:var(--ink);}
+  .deadline-banner .dl-h span{color:var(--amber);}
+  .deadline-banner .dl-s{font-size:13px;color:var(--ink2);margin-top:4px;}
+
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:24px 48px;}
+
+  /* formulario */
+  form{padding:8px 48px 8px;}
+  .form-intro{text-align:center;margin-bottom:20px;}
+  .form-intro .fi-h{font-family:var(--head);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+  .form-intro .fi-s{font-size:14px;color:var(--ink2);margin-top:6px;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .field{display:flex;flex-direction:column;}
+  .field.full{grid-column:1 / -1;}
+  label{font-size:12.5px;font-weight:500;color:var(--ink2);margin-bottom:6px;}
+  label .req{color:var(--amber);margin-left:2px;}
+  input,select,textarea{font-family:var(--serif);font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--border2);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .15s,box-shadow .15s;width:100%;}
+  input::placeholder,textarea::placeholder{color:var(--faint);}
+  input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(76,110,245,.15);}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5L6 7.5L9 4.5' stroke='%236B7FA8' stroke-width='1.5' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 13px center;cursor:pointer;}
+  textarea{resize:vertical;min-height:70px;}
+  .consent{display:flex;gap:10px;align-items:flex-start;margin:16px 0 4px;font-size:12.5px;color:var(--muted);line-height:1.5;}
+  .consent input{width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:var(--blue);}
+  .btn{width:100%;font-family:var(--head);font-size:16px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--amber),#FF8C42);border:none;border-radius:10px;padding:16px;cursor:pointer;box-shadow:0 8px 28px rgba(245,166,35,.35);transition:transform .15s,box-shadow .15s,opacity .15s;margin-top:8px;}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(245,166,35,.5);}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none;}
+
+  .msg{display:none;border-radius:10px;padding:18px 20px;margin:0 48px 24px;text-align:center;font-size:14px;line-height:1.6;}
+  .msg.show{display:block;}
+  .msg.success{background:var(--green-soft);border:1px solid rgba(0,229,160,.3);color:var(--ink);}
+  .msg.error{background:var(--red-soft);border:1px solid rgba(255,77,106,.3);color:var(--ink);}
+  .msg .mtitle{font-family:var(--head);font-size:18px;font-weight:600;margin-bottom:6px;}
+  .msg.success .mtitle{color:var(--green);}.msg.error .mtitle{color:var(--red);}
+
+  .foot{text-align:center;padding:22px 48px 30px;border-top:1px solid var(--border);margin-top:18px;}
+  .foot-tag{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.06em;}
+  .foot-tag span{color:var(--blue);}
+  .foot-note{font-family:var(--mono);font-size:9px;color:var(--faint);margin-top:10px;line-height:1.5;}
+  .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  @media(max-width:680px){
+    .wrap{margin:0;border-radius:0;}
+    .hero,.section,form,.foot{padding-left:24px;padding-right:24px;}
+    .deadline-banner,.divider,.msg{margin-left:24px;margin-right:24px;}
+    h1{font-size:30px;}.benefits{grid-template-columns:1fr;}.row{grid-template-columns:1fr;gap:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="brandwrap">
+      <div class="logo">C</div>
+      <div class="brandtext">CertLedger<span>Pro</span></div>
+    </div>
+    <div class="badge-scarcity"><span class="dot"></span>Apenas 5 vagas · por tempo limitado</div>
+    <h1>Programa <span class="accent">Cliente Fundador</span></h1>
+    <div class="sub">As cinco primeiras empresas a adotar a CertLedgerPro entram como parceiras fundadoras — com condições que nunca mais se repetirão e acesso direto a quem constrói o produto.</div>
+  </div>
+
+  <!-- VAGAS -->
+  <div class="seats">
+    <div class="seat open">1</div>
+    <div class="seat open">2</div>
+    <div class="seat open">3</div>
+    <div class="seat open">4</div>
+    <div class="seat open">5</div>
+  </div>
+  <div class="seats-label">5 de 5 vagas disponíveis — as primeiras definem a categoria</div>
+
+  <!-- BENEFICIOS -->
+  <div class="section">
+    <div class="section-title">O que você recebe como fundador</div>
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit-ico">01</div>
+        <div class="benefit-h">Preço travado até 2029</div>
+        <div class="benefit-d">A tarifa de 2026 congelada por todo o período — você se blinda da escalada de preço dos marcos de 2027 e 2029.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-ico">02</div>
+        <div class="benefit-h">Implantação sem custo</div>
+        <div class="benefit-d">Onboarding e integrações cortesia. Sua equipe não levanta um dedo na configuração inicial.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-ico">03</div>
+        <div class="benefit-h">Acesso aos fundadores</div>
+        <div class="benefit-d">Canal direto com o CEO e o CTO. Suas demandas entram na frente — você ajuda a moldar o roadmap.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-ico">04</div>
+        <div class="benefit-h">Status de fundador</div>
+        <div class="benefit-d">Reconhecimento como uma das empresas pioneiras na conformidade com o novo regime de certificados.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-h">Em contrapartida, pedimos</div>
+      <ul>
+        <li>Compromisso de contrato plurianual (até 2029).</li>
+        <li>Disponibilidade para virar caso de referência e dar um depoimento.</li>
+        <li>Feedback periódico de produto durante os primeiros meses.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DEADLINE -->
+  <div class="deadline-banner">
+    <div class="dl-h">As vagas fecham em <span>30 dias</span> — ou quando as 5 forem preenchidas.</div>
+    <div class="dl-s">O que vier primeiro. Depois disso, apenas condições comerciais padrão.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MENSAGENS -->
+  <div class="msg success" id="successMsg">
+    <div class="mtitle">✓ Candidatura recebida!</div>
+    Recebemos seu interesse no Programa Cliente Fundador. Entraremos em contato em breve para confirmar a vaga e os próximos passos.
+  </div>
+  <div class="msg error" id="errorMsg">
+    <div class="mtitle">Não foi possível enviar</div>
+    Ocorreu um erro. Tente novamente ou escreva diretamente para toledo@certledgerpro.com.
+  </div>
+
+  <!-- FORMULARIO -->
+  <form id="founderForm" novalidate>
+    <div class="form-intro">
+      <div class="fi-h">Garanta sua vaga</div>
+      <div class="fi-s">Preencha os dados e nossa equipe confirma a disponibilidade.</div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Empresa <span class="req">*</span></label>
+        <input type="text" name="empresa" placeholder="Nome da sua empresa" required>
+      </div>
+      <div class="field">
+        <label>Setor</label>
+        <select name="setor">
+          <option value="">Selecione...</option>
+          <option>Banco / Financeiro</option>
+          <option>Fintech</option>
+          <option>Seguros</option>
+          <option>Saúde</option>
+          <option>Governo / Setor público</option>
+          <option>Varejo / E-commerce</option>
+          <option>SaaS / Tecnologia</option>
+          <option>Indústria</option>
+          <option>Outro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Seu nome <span class="req">*</span></label>
+        <input type="text" name="nome" placeholder="Nome completo" required>
+      </div>
+      <div class="field">
+        <label>Cargo</label>
+        <input type="text" name="cargo" placeholder="Ex.: CISO, Head de TI">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>E-mail corporativo <span class="req">*</span></label>
+        <input type="email" name="email" placeholder="voce@empresa.com.br" required>
+      </div>
+      <div class="field">
+        <label>Telefone / WhatsApp <span class="req">*</span></label>
+        <input type="tel" name="telefone" placeholder="(00) 00000-0000" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Nº estimado de certificados</label>
+        <select name="certificados">
+          <option value="">Selecione...</option>
+          <option>Até 50</option>
+          <option>50 – 199</option>
+          <option>200 – 499</option>
+          <option>500 – 999</option>
+          <option>1.000 ou mais</option>
+          <option>Não sei / preciso de diagnóstico</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Quando pretende implementar?</label>
+        <select name="prazo">
+          <option value="">Selecione...</option>
+          <option>No próximo mês</option>
+          <option>Neste trimestre</option>
+          <option>Ainda avaliando</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field full">
+      <label>Observações</label>
+      <textarea name="observacoes" placeholder="Algo que devemos saber sobre seu ambiente ou suas prioridades?"></textarea>
+    </div>
+
+    <div class="consent">
+      <input type="checkbox" id="consent" name="consentimento" required>
+      <label for="consent" style="margin:0;font-weight:400;color:var(--muted);">Autorizo a CertLedgerPro a tratar meus dados para fins de avaliação e contato sobre o Programa Cliente Fundador, conforme a LGPD. <span class="req">*</span></label>
+    </div>
+
+    <button type="submit" class="btn" id="submitBtn">Quero ser Cliente Fundador →</button>
+  </form>
+
+  <div class="foot">
+    <div class="foot-tag">CertLedger<span>Pro</span> · Programa Cliente Fundador · certledgerpro.com</div>
+    <div class="foot-note">Programa limitado a 5 empresas. Condições sujeitas à confirmação e formalização contratual. Dados tratados conforme a LGPD, usados exclusivamente para gestão do programa.</div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   ENVIO DO FORMULÁRIO PARA: toledo@certledgerpro.com
+   ------------------------------------------------------------
+   Como HTML não envia e-mail sozinho, use UMA das opções:
+
+   OPÇÃO A — Web3Forms (sem servidor, recomendado p/ GitHub Pages):
+     1) Crie conta em https://web3forms.com com o e-mail
+        toledo@certledgerpro.com (é para onde os registros chegam).
+     2) Copie a Access Key gerada.
+     3) Cole a chave em ACCESS_KEY abaixo. Pronto.
+
+   OPÇÃO B — Backend próprio (sendemail_certledgerpro.py):
+     Aponte ENDPOINT para sua URL que recebe POST JSON e dispara
+     via SMTP, e troque USA_WEB3FORMS para false.
+   ============================================================ */
+  var ENDPOINT = "https://api.web3forms.com/submit";
+  var USA_WEB3FORMS = true;
+  var ACCESS_KEY = "COLE_SUA_ACCESS_KEY_AQUI"; // <-- chave do Web3Forms vinculada a toledo@certledgerpro.com
+  var DESTINO = "toledo@certledgerpro.com";
+
+  var form = document.getElementById('founderForm');
+  var btn = document.getElementById('submitBtn');
+  var ok = document.getElementById('successMsg');
+  var err = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    ok.classList.remove('show'); err.classList.remove('show');
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+
+    btn.disabled = true;
+    var original = btn.innerHTML;
+    btn.innerHTML = '<span class="spinner"></span>Enviando...';
+
+    var fd = new FormData(form);
+    var data = {};
+    fd.forEach(function(v,k){ data[k]=v; });
+
+    data.subject = "Cliente Fundador: " + (data.empresa||"(sem nome)") + " quer uma das 5 vagas";
+    data.from_name = "CertLedgerPro — Programa Cliente Fundador";
+    if(USA_WEB3FORMS){
+      data.access_key = ACCESS_KEY;
+      // Web3Forms também aceita campo de destino quando configurado na conta:
+      data.to = DESTINO;
+    }
+
+    fetch(ENDPOINT, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(function(r){ return r.json().catch(function(){ return {success:r.ok}; }); })
+    .then(function(res){
+      var success = res.success === true || res.ok === true || res.success === "true";
+      if(success){
+        form.style.display='none';
+        ok.classList.add('show');
+        ok.scrollIntoView({behavior:'smooth', block:'center'});
+      } else { throw new Error('falha'); }
+    })
+    .catch(function(){
+      err.classList.add('show');
+      err.scrollIntoView({behavior:'smooth', block:'center'});
+      btn.disabled=false; btn.innerHTML=original;
+    });
+  });
+</script>
+</body>
+</html>

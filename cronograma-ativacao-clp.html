@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CertLedgerPro — A Janela Está Fechando</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  :root{
+    --bg:#080D1A;--bg2:#0D1526;--card:#131F38;--card2:#172244;--border:#1E2E50;--border2:#243660;
+    --ink:#E8EEF8;--ink2:#B4C0D8;--muted:#6B7FA8;--faint:#3D5080;
+    --blue:#4C6EF5;--blue2:#3D5DD4;--purple:#7C5CFC;--cyan:#00D4FF;--green:#00E5A0;--red:#FF4D6A;--amber:#F5A623;
+    --green-soft:rgba(0,229,160,.10);--red-soft:rgba(255,77,106,.12);--amber-soft:rgba(245,166,35,.12);--blue-soft:rgba(76,110,245,.12);
+    --mono:'JetBrains Mono',monospace;--head:'Space Grotesk','Inter',sans-serif;--serif:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.65;}
+  ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+  .doc{max-width:900px;margin:20px auto;background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,.6);}
+
+  .topbar{background:#fff;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid;border-image:linear-gradient(90deg,var(--amber),var(--red),var(--blue)) 1;flex-wrap:wrap;gap:8px;}
+  .topbar img{height:40px;width:auto;display:block;}
+  .topbar .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#b5462f;font-weight:600;}
+
+  .hero{padding:44px 48px 8px;text-align:center;position:relative;}
+  .alert{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:var(--red-soft);border:1px solid rgba(255,77,106,.3);padding:7px 16px;border-radius:20px;margin-bottom:22px;}
+  .alert .dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,77,106,.5);}70%{box-shadow:0 0 0 8px rgba(255,77,106,0);}100%{box-shadow:0 0 0 0 rgba(255,77,106,0);}}
+  h1{font-family:var(--head);font-size:40px;line-height:1.1;font-weight:800;margin:0 0 8px;letter-spacing:-.025em;color:var(--ink);}
+  h1 .red{color:var(--red);}h1 .amber{background:linear-gradient(120deg,var(--amber),#FF8C42);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero .sub{font-size:16px;color:var(--ink2);max-width:600px;margin:14px auto 0;line-height:1.6;}
+
+  /* contador */
+  .countdown{display:flex;justify-content:center;gap:12px;margin:30px 48px 4px;flex-wrap:wrap;}
+  .cd-box{background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:14px 18px;min-width:80px;text-align:center;position:relative;overflow:hidden;}
+  .cd-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--red));}
+  .cd-num{font-family:var(--head);font-size:30px;font-weight:700;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;}
+  .cd-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+  .cd-target{text-align:center;font-family:var(--mono);font-size:11px;color:var(--amber);margin:14px 0 0;letter-spacing:.05em;}
+
+  section{padding:30px 48px 6px;}
+  .sec-title{font-family:var(--head);font-size:13px;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.07em;margin:6px 0 16px;display:flex;align-items:center;gap:8px;}
+  .sec-title::before{content:'';width:3px;height:14px;background:linear-gradient(180deg,var(--amber),var(--red));border-radius:2px;}
+  p{font-size:14.5px;color:var(--ink2);line-height:1.7;margin:0 0 14px;}
+  p b{color:var(--ink);}
+
+  /* barra de janela */
+  .window{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin:8px 0;}
+  .window-track{position:relative;height:54px;background:linear-gradient(90deg,var(--green-soft) 0%,var(--green-soft) 40%,var(--amber-soft) 40%,var(--amber-soft) 70%,var(--red-soft) 70%,var(--red-soft) 100%);border-radius:8px;border:1px solid var(--border2);overflow:hidden;}
+  .window-fill{position:absolute;top:0;left:0;bottom:0;width:0;background:repeating-linear-gradient(45deg,rgba(76,110,245,.25),rgba(76,110,245,.25) 8px,rgba(76,110,245,.12) 8px,rgba(76,110,245,.12) 16px);border-right:2px solid var(--cyan);}
+  .window-now{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--cyan);box-shadow:0 0 10px var(--cyan);}
+  .window-now::after{content:'HOJE';position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;font-weight:600;color:var(--cyan);white-space:nowrap;}
+  .window-labels{display:flex;justify-content:space-between;margin-top:24px;font-family:var(--mono);font-size:10px;color:var(--muted);}
+  .window-labels .zone{text-align:center;flex:1;}
+  .window-labels .zone b{display:block;font-size:11px;margin-bottom:2px;}
+  .window-labels .z-green b{color:var(--green);}
+  .window-labels .z-amber b{color:var(--amber);}
+  .window-labels .z-red b{color:var(--red);}
+
+  /* fases de ativação */
+  .phases{margin:8px 0;}
+  .phase{display:grid;grid-template-columns:42px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+  .phase:last-child{border-bottom:none;}
+  .phase-n{font-family:var(--head);font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--blue),var(--purple));width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+  .phase-body .ph-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:3px;}
+  .phase-body .ph-h{font-family:var(--head);font-size:15px;font-weight:600;color:var(--ink);}
+  .phase-body .ph-dur{font-family:var(--mono);font-size:11px;color:var(--amber);white-space:nowrap;}
+  .phase-body .ph-d{font-size:13px;color:var(--muted);line-height:1.55;}
+  .phase-total{display:flex;justify-content:space-between;align-items:center;background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:14px 18px;margin-top:14px;}
+  .phase-total .pt-lbl{font-family:var(--head);font-size:14px;font-weight:600;color:var(--ink);}
+  .phase-total .pt-val{font-family:var(--head);font-size:18px;font-weight:700;color:var(--amber);}
+
+  /* cenários */
+  .scenarios{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0;}
+  .scn{border-radius:12px;padding:20px 22px;border:1px solid;}
+  .scn.good{background:var(--green-soft);border-color:rgba(0,229,160,.3);}
+  .scn.bad{background:var(--red-soft);border-color:rgba(255,77,106,.3);}
+  .scn-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
+  .scn.good .scn-tag{color:var(--green);}.scn.bad .scn-tag{color:var(--red);}
+  .scn-h{font-family:var(--head);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3;}
+  .scn-d{font-size:13px;color:var(--ink2);line-height:1.6;}
+  .scn-d b{color:var(--ink);}
+
+  .callout{border-left:3px solid var(--red);background:var(--red-soft);padding:16px 20px;margin:8px 0;font-family:var(--head);font-size:16px;font-weight:500;color:var(--ink);line-height:1.5;border-radius:0 6px 6px 0;}
+  .callout.amber{border-left-color:var(--amber);background:var(--amber-soft);}
+
+  .cta{margin:30px 48px 36px;padding:32px;text-align:center;border-radius:14px;background:linear-gradient(135deg,rgba(245,166,35,.12),rgba(255,77,106,.1));border:1px solid rgba(245,166,35,.3);}
+  .cta-h{font-family:var(--head);font-size:24px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:10px;letter-spacing:-.02em;}
+  .cta-p{font-size:14.5px;color:var(--ink2);max-width:540px;margin:0 auto 22px;line-height:1.6;}
+  .cta-btn{display:inline-block;font-family:var(--head);font-size:16px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--blue),var(--blue2));padding:15px 38px;border-radius:10px;text-decoration:none;box-shadow:0 8px 28px rgba(76,110,245,.4);}
+
+  .foot{text-align:center;padding:22px 48px 28px;border-top:1px solid var(--border);}
+  .foot-tag{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.05em;}
+  .foot-tag span{color:var(--blue);}
+  .foot-note{font-family:var(--mono);font-size:9px;color:var(--faint);margin-top:10px;line-height:1.5;max-width:560px;margin-left:auto;margin-right:auto;}
+
+  @media(max-width:680px){
+    .doc{margin:0;border-radius:0;}
+    .topbar,.hero,section,.foot{padding-left:24px;padding-right:24px;}
+    h1{font-size:30px;}.scenarios{grid-template-columns:1fr;}
+    .countdown{gap:8px;margin-left:18px;margin-right:18px;}.cd-box{min-width:0;flex:1;padding:12px 8px;}.cd-num{font-size:22px;}
+    .cta{margin-left:24px;margin-right:24px;}
+  }
+  @page{size:A4;margin:12mm;}
+  @media print{
+    body{background:#fff;color:#111;}.doc{box-shadow:none;border:none;margin:0;max-width:none;}
+    :root{--ink:#111;--ink2:#333;--muted:#555;--bg:#fff;--bg2:#fff;--card:#f5f5f7;--card2:#eaeaec;--border:#ddd;--border2:#ccc;--blue:#2244BB;--purple:#5533AA;--cyan:#0077AA;--green:#1A6B3C;--red:#B30000;--amber:#8B5E00;}
+    section,.window,.phase,.scenarios,.cta,.callout{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="topbar">
+    <img src="data:image/png;base64,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" alt="CertLedger Pro Enterprise">
+    <span class="tag">Cronograma de ativação · janela regulatória</span>
+  </div>
+
+  <div class="hero">
+    <div class="alert"><span class="dot"></span>A janela para se preparar com segurança está fechando</div>
+    <h1>Faltam meses, não anos,<br>para <span class="red">março de 2027</span>.</h1>
+    <div class="sub">Ativar uma plataforma de automação de certificados leva tempo. Quando se soma o prazo de implantação ao calendário regulatório, a conclusão é desconfortável: <b>quem decidir tarde demais chegará despreparado ao momento crítico.</b></div>
+  </div>
+
+  <!-- CONTADOR -->
+  <div class="countdown">
+    <div class="cd-box"><div class="cd-num" id="cd-d">—</div><div class="cd-lbl">Dias</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-h">—</div><div class="cd-lbl">Horas</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-m">—</div><div class="cd-lbl">Min</div></div>
+    <div class="cd-box"><div class="cd-num" id="cd-s">—</div><div class="cd-lbl">Seg</div></div>
+  </div>
+  <div class="cd-target">&#9201; Até 15/03/2027 — quando a validade dos certificados cai para 100 dias</div>
+
+  <!-- A JANELA -->
+  <section>
+    <div class="sec-title">A janela de preparação</div>
+    <p>O marco regulatório é fixo: <b>15 de março de 2027</b>. Mas estar pronto nessa data exige começar muito antes — porque implantar, integrar e estabilizar a automação leva meses. A linha abaixo mostra onde estamos e quanto da zona segura já passou.</p>
+    <div class="window">
+      <div class="window-track">
+        <div class="window-fill" id="win-fill"></div>
+        <div class="window-now" id="win-now"></div>
+      </div>
+      <div class="window-labels">
+        <div class="zone z-green"><b>Zona segura</b>Decidir com folga</div>
+        <div class="zone z-amber"><b>Zona apertada</b>Sem margem para erro</div>
+        <div class="zone z-red"><b>Zona de risco</b>Tarde para se preparar</div>
+      </div>
+    </div>
+    <div class="callout amber">A demanda é garantida pela regulação — mas a <b>tranquilidade</b> de chegar pronto, não. Cada semana de adiamento move você da zona verde para a vermelha, onde a implantação acontece sob pressão e com risco de falha.</div>
+  </section>
+
+  <!-- FASES DE ATIVAÇÃO -->
+  <section>
+    <div class="sec-title">Quanto tempo leva para ativar a plataforma</div>
+    <p>Ativar a CertLedgerPro não é "ligar um interruptor". É um processo estruturado que, feito com qualidade, leva de <b>3 a 6 meses</b> do início até a operação plenamente estável:</p>
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-n">1</div>
+        <div class="phase-body">
+          <div class="ph-top"><span class="ph-h">Decisão e contratação</span><span class="ph-dur">4–8 semanas</span></div>
+          <div class="ph-d">Avaliação interna, aprovação de orçamento, processo de compra e jurídico. Em ambientes corporativos, esta é frequentemente a etapa mais demorada.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-n">2</div>
+        <div class="phase-body">
+          <div class="ph-top"><span class="ph-h">Onboarding e descoberta</span><span class="ph-dur">2–3 semanas</span></div>
+          <div class="ph-d">Mapeamento completo do inventário de certificados — incluindo os ativos órfãos que ninguém sabia que existiam. É aqui que o tamanho real do problema aparece.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-n">3</div>
+        <div class="phase-body">
+          <div class="ph-top"><span class="ph-h">Integração e automação</span><span class="ph-dur">3–5 semanas</span></div>
+          <div class="ph-d">Conexão com servidores (Apache, Nginx, IIS), configuração do Relay Agent atrás dos firewalls e ativação da renovação automática via ACME.</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-n">4</div>
+        <div class="phase-body">
+          <div class="ph-top"><span class="ph-h">Estabilização e validação</span><span class="ph-dur">4–8 semanas</span></div>
+          <div class="ph-d">Acompanhar os primeiros ciclos de renovação automática rodando sem intervenção, validar a trilha de auditoria e garantir que tudo opera sob pressão real antes do marco.</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-total">
+      <span class="pt-lbl">Tempo total até operação estável</span>
+      <span class="pt-val">3 a 6 meses</span>
+    </div>
+  </section>
+
+  <!-- O CALCULO -->
+  <section>
+    <div class="sec-title">A conta que não fecha para quem espera</div>
+    <p>Faltam cerca de <b id="meses-restantes">8</b> meses até 15/03/2027. Se a ativação leva de 3 a 6 meses, a janela para <b>começar com folga</b> está praticamente se esgotando. Veja os dois caminhos:</p>
+    <div class="scenarios">
+      <div class="scn good">
+        <div class="scn-tag">✓ Quem decide agora</div>
+        <div class="scn-h">Chega a março de 2027 com a base rodando há meses</div>
+        <div class="scn-d">Implantação feita <b>com calma</b>, ciclos de renovação já validados, equipe treinada e auditoria funcionando. Quando a regra apertar, é só continuar operando. <b>Zero pânico.</b></div>
+      </div>
+      <div class="scn bad">
+        <div class="scn-tag">✕ Quem adia para 2027</div>
+        <div class="scn-h">Tenta implantar em pânico, sob a pressão do prazo</div>
+        <div class="scn-d">Implantação <b>às pressas</b>, sem tempo de validar, com a regra já em vigor. Qualquer erro de configuração vira um certificado vencido — e <b>um serviço crítico fora do ar.</b></div>
+      </div>
+    </div>
+    <div class="callout">Um certificado expirado em um sistema crítico não espera o cronograma do cliente. A diferença entre decidir agora e decidir tarde é a diferença entre <b>operar com tranquilidade</b> e <b>apagar incêndio.</b></div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-h">A regra é inevitável.<br>O pânico de última hora, não.</div>
+    <div class="cta-p">Comece o diagnóstico agora e chegue a março de 2027 com a automação rodando e validada. Quem se prepara cedo transforma uma obrigação regulatória em vantagem operacional.</div>
+    <a class="cta-btn" href="https://app.certledgerpro.com/signup" target="_blank" rel="noopener">Agendar o diagnóstico gratuito →</a>
+  </div>
+
+  <div class="foot">
+    <div class="foot-tag">CertLedger<span>Pro</span> · Cronograma de Ativação · certledgerpro.com</div>
+    <div class="foot-note">Marco regulatório: Ballot SC-081v3 do CA/Browser Forum (validade de 100 dias a partir de 15/03/2027; 47 dias a partir de 15/03/2029). Estimativas de prazo de implantação são típicas e variam conforme o ambiente do cliente.</div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var alvo = new Date('2027-03-15T00:00:00-03:00').getTime();
+  // Janela: inicio de referencia em 28/06/2026 (hoje deste material) ate o marco
+  var inicio = new Date('2026-06-28T00:00:00-03:00').getTime();
+  var elD=document.getElementById('cd-d'),elH=document.getElementById('cd-h'),elM=document.getElementById('cd-m'),elS=document.getElementById('cd-s');
+  var fill=document.getElementById('win-fill'), now=document.getElementById('win-now'), meses=document.getElementById('meses-restantes');
+
+  function tick(){
+    var agora = Date.now();
+    var diff = alvo - agora; if(diff<0) diff=0;
+    var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+    if(elD)elD.textContent=d;
+    if(elH)elH.textContent=String(h).padStart(2,'0');
+    if(elM)elM.textContent=String(m).padStart(2,'0');
+    if(elS)elS.textContent=String(s).padStart(2,'0');
+    if(meses)meses.textContent=Math.max(0,Math.round(diff/86400000/30));
+    // posicao do "hoje" na janela (0 a 100%)
+    var pct = (agora - inicio) / (alvo - inicio) * 100;
+    if(pct<0)pct=0; if(pct>100)pct=100;
+    if(fill)fill.style.width=pct+'%';
+    if(now)now.style.left=pct+'%';
+  }
+  tick(); setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>

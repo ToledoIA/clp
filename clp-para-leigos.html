@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CertLedgerPro — Entenda em 5 Minutos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#080D1A; --surf:#0D1526; --surf2:#111D33; --surf3:#162040;
+  --border:#1E2D4A; --blue:#4C6EF5; --purple:#7C5CFC; --cyan:#00D4FF;
+  --green:#00E5A0; --amber:#F5A623; --red:#FF4D6A;
+  --text:#E7ECF7; --muted:#8CA0C3; --faint:#3A4A6B;
+  --head:'Space Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',monospace; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.7}
+strong{color:#fff; font-weight:700}
+::selection{background:rgba(76,110,245,.35)}
+
+/* TOPBAR */
+.topbar-wrap{position:sticky; top:0; z-index:50}
+.topbar{background:#fff; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 28px}
+.topbar img{height:32px; width:auto; display:block}
+.topbar .tb-right{font-family:var(--mono); font-size:11px; color:#5A6A8A; background:#F2F4F9; border:1px solid #E4E8F1; padding:7px 14px; border-radius:8px}
+.gradient-line{height:3px; background:linear-gradient(90deg, var(--amber), var(--blue) 45%, var(--purple))}
+
+main{max-width:760px; margin:0 auto; padding:0 24px 80px}
+
+/* HERO */
+.hero{padding:64px 0 50px; text-align:center}
+.hero .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--blue); font-weight:600}
+.hero h1{font-family:var(--head); font-size:38px; font-weight:700; color:#fff; line-height:1.2; margin-top:18px; letter-spacing:-.01em}
+.hero h1 span{color:var(--cyan)}
+.hero p{font-size:17px; color:var(--muted); max-width:560px; margin:20px auto 0}
+
+/* SECTIONS */
+section{padding:44px 0; border-top:1px solid var(--border)}
+.sec-eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); font-weight:600}
+.sec-eyebrow .n{width:22px; height:22px; border-radius:6px; background:var(--surf3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--text); font-size:11px}
+h2{font-family:var(--head); font-size:25px; font-weight:700; color:#fff; margin-top:12px; letter-spacing:-.01em}
+p{font-size:16px; color:var(--muted); margin-top:14px}
+p b{color:var(--text); font-weight:600}
+.lead{font-size:17.5px; color:var(--text)}
+
+/* ANALOGY CARD */
+.analogy{
+  margin-top:22px; display:flex; gap:18px; align-items:flex-start; background:var(--surf);
+  border:1px solid var(--border); border-radius:16px; padding:20px 22px;
+}
+.analogy .ic{width:40px; height:40px; border-radius:11px; flex-shrink:0; background:linear-gradient(135deg, var(--blue), var(--purple)); display:flex; align-items:center; justify-content:center}
+.analogy .ic svg{width:20px; height:20px; stroke:#fff}
+.analogy .t{font-family:var(--head); font-size:14.5px; font-weight:600; color:#fff}
+.analogy .d{font-size:14.5px; color:var(--muted); margin-top:5px}
+
+/* PADLOCK DEMO */
+.browser-demo{
+  margin-top:26px; background:var(--surf); border:1px solid var(--border); border-radius:14px; overflow:hidden;
+}
+.browser-demo .bar{background:var(--surf2); padding:10px 14px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border)}
+.browser-demo .dot{width:8px; height:8px; border-radius:50%; background:var(--faint)}
+.browser-demo .url{
+  flex-grow:1; background:var(--bg); border-radius:6px; padding:6px 12px; display:flex; align-items:center; gap:7px;
+  font-family:var(--mono); font-size:12px; color:var(--muted);
+}
+.browser-demo .url svg{width:12px; height:12px; flex-shrink:0}
+.browser-demo .url.ok svg{stroke:var(--green)}
+.browser-demo .url.bad svg{stroke:var(--red)}
+.browser-demo .url.bad{color:var(--red)}
+.browser-demo .body-row{padding:16px 20px; font-size:13px; color:var(--muted); display:flex; justify-content:space-between; gap:20px}
+.browser-demo .body-row.bad{color:var(--red)}
+
+/* TIMELINE ESCADA */
+.escada{display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:24px; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+.esc-step{padding:18px 12px; text-align:center; border-right:1px solid var(--border); background:var(--surf)}
+.esc-step:last-child{border-right:none}
+.esc-step.peak{background:linear-gradient(180deg, rgba(255,77,106,.12), var(--surf))}
+.esc-yr{font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em}
+.esc-val{font-family:var(--head); font-size:21px; font-weight:700; color:#fff; margin:6px 0 3px}
+.esc-step.peak .esc-val{color:var(--red)}
+.esc-d{font-size:11px; color:var(--muted); line-height:1.4}
+
+/* CONSEQUENCE STRIP */
+.strip{margin-top:24px; background:rgba(255,77,106,.07); border:1px solid rgba(255,77,106,.25); border-radius:14px; padding:18px 22px; display:flex; gap:14px; align-items:flex-start}
+.strip .ic{width:34px; height:34px; border-radius:9px; background:rgba(255,77,106,.15); flex-shrink:0; display:flex; align-items:center; justify-content:center}
+.strip .ic svg{width:18px; height:18px; stroke:var(--red)}
+.strip p{margin:0; color:var(--muted); font-size:14.5px}
+.strip p b{color:var(--red)}
+
+/* WHAT CLP DOES */
+.feature-list{margin-top:22px; display:flex; flex-direction:column; gap:14px}
+.feature{display:flex; gap:16px; align-items:flex-start; background:var(--surf); border:1px solid var(--border); border-radius:14px; padding:18px 20px}
+.feature .num{
+  font-family:var(--mono); font-weight:700; font-size:13px; color:var(--blue); width:30px; height:30px; flex-shrink:0;
+  border:1px solid rgba(76,110,245,.35); border-radius:8px; display:flex; align-items:center; justify-content:center; background:rgba(76,110,245,.08);
+}
+.feature .t{font-family:var(--head); font-size:15.5px; font-weight:600; color:#fff}
+.feature .d{font-size:14px; color:var(--muted); margin-top:5px}
+.feature .analog{font-size:12.5px; color:var(--cyan); margin-top:7px; font-style:italic}
+
+/* SIMPLE COMPARISON */
+.compare{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px}
+@media (max-width:600px){.compare{grid-template-columns:1fr}}
+.comp-card{border-radius:14px; padding:20px 22px; border:1px solid var(--border)}
+.comp-card.old{background:var(--surf)}
+.comp-card.new{background:rgba(0,229,160,.06); border-color:rgba(0,229,160,.28)}
+.comp-card .lbl{font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted)}
+.comp-card.new .lbl{color:var(--green)}
+.comp-card ul{list-style:none; margin-top:12px}
+.comp-card li{font-size:13.5px; color:var(--muted); padding:6px 0 6px 20px; position:relative}
+.comp-card li::before{content:'✕'; position:absolute; left:0; color:var(--red); font-weight:700; font-size:11px; top:7px}
+.comp-card.new li::before{content:'✓'; color:var(--green)}
+
+/* WHY NOW STRIP */
+.why-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px}
+@media (max-width:600px){.why-grid{grid-template-columns:1fr}}
+.why{background:var(--surf); border:1px solid var(--border); border-radius:12px; padding:16px 18px}
+.why .t{font-family:var(--head); font-size:14px; font-weight:600; color:#fff}
+.why .d{font-size:13px; color:var(--muted); margin-top:5px}
+
+/* CLOSING */
+.closing{
+  margin-top:10px; text-align:center; background:linear-gradient(135deg, rgba(76,110,245,.14), rgba(124,92,252,.10));
+  border:1px solid rgba(76,110,245,.28); border-radius:18px; padding:40px 34px;
+}
+.closing h3{font-family:var(--head); font-size:23px; font-weight:700; color:#fff}
+.closing p{max-width:460px; margin:14px auto 0; color:var(--muted); font-size:15px}
+.closing .btn{
+  display:inline-block; margin-top:22px; font-family:var(--head); font-weight:700; font-size:14.5px; color:#fff;
+  background:linear-gradient(135deg, var(--blue), var(--purple)); padding:13px 30px; border-radius:11px; text-decoration:none;
+  box-shadow:0 10px 26px rgba(76,110,245,.28);
+}
+
+footer{border-top:1px solid var(--border); text-align:center; padding:22px; font-family:var(--mono); font-size:10.5px; color:var(--faint)}
+</style>
+</head>
+<body>
+
+<div class="topbar-wrap">
+  <div class="topbar">
+    <img src="data:image/png;base64,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" alt="CertLedgerPro">
+    <div class="tb-right">Resumo para todos os públicos</div>
+  </div>
+</div>
+<div class="gradient-line"></div>
+
+<main>
+  <div class="hero">
+    <div class="eyebrow">Explicado em linguagem simples</div>
+    <h1>Todo site tem uma <span>data de validade</span> escondida.<br>Ela está prestes a mudar tudo.</h1>
+    <p>Sem termos técnicos: veja em 5 minutos o que a CertLedgerPro faz, por que isso importa para qualquer empresa com um site ou aplicativo, e por que o momento é agora.</p>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-eyebrow"><span class="n">1</span> O que é isso, afinal</div>
+    <h2>Todo site "seguro" tem uma identidade digital com prazo de validade</h2>
+    <p class="lead">Quando você vê o cadeado ao lado do endereço de um site, é porque aquele site tem um <b>certificado digital</b> — um documento eletrônico que prova "esse site é realmente quem diz ser, e a conexão está protegida".</p>
+    <div class="analogy">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+      <div>
+        <div class="t">Pense como o passaporte digital de um site</div>
+        <div class="d">Assim como um passaporte, esse "documento" tem prazo de validade. Quando vence, precisa ser renovado — ou o site perde a confiança de quem visita.</div>
+      </div>
+    </div>
+    <div class="browser-demo">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <div class="url ok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>meubanco.com.br</div>
+      </div>
+      <div class="body-row"><span>Certificado válido</span><span style="color:var(--green)">Conexão segura ✓</span></div>
+    </div>
+    <div class="browser-demo" style="margin-top:12px">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <div class="url bad"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>meubanco.com.br</div>
+      </div>
+      <div class="body-row bad"><span>Certificado vencido</span><span>"Sua conexão não é privada" ✕</span></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-eyebrow"><span class="n">2</span> O que mudou</div>
+    <h2>Essa validade está encolhendo — de forma obrigatória, por regra global</h2>
+    <p>Até pouco tempo, esse "passaporte digital" durava até um ano. Uma organização internacional que define as regras da internet decidiu reduzir esse prazo progressivamente, até chegar a apenas <b>47 dias</b> em 2029. Não é opcional: todo navegador do mundo vai passar a exigir isso.</p>
+    <div class="escada">
+      <div class="esc-step"><div class="esc-yr">Até 2026</div><div class="esc-val">200 dias</div><div class="esc-d">Renovar ~2x por ano</div></div>
+      <div class="esc-step"><div class="esc-yr">2027–28</div><div class="esc-val">100 dias</div><div class="esc-d">Renovar ~4x por ano</div></div>
+      <div class="esc-step peak"><div class="esc-yr">Março 2029</div><div class="esc-val">47 dias</div><div class="esc-d">Renovar ~8x por ano</div></div>
+      <div class="esc-step"><div class="esc-yr">Depois</div><div class="esc-val">Sempre</div><div class="esc-d">Virou rotina permanente</div></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-eyebrow"><span class="n">3</span> Por que isso é um problema de verdade</div>
+    <h2>O que hoje uma pessoa consegue controlar na mão, em breve fica impossível</h2>
+    <p>Uma empresa média tem dezenas ou centenas desses "passaportes digitais" espalhados por seus sites, sistemas internos e aplicativos — muitas vezes sem nem saber exatamente quantos. Hoje, uma pessoa do time de tecnologia consegue anotar as datas e renovar manualmente. Com renovação a cada 47 dias, isso deixa de ser viável: é trabalho demais, tempo demais, e um único esquecimento já causa problema.</p>
+    <div class="strip">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+      <p>Se um certificado vence sem ninguém perceber, o site ou aplicativo <b>sai do ar</b> ou passa a exibir um aviso de "conexão não seguro" — cliente não consegue comprar, acessar a conta, ou confiar na empresa. É um risco operacional real, não teórico.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-eyebrow"><span class="n">4</span> O que a CertLedgerPro faz</div>
+    <h2>Coloca esse processo inteiro no piloto automático</h2>
+    <p>Em vez de depender de uma pessoa lembrando de renovar manualmente cada certificado, a plataforma faz o trabalho sozinha, do início ao fim:</p>
+    <div class="feature-list">
+      <div class="feature">
+        <div class="num">1</div>
+        <div>
+          <div class="t">Encontra todos os certificados sozinha</div>
+          <div class="d">Varre a rede da empresa e monta uma lista completa — inclusive certificados que a própria equipe de tecnologia já tinha esquecido que existiam.</div>
+          <div class="analog">Como um raio-x completo de tudo que precisa de atenção.</div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="num">2</div>
+        <div>
+          <div class="t">Renova automaticamente, antes de vencer</div>
+          <div class="d">Sem depender de planilha, lembrete ou boa vontade de alguém — o sistema renova cada certificado no momento certo, sempre.</div>
+          <div class="analog">Como o débito automático da conta de luz: ninguém precisa lembrar todo mês.</div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="num">3</div>
+        <div>
+          <div class="t">Guarda um registro à prova de adulteração</div>
+          <div class="d">Cada renovação fica registrada de um jeito que ninguém — nem um funcionário mal-intencionado, nem um invasor — consegue apagar ou alterar depois.</div>
+          <div class="analog">Como um livro-caixa cuja página, uma vez escrita, não pode mais ser rasurada.</div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="num">4</div>
+        <div>
+          <div class="t">Já vem preparada para o "cadeado do futuro"</div>
+          <div class="d">Computadores muito mais potentes (os chamados computadores quânticos) vão, um dia, conseguir quebrar os cadeados digitais de hoje. A plataforma já usa uma nova geração de proteção, pensada para continuar segura mesmo nesse cenário futuro.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-eyebrow"><span class="n">5</span> Antes e depois</div>
+    <h2>Em resumo: o que muda para quem usa a plataforma</h2>
+    <div class="compare">
+      <div class="comp-card old">
+        <div class="lbl">Sem a CertLedgerPro</div>
+        <ul>
+          <li>Alguém precisa lembrar manualmente de cada renovação</li>
+          <li>Fácil perder a conta de quantos certificados existem</li>
+          <li>Um esquecimento derruba o site ou o app</li>
+          <li>Nenhuma prova formal de que tudo foi feito certo</li>
+        </ul>
+      </div>
+      <div class="comp-card new">
+        <div class="lbl">Com a CertLedgerPro</div>
+        <ul>
+          <li>Renovação automática, sem depender de ninguém lembrar</li>
+          <li>Lista completa e sempre atualizada de tudo</li>
+          <li>Zero surpresa de site fora do ar por vencimento</li>
+          <li>Registro permanente e à prova de fraude de cada ação</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-eyebrow"><span class="n">6</span> Por que agora</div>
+    <h2>A regra já tem data marcada — e feita para o Brasil</h2>
+    <div class="why-grid">
+      <div class="why"><div class="t">Prazo já está correndo</div><div class="d">Não é uma tendência distante: o calendário de redução já começou e é obrigatório para qualquer site do mundo.</div></div>
+      <div class="why"><div class="t">Feita no Brasil, para o Brasil</div><div class="d">Dados ficam no país, preço em reais, e a plataforma já nasce alinhada às normas do Banco Central — sem depender de fornecedor estrangeiro.</div></div>
+      <div class="why"><div class="t">Sem instalar nada complicado</div><div class="d">A implantação é feita pela própria equipe da CertLedgerPro, sem sobrecarregar o time interno de tecnologia do cliente.</div></div>
+      <div class="why"><div class="t">Um problema que só cresce</div><div class="d">Quanto mais perto de 2029, mais renovações por ano — o trabalho manual só fica mais impraticável a cada semestre que passa.</div></div>
+    </div>
+  </section>
+
+  <div class="closing">
+    <h3>Ficou claro? Ótimo — é só o começo.</h3>
+    <p>Se quiser entender os números, o modelo de negócio ou ver a plataforma funcionando na prática, a conversa segue com prazer.</p>
+    <a class="btn" href="https://wa.me/5511940474753?text=Ol%C3%A1%2C%20li%20o%20resumo%20da%20CertLedgerPro%20e%20quero%20entender%20melhor." target="_blank" rel="noopener">Quero entender melhor →</a>
+  </div>
+</main>
+
+<footer>CERTLEDGER PRO — Resumo explicativo · Documento não técnico, sem caráter contratual</footer>
+
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Por que gerenciar certificados digitais? | CertLedgerPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#080D1A;
+            --card:#0D1526;
+            --card2:#111B30;
+            --border:rgba(255,255,255,.08);
+            --border2:rgba(255,255,255,.14);
+            --text:#E6EAF4;
+            --muted:#8B95AF;
+            --muted2:#5A6480;
+            --blue:#4C6EF5;
+            --purple:#7C5CFC;
+            --cyan:#00D4FF;
+            --green:#00E5A0;
+            --amber:#F5A623;
+            --red:#FF4D6A;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            font-family:'Inter',sans-serif;
+            background:var(--bg);color:var(--text);
+            min-height:100vh;display:flex;flex-direction:column;align-items:center;
+        }
+        h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;}
+        .mono{font-family:'JetBrains Mono',monospace;}
+        p{color:var(--muted);line-height:1.75;font-size:15px;}
+        strong{color:var(--text);font-weight:700;}
+
+        /* ===== Topbar CLP ===== */
+        .topbar{
+            width:100%;background:#FFFFFF;
+            display:flex;justify-content:space-between;align-items:center;
+            padding:0 24px;height:76px;
+        }
+        .topbar img{height:44px;width:auto;display:block;}
+        .logo-fallback{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#0B1020;}
+        .logo-fallback span{color:var(--blue);}
+        .topbar-right{display:flex;align-items:center;gap:18px;}
+        .topbar-tag{
+            display:none;color:#5A6480;font-size:10px;font-weight:700;
+            letter-spacing:.2em;text-transform:uppercase;
+        }
+        .gradient-line{width:100%;height:3px;background:linear-gradient(90deg,var(--amber) 0%,var(--blue) 50%,var(--purple) 100%);}
+        @media(min-width:768px){.topbar{padding:0 48px;}.topbar-tag{display:block;}}
+
+        main{max-width:960px;width:100%;padding:0 20px 40px;}
+
+        /* ===== Hero ===== */
+        .hero{padding:64px 0 48px;text-align:center;}
+        .hero .eyebrow{
+            font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+            letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px;
+        }
+        .hero h1{font-size:32px;font-weight:700;line-height:1.2;max-width:760px;margin:0 auto;}
+        .hero h1 em{
+            font-style:normal;
+            background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
+            -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+        }
+        .hero p{max-width:680px;margin:22px auto 0;font-size:16px;}
+        @media(min-width:768px){.hero h1{font-size:44px;}}
+
+        /* ===== Seções ===== */
+        section{margin-bottom:56px;}
+        .sec-title{
+            font-size:21px;font-weight:700;margin-bottom:18px;
+            display:flex;align-items:center;
+        }
+        .sec-title::before{
+            content:'';width:5px;height:22px;border-radius:99px;margin-right:14px;flex-shrink:0;
+            background:linear-gradient(180deg,var(--blue),var(--purple));
+        }
+        .card{
+            background:var(--card);border:1px solid var(--border);
+            border-radius:16px;padding:26px;
+        }
+        .card + .card{margin-top:14px;}
+
+        /* Analogia */
+        .analogia{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px;}
+        @media(min-width:768px){.analogia{grid-template-columns:1fr 1fr 1fr;}}
+        .ana-item{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:22px;}
+        .ana-item .ic{
+            width:42px;height:42px;border-radius:11px;margin-bottom:14px;
+            display:flex;align-items:center;justify-content:center;
+        }
+        .ana-item .ic svg{width:22px;height:22px;}
+        .ana-item.blue .ic{background:rgba(76,110,245,.14);}
+        .ana-item.blue .ic svg{stroke:var(--blue);}
+        .ana-item.cyan .ic{background:rgba(0,212,255,.12);}
+        .ana-item.cyan .ic svg{stroke:var(--cyan);}
+        .ana-item.red .ic{background:rgba(255,77,106,.12);}
+        .ana-item.red .ic svg{stroke:var(--red);}
+        .ana-item h3{font-size:15px;margin-bottom:8px;}
+        .ana-item p{font-size:13px;}
+
+        /* ===== Timeline de validade ===== */
+        .tl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+        @media(min-width:768px){.tl-grid{grid-template-columns:repeat(5,1fr);}}
+        .tl-card{
+            background:var(--card2);border:1px solid var(--border);border-radius:14px;
+            padding:18px 12px;text-align:center;position:relative;
+        }
+        .tl-card .yr{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+        .tl-card .days{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;margin:8px 0 2px;}
+        .tl-card .unit{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);}
+        .tl-card .bar{height:6px;border-radius:99px;background:rgba(255,255,255,.06);margin-top:14px;overflow:hidden;}
+        .tl-card .bar i{display:block;height:100%;border-radius:99px;}
+        .tl-card.ok .days{color:var(--green);}   .tl-card.ok .bar i{width:100%;background:var(--green);}
+        .tl-card.mid .days{color:var(--cyan);}   .tl-card.mid .bar i{width:50%;background:var(--cyan);}
+        .tl-card.low .days{color:var(--amber);}  .tl-card.low .bar i{width:25%;background:var(--amber);}
+        .tl-card.crit .days{color:var(--red);}   .tl-card.crit .bar i{width:12%;background:var(--red);}
+        .tl-card.eph{
+            border-color:rgba(124,92,252,.4);
+            background:linear-gradient(160deg,rgba(124,92,252,.1),var(--card2));
+        }
+        .tl-card.eph .days{
+            background:linear-gradient(90deg,var(--cyan),var(--purple));
+            -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+        }
+        .tl-card.eph .bar i{width:4%;background:linear-gradient(90deg,var(--cyan),var(--purple));}
+        .tl-pill{
+            position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+            font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;
+            letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+            padding:3px 10px;border-radius:99px;color:#fff;
+        }
+        .tl-pill.red{background:var(--red);}
+        .tl-pill.purple{background:linear-gradient(90deg,var(--blue),var(--purple));}
+        .tl-note{font-size:11px;color:var(--muted2);margin-top:16px;text-align:center;text-transform:uppercase;letter-spacing:.08em;}
+
+        /* ===== Matemática das renovações ===== */
+        .math-rows{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
+        .math-row{display:flex;align-items:center;gap:14px;}
+        .math-row .lbl{
+            flex:0 0 128px;text-align:right;
+            font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--muted);
+        }
+        @media(min-width:768px){.math-row .lbl{flex-basis:170px;font-size:12px;}}
+        .math-row .track{flex-grow:1;height:34px;background:var(--card2);border:1px solid var(--border);border-radius:9px;overflow:hidden;}
+        .math-row .fill{
+            height:100%;border-radius:9px 0 0 9px;
+            display:flex;align-items:center;justify-content:flex-end;padding-right:12px;
+            font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;
+            min-width:fit-content;white-space:nowrap;
+        }
+        .math-note{font-size:12px;color:var(--muted2);margin-top:16px;font-style:italic;}
+
+        /* ===== APIs efêmeras ===== */
+        .eph-wrap{
+            background:linear-gradient(160deg,rgba(124,92,252,.09),var(--card));
+            border:1px solid rgba(124,92,252,.35);
+            border-radius:16px;padding:28px;
+        }
+        .eph-life{
+            display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+            font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+            margin:22px 0;
+        }
+        .eph-step{
+            padding:9px 14px;border-radius:99px;white-space:nowrap;
+            background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--text);
+        }
+        .eph-step.birth{border-color:rgba(0,212,255,.45);color:var(--cyan);}
+        .eph-step.death{border-color:rgba(255,77,106,.45);color:var(--red);}
+        .eph-arrow{color:var(--muted2);}
+        .eph-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+        .eph-tag{
+            font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+            text-transform:uppercase;letter-spacing:.06em;
+            padding:6px 12px;border-radius:99px;
+            background:rgba(124,92,252,.12);color:var(--purple);
+            border:1px solid rgba(124,92,252,.3);
+        }
+
+        /* ===== Consequências ===== */
+        .conseq-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px;}
+        @media(min-width:768px){.conseq-grid{grid-template-columns:1fr 1fr;}}
+        .conseq{
+            background:rgba(255,77,106,.05);border:1px solid rgba(255,77,106,.25);
+            border-radius:14px;padding:22px;
+        }
+        .conseq h3{font-size:14px;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:9px;}
+        .conseq h3::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;}
+        .conseq p{font-size:13px;}
+
+        /* ===== Pós-quântico / cripto-agilidade ===== */
+        .quantum-wrap{
+            background:linear-gradient(160deg,rgba(0,212,255,.07),var(--card));
+            border:1px solid rgba(0,212,255,.3);
+            border-radius:16px;padding:28px;
+        }
+        .q-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:22px 0;}
+        @media(min-width:768px){.q-grid{grid-template-columns:1fr 1fr;}}
+        .q-card{border-radius:14px;padding:22px;border:1px solid var(--border);background:var(--card2);}
+        .q-card h3{font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:9px;}
+        .q-card h3::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+        .q-card p{font-size:13px;}
+        .q-card.threat{background:rgba(255,77,106,.05);border-color:rgba(255,77,106,.25);}
+        .q-card.threat h3{color:var(--red);}
+        .q-card.threat h3::before{background:var(--red);}
+        .q-card.ready{background:rgba(0,229,160,.05);border-color:rgba(0,229,160,.28);}
+        .q-card.ready h3{color:var(--green);}
+        .q-card.ready h3::before{background:var(--green);}
+        .eph-step.done{border-color:rgba(0,229,160,.45);color:var(--green);}
+
+        /* ===== Solução / CTA ===== */
+        .solucao{
+            background:linear-gradient(135deg,rgba(76,110,245,.12),rgba(124,92,252,.12));
+            border:1px solid rgba(76,110,245,.35);
+            border-radius:18px;padding:34px 28px;text-align:center;
+        }
+        .solucao h2{font-size:24px;margin-bottom:14px;}
+        .solucao p{max-width:640px;margin:0 auto 26px;}
+        .sol-pontos{display:grid;grid-template-columns:1fr;gap:12px;max-width:720px;margin:0 auto 30px;text-align:left;}
+        @media(min-width:768px){.sol-pontos{grid-template-columns:1fr 1fr;}}
+        .sol-p{
+            background:rgba(8,13,26,.5);border:1px solid var(--border);
+            border-radius:12px;padding:16px;
+        }
+        .sol-p .t{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;margin-bottom:6px;display:block;}
+        .sol-p .t.green{color:var(--green);}
+        .sol-p .t.cyan{color:var(--cyan);}
+        .sol-p .t.amber{color:var(--amber);}
+        .sol-p .t.purple{color:var(--purple);}
+        .sol-p p{font-size:11.5px;line-height:1.6;}
+        .cta-row{display:flex;flex-direction:column;gap:12px;align-items:center;}
+        @media(min-width:768px){.cta-row{flex-direction:row;justify-content:center;}}
+        .btn{
+            font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;
+            text-transform:uppercase;letter-spacing:.16em;text-decoration:none;
+            padding:17px 34px;border-radius:99px;transition:filter .2s,background .2s;
+            display:inline-block;
+        }
+        .btn-primary{
+            background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;
+            box-shadow:0 12px 34px rgba(76,110,245,.35);
+        }
+        .btn-primary:hover{filter:brightness(1.12);}
+        .btn-ghost{
+            background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text);
+        }
+        .btn-ghost:hover{background:rgba(255,255,255,.09);}
+
+        footer{
+            padding:32px 16px;text-align:center;
+            color:var(--muted2);font-size:10px;font-weight:600;
+            text-transform:uppercase;letter-spacing:.2em;
+        }
+        footer .dot-sep{color:var(--blue);}
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <img src="logo_matriz.png" alt="CertLedgerPro" onerror="this.outerHTML='<span class=&quot;logo-fallback&quot;>CertLedger<span>Pro</span></span>'">
+        <div class="topbar-right">
+            <div class="topbar-tag">Automação CLM com Registro em Blockchain</div>
+        </div>
+    </header>
+    <div class="gradient-line"></div>
+
+    <main>
+
+        <div class="hero">
+            <div class="eyebrow">Guia Rápido • Gestão de Ciclo de Vida de Certificados (CLM)</div>
+            <h1>O cadeado das suas aplicações agora expira <em>toda hora</em>. Quem vai renovar?</h1>
+            <p>Certificados digitais estão em tudo: sites, APIs, microsserviços e integrações entre bancos. E a validade deles está encolhendo de mais de 1 ano para <strong>47 dias</strong> — com a indústria já caminhando para certificados de <strong>dias, horas ou uma única transação</strong>.</p>
+        </div>
+
+        <section>
+            <h2 class="sec-title">O que é um certificado digital, em termos simples?</h2>
+            <div class="card">
+                <p>Pense no certificado como o <strong>RG + cadeado</strong> de uma aplicação. Ele cumpre duas funções ao mesmo tempo: prova que o servidor é <strong>quem ele diz ser</strong> (identidade) e <strong>criptografa a conversa</strong> entre as partes (o "https" e o mTLS entre APIs). Sem um certificado válido, o navegador exibe alerta de site inseguro, a API recusa a conexão e a integração simplesmente para de funcionar — na hora, sem aviso.</p>
+            </div>
+            <div class="analogia">
+                <div class="ana-item blue">
+                    <div class="ic"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg></div>
+                    <h3>Identidade</h3>
+                    <p>Garante que o cliente está falando com o servidor legítimo — e não com um impostor no meio do caminho.</p>
+                </div>
+                <div class="ana-item cyan">
+                    <div class="ic"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
+                    <h3>Criptografia</h3>
+                    <p>Embaralha os dados em trânsito. Senhas, Pix, cartões e dados de clientes trafegam ilegíveis para terceiros.</p>
+                </div>
+                <div class="ana-item red">
+                    <div class="ic"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+                    <h3>Prazo de validade</h3>
+                    <p>Todo certificado expira em data e hora exatas. Venceu, o serviço cai — não existe "tolerância" nem aviso prévio.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="sec-title">O prazo de validade está encolhendo — rápido</h2>
+            <div class="card">
+                <p>O CA/Browser Forum (fórum que reúne autoridades certificadoras e os fabricantes de navegadores) aprovou o cronograma <strong>SC-081v3</strong>, que reduz progressivamente a validade máxima dos certificados TLS públicos. E a fronteira técnica vai além do cronograma: certificados de curtíssima duração e <strong>identidades efêmeras de workload</strong> já operam com validade de dias — ou do tamanho de uma única tarefa.</p>
+            </div>
+            <div class="tl-grid">
+                <div class="tl-card ok">
+                    <div class="yr">Hoje</div>
+                    <div class="days mono">398</div>
+                    <div class="unit">dias</div>
+                    <div class="bar"><i></i></div>
+                </div>
+                <div class="tl-card mid">
+                    <div class="yr">Mar/2026</div>
+                    <div class="days mono">200</div>
+                    <div class="unit">dias</div>
+                    <div class="bar"><i></i></div>
+                </div>
+                <div class="tl-card low">
+                    <div class="yr">Mar/2027</div>
+                    <div class="days mono">100</div>
+                    <div class="unit">dias</div>
+                    <div class="bar"><i></i></div>
+                </div>
+                <div class="tl-card crit">
+                    <span class="tl-pill red">Janela Crítica</span>
+                    <div class="yr">Mar/2029</div>
+                    <div class="days mono">47</div>
+                    <div class="unit">dias</div>
+                    <div class="bar"><i></i></div>
+                </div>
+                <div class="tl-card eph">
+                    <span class="tl-pill purple">Tendência</span>
+                    <div class="yr">Efêmeros</div>
+                    <div class="days mono">1</div>
+                    <div class="unit">dia • ou 1 transação</div>
+                    <div class="bar"><i></i></div>
+                </div>
+            </div>
+            <p class="tl-note">Cronograma oficial SC-081v3 (CA/Browser Forum) + tendência de certificados de curtíssima duração e identidades efêmeras</p>
+        </section>
+
+        <section>
+            <h2 class="sec-title">A matemática que quebra a gestão manual</h2>
+            <div class="card">
+                <p>Renovar um certificado exige emitir, validar, instalar e testar — em cada servidor, load balancer e API gateway. Veja quantas <strong>renovações por ano</strong> um parque de apenas <strong>100 certificados</strong> gera conforme a validade encolhe:</p>
+                <div class="math-rows">
+                    <div class="math-row">
+                        <div class="lbl">398 dias (hoje)</div>
+                        <div class="track"><div class="fill" style="width:8%;background:var(--green);">~92</div></div>
+                    </div>
+                    <div class="math-row">
+                        <div class="lbl">200 dias (2026)</div>
+                        <div class="track"><div class="fill" style="width:12%;background:var(--cyan);">~183</div></div>
+                    </div>
+                    <div class="math-row">
+                        <div class="lbl">100 dias (2027)</div>
+                        <div class="track"><div class="fill" style="width:18%;background:var(--amber);">~365</div></div>
+                    </div>
+                    <div class="math-row">
+                        <div class="lbl">47 dias (2029)</div>
+                        <div class="track"><div class="fill" style="width:32%;background:var(--red);">~777</div></div>
+                    </div>
+                    <div class="math-row">
+                        <div class="lbl">1 dia (efêmero)</div>
+                        <div class="track"><div class="fill" style="width:100%;background:linear-gradient(90deg,var(--red),var(--purple));">36.500</div></div>
+                    </div>
+                </div>
+                <p class="math-note">Escala ilustrativa. De ~92 renovações/ano para 36.500: um crescimento de quase 400×. Planilha, calendário e lembrete de e-mail não sobrevivem nem à etapa dos 100 dias.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="sec-title">E as APIs que nascem para um único objetivo?</h2>
+            <div class="eph-wrap">
+                <p>Arquiteturas modernas criam e destroem serviços o tempo todo: um container que sobe para processar um lote e morre em minutos, uma <strong>API que existe só para liquidar uma transação</strong>, uma função serverless disparada por um evento. Cada uma dessas cargas precisa de identidade criptográfica própria — e o certificado dela vive exatamente o ciclo de vida do serviço:</p>
+                <div class="eph-life mono">
+                    <span class="eph-step birth">API nasce</span>
+                    <span class="eph-arrow">→</span>
+                    <span class="eph-step">recebe certificado</span>
+                    <span class="eph-arrow">→</span>
+                    <span class="eph-step">executa a transação (mTLS)</span>
+                    <span class="eph-arrow">→</span>
+                    <span class="eph-step death">certificado expira • API morre</span>
+                </div>
+                <p>Nesse cenário não existe "renovar": existe <strong>emitir, usar e descartar</strong> — dezenas ou milhares de vezes por dia. Só automação consegue emitir na velocidade certa, e só uma <strong>trilha de auditoria imutável</strong> consegue provar depois, para o auditor ou o regulador, qual identidade executou cada transação e quando.</p>
+                <div class="eph-tags">
+                    <span class="eph-tag">Microsserviços</span>
+                    <span class="eph-tag">Containers &amp; Kubernetes</span>
+                    <span class="eph-tag">Serverless</span>
+                    <span class="eph-tag">mTLS por transação</span>
+                    <span class="eph-tag">Open Finance / Pix</span>
+                    <span class="eph-tag">Identidade de Workload</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="sec-title">O que acontece quando um certificado expira sem ninguém ver</h2>
+            <div class="conseq-grid">
+                <div class="conseq">
+                    <h3>Parada de sistema</h3>
+                    <p>Site fora do ar, API recusando conexões, integrações bancárias interrompidas. O cliente vê tela de erro; o negócio vê receita parada e SLA estourado.</p>
+                </div>
+                <div class="conseq">
+                    <h3>Quebra de compliance</h3>
+                    <p>PCI DSS (Req. 4.2.1 e 12.3.3) e as resoluções BACEN (CMN 4.893/2021 e BCB 85/2021) exigem inventário e gestão do ciclo de vida criptográfico. Certificado vencido é não conformidade documentada.</p>
+                </div>
+                <div class="conseq">
+                    <h3>Ponto cego de segurança</h3>
+                    <p>Certificados esquecidos, emitidos fora do processo ou instalados por times diferentes viram porta de entrada — ninguém protege o que não sabe que existe.</p>
+                </div>
+                <div class="conseq">
+                    <h3>Custo operacional explosivo</h3>
+                    <p>Renovação manual consome horas de engenharia a cada ciclo. Com validade de 47 dias, o mesmo parque de certificados custa ~8× mais horas do que hoje — todo ano.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="sec-title">E a computação quântica? A CLP já está preparada</h2>
+            <div class="quantum-wrap">
+                <p>Os certificados de hoje usam criptografia (RSA e curvas elípticas) que um <strong>computador quântico de grande escala conseguirá quebrar</strong>. E o risco começa antes de ele existir: dados criptografados podem ser capturados hoje para serem decifrados depois — a tática <strong>“colha agora, decifre depois”</strong>. Por isso o NIST já padronizou os algoritmos pós-quânticos (FIPS 203/204, em 2024) e as autoridades certificadoras se preparam para emitir certificados PQC.</p>
+                <div class="q-grid">
+                    <div class="q-card threat">
+                        <h3>O problema para quem gerencia na mão</h3>
+                        <p>A migração pós-quântica exigirá <strong>trocar todos os certificados e chaves</strong> do parque — a maior substituição criptográfica da história. Sem inventário completo e automação, isso vira um projeto de anos, com janelas de exposição no caminho.</p>
+                    </div>
+                    <div class="q-card ready">
+                        <h3>A resposta da CLP: cripto-agilidade</h3>
+                        <p>A plataforma já opera com <strong>criptografia pós-quântica no núcleo</strong> (ML-KEM/Kyber768 + AES-256) e trata algoritmo como configuração, não como arquitetura. Trocar o padrão criptográfico do parque inteiro é um fluxo automatizado — não uma reconstrução.</p>
+                    </div>
+                </div>
+                <div class="eph-life mono">
+                    <span class="eph-step done">NIST padroniza PQC ✓ 2024</span>
+                    <span class="eph-arrow">→</span>
+                    <span class="eph-step">CAs emitem certificados pós-quânticos</span>
+                    <span class="eph-arrow">→</span>
+                    <span class="eph-step birth">CLP atualiza todo o parque automaticamente</span>
+                </div>
+                <p>Na prática: no momento em que as CAs disponibilizarem certificados com criptografia pós-quântica, a atualização pela CLP será <strong>simples e transparente</strong> — descoberta do que precisa migrar, reemissão automatizada em escala e cada troca registrada na trilha imutável em blockchain, provando ao auditor quando e como o parque migrou.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="solucao">
+                <h2>A resposta: automação de ciclo de vida (CLM)</h2>
+                <p>Gestão de Ciclo de Vida de Certificados é tratar certificado como infraestrutura crítica: <strong>descobrir</strong> tudo que existe, <strong>emitir e renovar automaticamente</strong> antes do vencimento e <strong>registrar cada evento</strong> de forma que ninguém consiga adulterar. É exatamente isso que o CertLedgerPro entrega.</p>
+                <div class="sol-pontos">
+                    <div class="sol-p">
+                        <span class="t cyan">Descoberta contínua</span>
+                        <p>Inventário completo do parque de certificados — inclusive os que ninguém lembrava que existiam.</p>
+                    </div>
+                    <div class="sol-p">
+                        <span class="t green">Renovação automática</span>
+                        <p>Emissão e instalação sem intervenção humana, pronta para ciclos de 47 dias — ou de 1 dia.</p>
+                    </div>
+                    <div class="sol-p">
+                        <span class="t amber">Trilha imutável</span>
+                        <p>Cada emissão, renovação e revogação registrada em blockchain (Hyperledger Fabric) — evidência pronta para auditoria e regulador.</p>
+                    </div>
+                    <div class="sol-p">
+                        <span class="t purple">Cripto-agilidade (PQC)</span>
+                        <p>Núcleo já pós-quântico (ML-KEM/Kyber768 + AES-256). Quando as CAs emitirem certificados PQC, a migração do parque é automática.</p>
+                    </div>
+                </div>
+                <div class="cta-row">
+                    <a href="https://app.certledgerpro.com/signup" class="btn btn-primary">Solicite acesso à plataforma!</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        CertLedgerPro © 2026 <span class="dot-sep">•</span> Automação CLM com Registro em Blockchain
+    </footer>
+
+</body>
+</html>

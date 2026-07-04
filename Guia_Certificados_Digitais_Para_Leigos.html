@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificados Digitais sem Mistério — Guia para Leigos | CertLedgerPro</title>
+<meta name="description" content="Guia de conscientização em linguagem simples: o que são certificados digitais, os riscos de ignorá-los, as normas que exigem sua gestão e como avaliar a sua empresa. Distribuição livre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080D1A; --panel:#0E1526; --panel-2:#111B31; --panel-3:#16213C;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --txt:#E6EAF2; --muted:#8A94A6; --dim:#5A6478;
+  --amber:#F59E0B; --blue:#3B82F6; --purple:#8B5CF6;
+  --green:#10B981; --red:#EF4444; --cyan:#22D3EE;
+  --grad:linear-gradient(90deg,var(--amber),var(--blue),var(--purple));
+  --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:16px;line-height:1.7}
+::selection{background:rgba(59,130,246,.35)}
+a{color:var(--blue)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.topbar{background:#fff}
+.topbar-in{max-width:980px;margin:0 auto;padding:15px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-family:var(--disp);font-weight:700;font-size:19px;color:#0B1F3A;letter-spacing:.06em}
+.logo span{color:var(--amber)}
+.logo-sub{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:#64748B;text-transform:uppercase}
+.free-tag{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:#0B1F3A;background:#FEF3C7;border:1px solid #FDE68A;border-radius:999px;padding:4px 12px;text-transform:uppercase}
+.grad-divider{height:3px;background:var(--grad)}
+
+.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+section{padding:64px 0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:26px;height:2px;background:var(--grad)}
+h1{font-family:var(--disp);font-size:clamp(30px,4.6vw,44px);font-weight:700;line-height:1.15;letter-spacing:-.015em}
+h2{font-family:var(--disp);font-size:clamp(23px,3vw,30px);font-weight:600;line-height:1.22;margin-bottom:14px}
+h3{font-family:var(--disp);font-size:16.5px;font-weight:600}
+.lead{color:var(--muted);font-size:17.5px;max-width:740px;margin-top:18px}
+p.sub{color:var(--muted);max-width:740px;margin-bottom:34px}
+.prose{max-width:740px}
+.prose p{color:var(--muted);margin-bottom:16px}
+.prose p b, .prose p strong{color:var(--txt)}
+
+.hero{position:relative;overflow:hidden;padding:88px 0 72px}
+.hero::before{content:'';position:absolute;inset:-30%;background:
+  radial-gradient(700px 460px at 12% 18%,rgba(245,158,11,.07),transparent 60%),
+  radial-gradient(800px 560px at 88% 55%,rgba(139,92,246,.08),transparent 60%),
+  radial-gradient(600px 420px at 55% 15%,rgba(59,130,246,.07),transparent 60%);pointer-events:none}
+.hero .wrap{position:relative}
+.hero h1 em{font-style:normal;color:var(--amber)}
+
+/* Analogia */
+.analogy{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px 30px;margin:26px 0;display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:start}
+.analogy .mark{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700}
+.analogy h3{margin-bottom:6px}
+.analogy p{color:var(--muted);font-size:14.5px}
+@media(max-width:560px){.analogy{grid-template-columns:1fr;gap:12px}}
+
+/* Ciclo de vida */
+.cycle{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;counter-reset:step}
+@media(max-width:900px){.cycle{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.cycle{grid-template-columns:1fr}}
+.cyc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;position:relative}
+.cyc .n{font-family:var(--mono);font-size:24px;font-weight:700;margin-bottom:10px}
+.cyc b{display:block;font-size:14px;margin-bottom:5px}
+.cyc p{font-size:12.5px;color:var(--muted)}
+
+/* Timeline validade */
+.valid-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0 10px}
+@media(max-width:700px){.valid-strip{grid-template-columns:repeat(2,1fr)}}
+.vcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.vcard b{font-family:var(--mono);font-size:34px;font-weight:700;display:block}
+.vcard small{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:block;margin-top:6px}
+.vcard span{font-size:11.5px;color:var(--muted);display:block;margin-top:6px}
+
+/* Riscos */
+.risk-row{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:12px;display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:start}
+@media(max-width:600px){.risk-row{grid-template-columns:1fr;gap:8px}}
+.risk-row .tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.risk-row b{display:block;margin-bottom:4px;font-size:15px}
+.risk-row p{font-size:13.5px;color:var(--muted)}
+
+/* Normas */
+.norm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:720px){.norm-grid{grid-template-columns:1fr}}
+.norm{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.norm .code{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;display:inline-block;padding:3px 10px;border-radius:6px;margin-bottom:10px}
+.norm b{display:block;font-size:14.5px;margin-bottom:5px}
+.norm p{font-size:13px;color:var(--muted)}
+.norm p em{color:var(--txt);font-style:normal;font-weight:600}
+
+/* Checklist */
+.check-panel{background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:30px}
+.chk{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--panel-2);cursor:pointer;transition:.15s}
+.chk:hover{border-color:var(--line-2)}
+.chk input{margin-top:4px;accent-color:var(--amber);width:16px;height:16px}
+.chk b{font-size:14px;display:block}
+.chk small{color:var(--muted);font-size:12.5px}
+.score-box{margin-top:22px;padding:22px 24px;border-radius:14px;border:1px solid var(--line-2);background:var(--panel-3);display:grid;grid-template-columns:110px 1fr;gap:20px;align-items:center}
+@media(max-width:560px){.score-box{grid-template-columns:1fr}}
+.score-box .num{font-family:var(--mono);font-size:44px;font-weight:700;text-align:center}
+.score-box .num small{display:block;font-size:10px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.score-box b{display:block;margin-bottom:4px;font-family:var(--disp);font-size:16px}
+.score-box p{font-size:13.5px;color:var(--muted)}
+
+/* Boas práticas */
+.bp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.bp{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.bp{grid-template-columns:1fr}}
+.bp-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.bp-card .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--amber);margin-bottom:8px;display:block}
+.bp-card b{display:block;font-size:14px;margin-bottom:5px}
+.bp-card p{font-size:12.5px;color:var(--muted)}
+
+/* Glossário */
+.gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:700px){.gloss{grid-template-columns:1fr}}
+.gl{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.gl b{font-family:var(--mono);font-size:12.5px;color:var(--cyan);display:block;margin-bottom:4px}
+.gl p{font-size:12.5px;color:var(--muted)}
+
+/* Distribuição livre */
+.share{background:linear-gradient(120deg,rgba(16,185,129,.08),rgba(59,130,246,.08));border:1px solid rgba(16,185,129,.3);border-radius:16px;padding:28px 30px;margin-top:44px}
+.share b{font-family:var(--disp);font-size:16px;display:block;margin-bottom:8px;color:#6EE7B7}
+.share p{font-size:13.5px;color:var(--muted)}
+
+.cta{background:linear-gradient(150deg,var(--panel-2),var(--panel));border:1px solid var(--line-2);border-radius:20px;padding:46px;text-align:center}
+.cta h2{margin-bottom:12px}
+.cta p{color:var(--muted);max-width:600px;margin:0 auto 24px}
+.btn{display:inline-block;background:var(--amber);color:#1A1200;font-weight:600;font-size:15px;padding:14px 32px;border-radius:11px;text-decoration:none;transition:.15s}
+.btn:hover{background:#FBB62B;transform:translateY(-2px)}
+.cta .url{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:16px}
+
+footer{border-top:1px solid var(--line);padding:30px 24px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--dim);line-height:2}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo">CERT<span>LEDGER</span>PRO</div>
+    <div class="logo-sub">Guia educativo</div>
+    <div class="free-tag">Distribuição livre</div>
+  </div>
+</header>
+<div class="grad-divider"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Para quem não é de TI</div>
+    <h1>Certificados digitais <em>sem mistério</em></h1>
+    <p class="lead">Todo site, aplicativo e sistema da sua empresa depende de um pequeno arquivo com data de validade. Quando ele vence sem ninguém perceber, o serviço para. Este guia explica — em português claro, sem tecnês — o que são certificados digitais, por que a gestão deles virou assunto de negócio, quais normas a exigem e como avaliar se a sua empresa está exposta.</p>
+  </div>
+</section>
+
+<!-- ============ O QUE É ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Comece por aqui</div>
+    <h2>O que é um certificado digital, afinal?</h2>
+    <div class="prose">
+      <p>Quando você acessa um site e vê o <b>cadeado na barra do navegador</b>, ele está ali por causa de um certificado digital. Esse arquivo cumpre duas funções ao mesmo tempo:</p>
+    </div>
+    <div class="analogy reveal">
+      <div class="mark" style="background:rgba(59,130,246,.14);color:#93C5FD">ID</div>
+      <div><h3>É o passaporte do site</h3><p>Prova que aquele endereço pertence mesmo a quem diz pertencer. Assim como um passaporte é emitido por um governo, o certificado é emitido por uma entidade de confiança chamada Autoridade Certificadora — e, como o passaporte, ele tem data de validade.</p></div>
+    </div>
+    <div class="analogy reveal">
+      <div class="mark" style="background:rgba(16,185,129,.14);color:#6EE7B7">SL</div>
+      <div><h3>É o lacre da conversa</h3><p>Garante que tudo o que trafega entre você e o site — senha, número de cartão, dados pessoais — viaja embaralhado (criptografado). Sem ele, qualquer pessoa no caminho poderia ler a conversa, como um carteiro lendo suas cartas.</p></div>
+    </div>
+    <div class="prose">
+      <p>O detalhe que quase ninguém fora da TI sabe: uma empresa média não tem <b>um</b> certificado. Tem <b>dezenas ou centenas</b> — um para cada site, aplicativo, sistema interno, conexão entre sistemas e integração com parceiros. E cada um deles vence em uma data diferente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CICLO DE VIDA ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Gestão completa</div>
+    <h2>O ciclo de vida: o que significa "gerenciar" certificados</h2>
+    <p class="sub">Gestão completa (o mercado chama de CLM — Certificate Lifecycle Management) é cuidar de cinco momentos da vida de cada certificado, sem exceção e sem depender da memória de ninguém:</p>
+    <div class="cycle">
+      <div class="cyc reveal"><span class="n" style="color:var(--amber)">1</span><b>Descobrir</b><p>Encontrar todos os certificados que a empresa tem — inclusive os que ninguém lembra que existem.</p></div>
+      <div class="cyc reveal"><span class="n" style="color:var(--blue)">2</span><b>Inventariar</b><p>Registrar cada um: onde está, para que serve, quando vence e quem é o responsável.</p></div>
+      <div class="cyc reveal"><span class="n" style="color:var(--purple)">3</span><b>Monitorar</b><p>Vigiar as datas de validade e avisar com antecedência — todos os dias, sem falha.</p></div>
+      <div class="cyc reveal"><span class="n" style="color:var(--cyan)">4</span><b>Renovar</b><p>Trocar o certificado antes do vencimento — idealmente de forma automática, sem trabalho manual.</p></div>
+      <div class="cyc reveal"><span class="n" style="color:var(--green)">5</span><b>Comprovar</b><p>Guardar o registro de tudo o que foi feito, para mostrar a auditores e reguladores.</p></div>
+    </div>
+    <div class="prose" style="margin-top:26px">
+      <p>Se a sua empresa faz isso hoje com <b>planilha e boa vontade</b>, ela não está sozinha — é o método mais comum. E é exatamente ele que está deixando de funcionar, pelo motivo a seguir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POR QUE AGORA ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Por que isso virou urgente</div>
+    <h2>O prazo de validade está encolhendo — muito</h2>
+    <div class="prose">
+      <p>Imagine que o passaporte da sua empresa, que valia mais de um ano, passasse a valer <b>47 dias</b> — e que você tivesse centenas de passaportes para renovar, cada um em uma data. É exatamente o que foi decidido pelo fórum internacional que define as regras dos navegadores (o CA/Browser Forum):</p>
+    </div>
+    <div class="valid-strip reveal">
+      <div class="vcard"><b style="color:var(--dim)">398</b><small>até mar/2026</small><span>1 renovação por ano — o mundo que acabou</span></div>
+      <div class="vcard"><b style="color:var(--blue)">200</b><small>mar/2026 · em vigor</small><span>2 renovações por ano, por certificado</span></div>
+      <div class="vcard"><b style="color:var(--purple)">100</b><small>mar/2027</small><span>4 renovações por ano</span></div>
+      <div class="vcard"><b style="color:var(--amber)">47</b><small>mar/2029</small><span>8 renovações por ano — inviável na mão</span></div>
+    </div>
+    <div class="prose">
+      <p>Faça a conta: uma empresa com 200 certificados fará cerca de <b>1.600 renovações por ano</b> em 2029. Não existe planilha, lembrete de agenda ou funcionário dedicado que sustente isso. A automação deixou de ser conforto e virou <b>condição de funcionamento</b>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RISCOS ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">O que está em jogo</div>
+    <h2>Os riscos, em linguagem de negócio</h2>
+    <p class="sub">Pesquisas de mercado indicam que 72% das organizações já sofreram interrupções causadas por certificados vencidos, e que um único incidente pode custar mais de US$ 1 milhão. Veja como isso se traduz:</p>
+    <div class="risk-row reveal"><span class="tag" style="color:#F87171">Operação</span><div><b>O serviço simplesmente para</b><p>Certificado vencido derruba site, aplicativo, caixa eletrônico de informação, integração com parceiro. O cliente não consegue comprar, pagar ou acessar — e a receita para junto.</p></div></div>
+    <div class="risk-row reveal"><span class="tag" style="color:#FCD34D">Imagem</span><div><b>A tela de "conexão não segura"</b><p>Quando o certificado falha, o navegador exibe um aviso assustador em vermelho. Para o cliente, a mensagem é uma só: "esta empresa não é confiável". Confiança demora anos para construir e um aviso para abalar.</p></div></div>
+    <div class="risk-row reveal"><span class="tag" style="color:#93C5FD">Segurança</span><div><b>A porta destrancada</b><p>Certificados esquecidos, fracos ou mal configurados são caminho para fraude e vazamento de dados — o lacre da conversa deixa de proteger o que deveria.</p></div></div>
+    <div class="risk-row reveal"><span class="tag" style="color:#C4B5FD">Conformidade</span><div><b>Multa e apontamento de auditoria</b><p>Normas do setor financeiro, de cartões e de proteção de dados exigem esse controle (veja a seção seguinte). A falha vira incidente reportável, apontamento e, em casos graves, sanção.</p></div></div>
+    <div class="risk-row reveal"><span class="tag" style="color:#6EE7B7">Governança</span><div><b>Responsabilidade da administração</b><p>Diretores e conselheiros respondem por falhas de controle interno. "Não sabíamos quantos certificados tínhamos" não é uma resposta aceitável para um regulador — nem para um juiz.</p></div></div>
+  </div>
+</section>
+
+<!-- ============ NORMAS E FRAMEWORKS ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Conformidades e frameworks</div>
+    <h2>Quem exige isso — traduzido para humanos</h2>
+    <p class="sub">Você não precisa decorar siglas. Precisa saber que estas normas e frameworks, cada um à sua maneira, esperam que a empresa saiba responder: <em>"quantos certificados vocês têm, quando vencem e quem cuida deles?"</em></p>
+    <div class="norm-grid">
+      <div class="norm reveal"><span class="code" style="background:rgba(245,158,11,.14);color:#FCD34D">LGPD</span><b>Lei Geral de Proteção de Dados</b><p>Exige medidas técnicas para proteger dados pessoais. <em>Tradução:</em> a criptografia dos seus canais (o lacre) precisa estar sempre válida e forte — certificado vencido é dado pessoal exposto.</p></div>
+      <div class="norm reveal"><span class="code" style="background:rgba(59,130,246,.14);color:#93C5FD">BACEN</span><b>Res. CMN 4.893 e BCB 85 (2021)</b><p>Regras de segurança cibernética para bancos, fintechs e instituições de pagamento. <em>Tradução:</em> serviço fora do ar por certificado vencido é incidente que precisa ser reportado ao Banco Central.</p></div>
+      <div class="norm reveal"><span class="code" style="background:rgba(139,92,246,.14);color:#C4B5FD">PCI DSS</span><b>Padrão da indústria de cartões</b><p>Obrigatório para quem processa cartão de crédito. <em>Tradução:</em> exige inventário de certificados e chaves, criptografia forte e controle do ciclo de vida — literalmente o que este guia descreve.</p></div>
+      <div class="norm reveal"><span class="code" style="background:rgba(34,211,238,.14);color:#67E8F9">ISO 27001</span><b>Norma internacional de segurança da informação</b><p>Base das certificações de segurança mais reconhecidas. <em>Tradução:</em> pede gestão de chaves criptográficas como controle formal — com processo, responsável e evidência.</p></div>
+      <div class="norm reveal"><span class="code" style="background:rgba(16,185,129,.14);color:#6EE7B7">COBIT</span><b>Framework de governança de TI (ISACA)</b><p>A linguagem que auditores de TI usam. <em>Tradução:</em> trata o certificado como um ativo que precisa de inventário, dono, monitoramento e evidência — e mede a maturidade de como você faz isso.</p></div>
+      <div class="norm reveal"><span class="code" style="background:rgba(239,68,68,.14);color:#F87171">NIST</span><b>Padrões técnicos dos EUA (referência global)</b><p>Define os padrões de criptografia do futuro, incluindo a resistente a computadores quânticos. <em>Tradução:</em> os algoritmos de hoje serão trocados; quem não sabe onde estão seus certificados não conseguirá trocá-los.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AUTOAVALIAÇÃO ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Conscientização na prática</div>
+    <h2>Teste de 2 minutos: a sua empresa está exposta?</h2>
+    <p class="sub">Marque as afirmações que são verdadeiras na sua organização. Não precisa ser de TI para responder — aliás, é melhor que não seja.</p>
+    <div class="check-panel reveal">
+      <label class="chk"><input type="checkbox" class="q"><span><b>Alguém sabe dizer, hoje, quantos certificados digitais a empresa tem</b><small>Um número exato, não uma estimativa. Se a resposta for "acho que o fulano sabe", não marque.</small></span></label>
+      <label class="chk"><input type="checkbox" class="q"><span><b>Existe uma lista central com as datas de vencimento de todos eles</b><small>Atualizada e verificada — não uma planilha de dois anos atrás.</small></span></label>
+      <label class="chk"><input type="checkbox" class="q"><span><b>Cada certificado tem um responsável nomeado</b><small>Se o alerta disparar às 22h de um sábado, alguém específico sabe que é com ele.</small></span></label>
+      <label class="chk"><input type="checkbox" class="q"><span><b>As renovações acontecem automaticamente, sem trabalho manual</b><small>Sem depender de lembrete de agenda, e-mail da Autoridade Certificadora ou memória de alguém.</small></span></label>
+      <label class="chk"><input type="checkbox" class="q"><span><b>Nos últimos 2 anos, nenhum serviço parou por certificado vencido</b><small>Incluindo sistemas internos e integrações com parceiros — não só o site principal.</small></span></label>
+      <label class="chk"><input type="checkbox" class="q"><span><b>A empresa conseguiria provar tudo isso a um auditor, com registros</b><small>Quem emitiu, quem renovou, quando e com que autorização — documentado, não reconstruído de memória.</small></span></label>
+      <div class="score-box">
+        <div class="num" id="scoreNum">0<small>de 6</small></div>
+        <div><b id="scoreTitle">Marque as afirmações acima</b><p id="scoreDesc">O resultado aparece aqui, com uma leitura honesta da sua exposição.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOAS PRÁTICAS ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">O caminho</div>
+    <h2>Seis boas práticas da gestão completa</h2>
+    <p class="sub">Independentemente de ferramenta ou fornecedor, uma gestão de certificados madura tem estas seis características:</p>
+    <div class="bp">
+      <div class="bp-card reveal"><span class="n">PRÁTICA 01</span><b>Descoberta contínua</b><p>Buscar certificados novos o tempo todo — inclusive em registros públicos — em vez de confiar que todos passaram pelo processo.</p></div>
+      <div class="bp-card reveal"><span class="n">PRÁTICA 02</span><b>Inventário único e vivo</b><p>Uma só fonte de verdade, atualizada automaticamente. Duas listas diferentes é o mesmo que nenhuma.</p></div>
+      <div class="bp-card reveal"><span class="n">PRÁTICA 03</span><b>Dono por certificado</b><p>Todo ativo com um responsável nomeado. Responsabilidade difusa é o ingrediente número um dos incidentes.</p></div>
+      <div class="bp-card reveal"><span class="n">PRÁTICA 04</span><b>Renovação automática</b><p>Eliminar o fator humano da tarefa repetitiva. Com validades de 47 dias, é a única matemática que fecha.</p></div>
+      <div class="bp-card reveal"><span class="n">PRÁTICA 05</span><b>Registro de tudo (trilha de auditoria)</b><p>Cada emissão, renovação e revogação documentada de forma que não possa ser alterada depois.</p></div>
+      <div class="bp-card reveal"><span class="n">PRÁTICA 06</span><b>Prontidão para o futuro</b><p>Capacidade de trocar algoritmos em massa quando necessário — a chegada da computação quântica vai exigir exatamente isso.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GLOSSÁRIO ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Para não se perder na reunião</div>
+    <h2>Glossário de bolso</h2>
+    <div class="gloss">
+      <div class="gl reveal"><b>Certificado digital (TLS/SSL)</b><p>O arquivo que funciona como passaporte + lacre de um site ou sistema. TLS é o nome atual da tecnologia; SSL é o nome antigo que pegou.</p></div>
+      <div class="gl reveal"><b>Autoridade Certificadora (CA)</b><p>A entidade de confiança que emite certificados — o "governo" que emite os passaportes digitais.</p></div>
+      <div class="gl reveal"><b>Expiração</b><p>O vencimento do certificado. Depois dela, navegadores exibem alerta de "não seguro" e sistemas param de se comunicar.</p></div>
+      <div class="gl reveal"><b>CLM (Certificate Lifecycle Management)</b><p>Gestão do ciclo de vida de certificados — o nome de mercado para tudo o que este guia descreve.</p></div>
+      <div class="gl reveal"><b>Chave criptográfica</b><p>O segredo matemático que faz o embaralhamento funcionar. Se vaza, o lacre deixa de proteger — por isso o acesso a ela é controlado.</p></div>
+      <div class="gl reveal"><b>CT logs (registros de transparência)</b><p>Registros públicos de todos os certificados emitidos no mundo. É por eles que se descobre certificados que a própria empresa esqueceu.</p></div>
+      <div class="gl reveal"><b>Revogação</b><p>Cancelar um certificado antes do vencimento — necessário quando uma chave é comprometida.</p></div>
+      <div class="gl reveal"><b>Criptografia pós-quântica (PQC)</b><p>A nova geração de embaralhamento, resistente a computadores quânticos. A migração para ela já começou no mundo todo.</p></div>
+    </div>
+
+    <div class="share reveal">
+      <b>Este guia é de distribuição livre</b>
+      <p>Compartilhe com colegas, diretoria, fornecedores e clientes — por e-mail, intranet ou impresso. Pedimos apenas que o conteúdo seja mantido na íntegra, com os créditos à CertLedgerPro. Conscientização é a primeira camada de proteção, e ela só funciona quando circula.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section>
+  <div class="wrap">
+    <div class="cta reveal">
+      <div class="eyebrow" style="justify-content:center">Se este guia acendeu um alerta</div>
+      <h2>Descubra quantos certificados a sua empresa realmente tem</h2>
+      <p>A CertLedgerPro oferece uma primeira análise sem custo: levantamos os certificados públicos da sua organização e devolvemos um retrato simples — quantos são, quando vencem e onde está a exposição. Sem instalação, sem compromisso.</p>
+      <a class="btn" href="https://app.certledgerpro.com/signup">Solicitar a primeira análise</a>
+      <div class="url">app.certledgerpro.com/signup · contact@certledgerpro.com</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  CERTLEDGERPRO · GUIA EDUCATIVO DE CONSCIENTIZAÇÃO · DISTRIBUIÇÃO LIVRE COM CRÉDITOS<br>
+  DADOS DE MERCADO: PESQUISAS SETORIAIS SOBRE INCIDENTES DE CERTIFICADOS · CRONOGRAMA DE VALIDADE: CA/BROWSER FORUM
+</footer>
+
+<script>
+/* Autoavaliação */
+(function(){
+  const qs=[...document.querySelectorAll('.q')];
+  const num=document.getElementById('scoreNum'),t=document.getElementById('scoreTitle'),d=document.getElementById('scoreDesc');
+  const READ=[
+    {min:0,title:'Exposição crítica',desc:'Sua empresa provavelmente descobrirá o próximo certificado vencido quando um serviço parar. A boa notícia: começar é simples — comece perguntando à TI quantos certificados existem.',c:'#F87171'},
+    {min:2,title:'Exposição alta',desc:'Existe alguma consciência, mas o controle depende de pessoas e memória. Com as validades caindo para 100 e 47 dias, esse modelo tem prazo de validade — literalmente.',c:'#FCD34D'},
+    {min:4,title:'Caminho certo, risco residual',desc:'Há processo, mas ainda com pontos manuais ou sem evidência formal. O próximo passo é automatizar a renovação e garantir a trilha de registros para auditoria.',c:'#93C5FD'},
+    {min:6,title:'Gestão madura',desc:'Parabéns — sua empresa está no seleto grupo que trata certificados como ativo gerenciado. Mantenha a vigilância: o volume e a frequência só vão crescer.',c:'#6EE7B7'}
+  ];
+  function upd(){
+    const s=qs.filter(q=>q.checked).length;
+    num.innerHTML=s+'<small>de 6</small>';
+    const r=[...READ].reverse().find(x=>s>=x.min);
+    num.style.color=r.c;t.textContent=r.title;t.style.color=r.c;d.textContent=r.desc;
+  }
+  qs.forEach(q=>q.addEventListener('change',upd));
+  upd();
+})();
+
+/* Reveal on scroll */
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+  els.forEach(e=>io.observe(e));
+})();
+</script>
+</body>
+</html>

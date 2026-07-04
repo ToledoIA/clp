@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guardião do Certificado — CertLedgerPro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080D1A; --bg2:#0C1424; --panel:#0F1A30; --panel2:#132241;
+  --line:#1E2C4A; --line2:#28395E;
+  --blue:#4C6EF5; --purple:#7C5CFC; --cyan:#00D4FF; --green:#00E5A0;
+  --amber:#F5A623; --red:#FF4D6A;
+  --text:#E8EEFB; --muted:#8698BE; --dim:#5A6A8C;
+  --disp:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ---------- topbar ---------- */
+.topbar{background:#fff;padding:14px 26px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px}
+.logo-mark{width:34px;height:34px;border-radius:8px;background:var(--bg);display:grid;place-items:center;position:relative;overflow:hidden}
+.logo-mark svg{width:20px;height:20px}
+.brand-name{font-family:var(--disp);font-weight:700;font-size:19px;color:#0B1220;letter-spacing:-.02em}
+.brand-name span{color:var(--blue)}
+.brand-tag{font-family:var(--mono);font-size:10.5px;color:#7A8AA8;letter-spacing:.14em;text-transform:uppercase}
+.gradient-divider{height:3px;background:linear-gradient(90deg,var(--amber) 0%,var(--blue) 52%,var(--purple) 100%)}
+
+/* ---------- hero ---------- */
+.hero{max-width:1080px;margin:0 auto;padding:52px 26px 26px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--cyan);opacity:.6}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,5.4vw,52px);line-height:1.04;letter-spacing:-.025em;margin-bottom:18px}
+h1 .grad{background:linear-gradient(100deg,var(--cyan),var(--blue) 55%,var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lede{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:660px}
+.lede b{color:var(--text);font-weight:600}
+
+/* ---------- tabs ---------- */
+.tabs-wrap{max-width:1080px;margin:34px auto 0;padding:0 26px;position:sticky;top:0;z-index:40}
+.tabs{display:flex;gap:6px;background:rgba(8,13,26,.86);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:14px;padding:6px;flex-wrap:wrap}
+.tab{flex:1;min-width:140px;font-family:var(--disp);font-weight:600;font-size:14.5px;color:var(--muted);background:transparent;border:none;padding:13px 12px;border-radius:9px;cursor:pointer;transition:.22s;display:flex;align-items:center;justify-content:center;gap:9px}
+.tab .idx{font-family:var(--mono);font-size:11px;color:var(--dim);transition:.22s}
+.tab:hover{color:var(--text);background:rgba(76,110,245,.08)}
+.tab.active{color:#fff;background:linear-gradient(135deg,rgba(76,110,245,.24),rgba(124,92,252,.24));box-shadow:inset 0 0 0 1px rgba(124,152,255,.32)}
+.tab.active .idx{color:var(--cyan)}
+.tab:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.panel-area{max-width:1080px;margin:0 auto;padding:26px}
+.view{display:none;animation:fade .4s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.section-head{margin-bottom:20px}
+.section-head h2{font-family:var(--disp);font-weight:600;font-size:24px;letter-spacing:-.02em;margin-bottom:6px}
+.section-head p{color:var(--muted);font-size:15px;max-width:640px}
+
+/* ---------- flow (tab 1) ---------- */
+.flow-card{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.flow-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.btn{font-family:var(--disp);font-weight:600;font-size:14px;border:none;border-radius:10px;padding:11px 18px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}
+.btn-primary:hover{filter:brightness(1.12);box-shadow:0 6px 22px rgba(76,110,245,.4)}
+.btn-ghost{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.btn-ghost:hover{background:var(--line2)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.step-count{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-left:auto}
+.step-count b{color:var(--cyan)}
+
+.flow-svg-wrap{width:100%;overflow-x:auto;border-radius:12px}
+svg.flow{width:100%;min-width:680px;height:auto;display:block}
+.node-box{fill:var(--panel2);stroke:var(--line2);stroke-width:1.5;transition:.35s}
+.node-num{font-family:var(--mono);font-weight:700;font-size:13px;fill:var(--dim);transition:.35s}
+.node-label{font-family:var(--disp);font-weight:600;font-size:13.5px;fill:var(--text)}
+.node-g.on .node-box{fill:rgba(76,110,245,.16);stroke:var(--cyan);stroke-width:2;filter:drop-shadow(0 0 12px rgba(0,212,255,.45))}
+.node-g.on .node-num{fill:var(--cyan)}
+.node-g.done .node-box{stroke:var(--green)}
+.node-g.done .node-num{fill:var(--green)}
+.connector{stroke:var(--line2);stroke-width:2.5;fill:none}
+.connector.lit{stroke:url(#flowGrad);stroke-width:3}
+.node-g{cursor:pointer}
+.node-icon{stroke:var(--muted);stroke-width:1.6;fill:none;transition:.35s}
+.node-g.on .node-icon{stroke:var(--cyan)}
+.node-g.done .node-icon{stroke:var(--green)}
+#packet{filter:drop-shadow(0 0 8px var(--cyan))}
+
+.caption{margin-top:18px;background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:0 12px 12px 0;padding:18px 20px;min-height:96px}
+.caption .cap-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px}
+.caption h3{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:7px}
+.caption p{color:var(--muted);font-size:14.5px}
+.caption p b{color:var(--text)}
+.caption.crypto{border-left-color:var(--purple)}
+.caption.crypto .cap-tag{color:var(--purple)}
+.caption.ledger{border-left-color:var(--green)}
+.caption.ledger .cap-tag{color:var(--green)}
+
+/* ---------- game (tab 2) ---------- */
+.game-top{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:18px}
+.phase-group{display:flex;flex-direction:column;gap:8px}
+.phase-group .glabel{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.phase-btns{display:flex;gap:6px;flex-wrap:wrap}
+.phase-btn{font-family:var(--mono);font-weight:500;font-size:12.5px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.2s;line-height:1.2;text-align:center}
+.phase-btn small{display:block;font-size:10px;color:var(--dim);margin-top:2px}
+.phase-btn:hover{border-color:var(--line2);color:var(--text)}
+.phase-btn.active{color:#fff;border-color:var(--blue);background:linear-gradient(135deg,rgba(76,110,245,.28),rgba(124,92,252,.2))}
+.phase-btn.active small{color:var(--cyan)}
+.phase-btn.p47.active{border-color:var(--red);background:linear-gradient(135deg,rgba(255,77,106,.26),rgba(245,166,35,.16))}
+.phase-btn.p47.active small{color:var(--amber)}
+.phase-btn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.auto-toggle{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 15px;cursor:pointer;user-select:none}
+.auto-toggle .tg{width:44px;height:24px;border-radius:12px;background:var(--line2);position:relative;transition:.25s;flex:none}
+.auto-toggle .tg::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.25s}
+.auto-toggle.on .tg{background:linear-gradient(135deg,var(--green),var(--cyan))}
+.auto-toggle.on .tg::after{transform:translateX(20px)}
+.auto-toggle .tx{font-family:var(--disp);font-weight:600;font-size:13.5px}
+.auto-toggle .tx small{display:block;font-family:var(--body);font-weight:400;font-size:11.5px;color:var(--muted)}
+.auto-toggle:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.stat .sv{font-family:var(--mono);font-weight:700;font-size:23px;letter-spacing:-.02em}
+.stat .sl{font-size:11.5px;color:var(--muted);margin-top:2px}
+.stat.up .sv{color:var(--green)}
+.stat.out .sv{color:var(--red)}
+.stat.ren .sv{color:var(--cyan)}
+.stat.load .sv{color:var(--amber)}
+
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;min-height:180px}
+.cert{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px;cursor:pointer;transition:transform .12s, border-color .2s;position:relative;overflow:hidden}
+.cert:hover{transform:translateY(-2px);border-color:var(--line2)}
+.cert:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.cert .dom{font-family:var(--mono);font-size:13px;color:var(--text);margin-bottom:3px;word-break:break-all}
+.cert .meta{font-size:11px;color:var(--dim);margin-bottom:12px}
+.cert .bar-track{height:8px;border-radius:5px;background:var(--bg);overflow:hidden;margin-bottom:8px}
+.cert .bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green),var(--cyan));width:100%;transition:background .3s}
+.cert .days{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:12px}
+.cert .days .d{font-weight:700}
+.cert .days .h{color:var(--dim);font-size:10.5px}
+.cert.warn .bar-fill{background:linear-gradient(90deg,var(--amber),var(--red))}
+.cert.warn{border-color:rgba(245,166,35,.5)}
+.cert.down{border-color:var(--red);background:rgba(255,77,106,.09)}
+.cert.down .bar-fill{background:var(--red)}
+.cert.renewing{border-color:var(--blue)}
+.cert .renew-flash{position:absolute;inset:0;background:rgba(76,110,245,.12);display:grid;place-items:center;font-family:var(--mono);font-size:11.5px;color:var(--cyan);text-align:center;gap:2px;flex-direction:column;padding:10px}
+.cert .down-flag{position:absolute;top:9px;right:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--red);border:1px solid var(--red);border-radius:5px;padding:2px 6px}
+.pulse{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+.game-msg{margin-top:16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:15px 18px;font-size:14px;color:var(--muted);min-height:54px;display:flex;align-items:center;gap:10px}
+.game-msg .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex:none}
+.game-msg.bad .dot{background:var(--red)}
+.game-msg.good .dot{background:var(--green)}
+.game-msg b{color:var(--text)}
+
+/* ---------- wildcard + incident ---------- */
+.cert.wildcard{border-color:rgba(124,92,252,.5);background:linear-gradient(160deg,rgba(124,92,252,.08),var(--panel))}
+.cert .wc-badge{position:absolute;top:9px;right:10px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--purple);border:1px solid rgba(124,92,252,.5);border-radius:5px;padding:2px 6px}
+.cert .cmp-flag{position:absolute;top:9px;left:10px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--amber);border:1px solid var(--amber);border-radius:5px;padding:2px 6px}
+.leak-btn{margin-top:11px;width:100%;font-family:var(--mono);font-size:11px;color:var(--amber);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.35);border-radius:8px;padding:8px;cursor:pointer;transition:.18s}
+.leak-btn:hover{background:rgba(255,77,106,.14);border-color:var(--red);color:var(--red)}
+.leak-btn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.cert.compromised{border-color:var(--red);background:rgba(255,77,106,.1)}
+
+.incident-overlay{position:fixed;inset:0;background:rgba(4,7,14,.86);backdrop-filter:blur(6px);z-index:100;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:34px 18px}
+.incident-overlay.show{display:flex;animation:fade .3s}
+.incident{max-width:660px;width:100%;background:linear-gradient(165deg,var(--panel2),var(--bg2));border:1px solid var(--red);border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.6);overflow:hidden}
+.inc-head{background:linear-gradient(135deg,rgba(255,77,106,.22),rgba(245,166,35,.1));padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,77,106,.35)}
+.inc-head .ico{width:34px;height:34px;flex:none;border-radius:9px;background:rgba(255,77,106,.18);display:grid;place-items:center}
+.inc-head h3{font-family:var(--disp);font-weight:700;font-size:18px}
+.inc-head .sub{font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.inc-body{padding:22px}
+.inc-body p{color:var(--muted);font-size:14px;margin-bottom:14px}
+.inc-body p b{color:var(--text)}
+.inc-body p .danger{color:var(--red);font-weight:600}
+
+.browser{border:1px solid var(--line2);border-radius:11px;overflow:hidden;margin-bottom:14px;background:var(--bg)}
+.browser .chrome{display:flex;align-items:center;gap:9px;padding:9px 12px;background:#0A1120;border-bottom:1px solid var(--line)}
+.browser .dots{display:flex;gap:5px}
+.browser .dots i{width:9px;height:9px;border-radius:50%;background:var(--line2);display:block}
+.browser .url{flex:1;background:var(--bg2);border-radius:6px;padding:6px 10px;font-family:var(--mono);font-size:11.5px;color:var(--text);display:flex;align-items:center;gap:7px}
+.browser .url .lock{display:inline-flex;align-items:center}
+.browser .fake-site{padding:22px 20px;text-align:center}
+.browser .fake-site .fk-logo{font-family:var(--disp);font-weight:700;font-size:17px;color:#fff;margin-bottom:3px}
+.browser .fake-site .fk-sub{font-size:11px;color:var(--muted);margin-bottom:15px}
+.browser .fake-site .fk-field{background:var(--panel);border:1px solid var(--line2);border-radius:7px;padding:9px 11px;font-size:12px;color:var(--dim);text-align:left;margin:0 auto 8px;max-width:250px}
+.browser .fake-warn{background:rgba(255,77,106,.12);border-top:1px solid rgba(255,77,106,.3);padding:9px;font-family:var(--mono);font-size:11px;color:var(--red);text-align:center}
+
+.inc-box{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:14px}
+.inc-box .bt{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.inc-box.clp .bt{color:var(--green)}
+.inc-box .row{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}
+.inc-box .row:last-child{border-bottom:none}
+.inc-box .row span:first-child{color:var(--muted)}
+.inc-box .row span:last-child{font-family:var(--mono);color:var(--text);text-align:right}
+.inc-box .row .bad{color:var(--red)}
+.inc-box .row .good{color:var(--green)}
+
+.inc-actions{display:flex;gap:10px;flex-wrap:wrap}
+.inc-actions .btn{flex:1;min-width:180px;justify-content:center}
+.btn-danger{background:var(--panel2);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line2)}
+.btn-danger:hover{color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+.btn-fix{background:linear-gradient(135deg,var(--green),var(--cyan));color:#04140E}
+.btn-fix:hover{filter:brightness(1.08);box-shadow:0 6px 22px rgba(0,229,160,.35)}
+
+/* ---------- crypto (tab 3) ---------- */
+.crypto-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ccard{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:20px}
+.ccard h3{font-family:var(--disp);font-weight:600;font-size:17px;margin-bottom:5px;display:flex;align-items:center;gap:9px}
+.ccard .sub{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+.keypair{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:6px}
+.keybox{border-radius:11px;padding:13px;border:1px solid var(--line2)}
+.keybox.pub{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.3)}
+.keybox.priv{background:rgba(255,77,106,.06);border-color:rgba(255,77,106,.3)}
+.keybox .kt{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.keybox.pub .kt{color:var(--cyan)}
+.keybox.priv .kt{color:var(--red)}
+.keybox .kv{font-family:var(--mono);font-size:11px;color:var(--muted);word-break:break-all;line-height:1.5}
+.keybox .kn{font-size:11px;color:var(--dim);margin-top:8px}
+
+textarea.msg{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:12px;color:var(--text);font-family:var(--mono);font-size:13px;resize:vertical;min-height:70px;margin-bottom:12px}
+textarea.msg:focus{outline:none;border-color:var(--blue)}
+.crypto-actions{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.sig-out{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:13px;font-family:var(--mono);font-size:11.5px;word-break:break-all;color:var(--muted);min-height:44px;line-height:1.55}
+.sig-out .lbl{color:var(--dim);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px}
+.verdict{margin-top:12px;border-radius:10px;padding:13px 15px;font-size:14px;display:none;align-items:center;gap:10px}
+.verdict.show{display:flex}
+.verdict.ok{background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.4);color:var(--green)}
+.verdict.fail{background:rgba(255,77,106,.1);border:1px solid rgba(255,77,106,.4);color:var(--red)}
+.verdict b{color:#fff}
+
+.pq-note{margin-top:16px;background:linear-gradient(135deg,rgba(124,92,252,.12),rgba(76,110,245,.06));border:1px solid rgba(124,92,252,.35);border-radius:14px;padding:18px 20px}
+.pq-note .cap-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:8px}
+.pq-note h3{font-family:var(--disp);font-weight:600;font-size:17px;margin-bottom:7px}
+.pq-note p{color:var(--muted);font-size:14px}
+.pq-note p b{color:var(--text)}
+.chip{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--cyan);background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);border-radius:6px;padding:2px 8px;margin:6px 6px 0 0}
+
+/* ---------- footer ---------- */
+footer{max-width:1080px;margin:20px auto 0;padding:26px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer a{color:var(--blue);text-decoration:none}
+footer .mono{font-family:var(--mono);font-size:11.5px}
+
+@media(max-width:720px){
+  .crypto-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .keypair{grid-template-columns:1fr}
+  .hero{padding-top:38px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.05ms!important}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z" stroke="#00D4FF" stroke-width="1.6"/><path d="m8.5 12 2.5 2.5 5-5" stroke="#00E5A0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div class="brand-name">CertLedger<span>Pro</span></div>
+      <div class="brand-tag">Certificate Lifecycle · Immutable Audit</div>
+    </div>
+  </div>
+  <div class="brand-tag" style="text-align:right">Guardião do<br>Certificado</div>
+</div>
+<div class="gradient-divider"></div>
+
+<section class="hero">
+  <div class="eyebrow">Simulador interativo · SC-081v3</div>
+  <h1>Como um certificado <span class="grad">se mantém vivo</span> — e por que os 47 dias mudam tudo.</h1>
+  <p class="lede">Todo serviço no ar depende de um certificado TLS válido. Renová-lo envolve criptografia, uma cadeia de confiança e uma coreografia de passos que acontece em segundos. Explore a arquitetura, <b>jogue contra o relógio da nova regra</b> e entenda a criptografia que sustenta tudo isso.</p>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs" role="tablist">
+    <button class="tab active" role="tab" data-view="flow"><span class="idx">01</span> Como funciona</button>
+    <button class="tab" role="tab" data-view="game"><span class="idx">02</span> O desafio</button>
+    <button class="tab" role="tab" data-view="crypto"><span class="idx">03</span> A criptografia</button>
+  </div>
+</div>
+
+<div class="panel-area">
+
+  <!-- ============ TAB 1: FLOW ============ -->
+  <div class="view active" id="view-flow">
+    <div class="section-head">
+      <h2>A arquitetura de uma renovação</h2>
+      <p>Reproduza o fluxo e acompanhe o certificado nascer, ser validado, assinado, registrado e implantado — passo a passo, do jeito que o protocolo ACME automatiza.</p>
+    </div>
+    <div class="flow-card">
+      <div class="flow-controls">
+        <button class="btn btn-primary" id="playBtn">Reproduzir fluxo</button>
+        <button class="btn btn-ghost" id="prevBtn" disabled>Anterior</button>
+        <button class="btn btn-ghost" id="nextBtn">Próximo</button>
+        <span class="step-count">Etapa <b id="stepNow">0</b> / 11</span>
+      </div>
+      <div class="flow-svg-wrap">
+        <svg class="flow" viewBox="0 0 1000 600" id="flowSvg" aria-label="Diagrama do fluxo de renovação de certificado">
+          <defs>
+            <linearGradient id="flowGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#00D4FF"/><stop offset="1" stop-color="#7C5CFC"/>
+            </linearGradient>
+            <radialGradient id="pktGrad"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#00D4FF"/></radialGradient>
+          </defs>
+          <g id="connectors"></g>
+          <g id="nodes"></g>
+          <circle id="packet" r="7" fill="url(#pktGrad)" cx="150" cy="108" opacity="0"/>
+        </svg>
+      </div>
+      <div class="caption" id="caption">
+        <div class="cap-tag" id="capTag">Comece por aqui</div>
+        <h3 id="capTitle">Pressione “Reproduzir fluxo”</h3>
+        <p id="capText">Cada etapa acende conforme o certificado avança pela cadeia de confiança. Você também pode navegar manualmente com “Próximo” e “Anterior”, ou clicar direto em qualquer nó do diagrama.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 2: GAME ============ -->
+  <div class="view" id="view-game">
+    <div class="section-head">
+      <h2>O desafio dos 47 dias</h2>
+      <p>Você é o time de infraestrutura. Clique num certificado para renová-lo antes que expire. Escolha a fase do SC-081v3 e sinta o relógio acelerar — depois ligue a automação e veja a diferença.</p>
+    </div>
+
+    <div class="game-top">
+      <div class="phase-group">
+        <span class="glabel">Fase do SC-081v3 (validade)</span>
+        <div class="phase-btns" id="phaseBtns">
+          <button class="phase-btn active" data-phase="0">2025<small>398 dias</small></button>
+          <button class="phase-btn" data-phase="1">2026<small>199 dias</small></button>
+          <button class="phase-btn" data-phase="2">2027<small>100 dias</small></button>
+          <button class="phase-btn p47" data-phase="3">2029<small>47 dias</small></button>
+        </div>
+      </div>
+      <div class="auto-toggle" id="autoToggle" tabindex="0" role="switch" aria-checked="false">
+        <div class="tg"></div>
+        <div class="tx">Automação CertLedgerPro<small>renova sozinho, sem falha humana</small></div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat up"><div class="sv" id="stUptime">100%</div><div class="sl">Disponibilidade</div></div>
+      <div class="stat ren"><div class="sv" id="stRenew">0</div><div class="sl">Renovações feitas</div></div>
+      <div class="stat out"><div class="sv" id="stOut">0</div><div class="sl">Expirações (quedas)</div></div>
+      <div class="stat load"><div class="sv" id="stCount">0</div><div class="sl">Certificados sob gestão</div></div>
+    </div>
+
+    <div class="cert-grid" id="certGrid"></div>
+
+    <div class="game-msg" id="gameMsg"><span class="dot"></span><span id="gameMsgText">Escolha uma fase e clique nos certificados para mantê-los no ar.</span></div>
+  </div>
+
+  <!-- ============ TAB 3: CRYPTO ============ -->
+  <div class="view" id="view-crypto">
+    <div class="section-head">
+      <h2>A criptografia que sustenta a confiança</h2>
+      <p>Um certificado é confiável porque é <b>assinado digitalmente</b> e porque qualquer alteração é detectável. Experimente: assine uma mensagem, depois tente adulterá-la.</p>
+    </div>
+
+    <div class="crypto-grid">
+      <div class="ccard">
+        <h3>O par de chaves</h3>
+        <p class="sub">Toda identidade digital tem duas chaves matematicamente ligadas. Uma prova quem você é; a outra deixa qualquer um verificar.</p>
+        <div class="keypair">
+          <div class="keybox priv">
+            <div class="kt">Chave privada</div>
+            <div class="kv" id="privKey">— gere abaixo —</div>
+            <div class="kn">Nunca sai do seu servidor. Assina.</div>
+          </div>
+          <div class="keybox pub">
+            <div class="kt">Chave pública</div>
+            <div class="kv" id="pubKey">— gere abaixo —</div>
+            <div class="kn">Vai dentro do certificado. Verifica.</div>
+          </div>
+        </div>
+        <button class="btn btn-ghost" id="genKeys" style="margin-top:10px">Gerar novo par de chaves</button>
+      </div>
+
+      <div class="ccard">
+        <h3>Assinar e verificar</h3>
+        <p class="sub">A assinatura usa a chave privada. A verificação recalcula o resumo (hash SHA-256 real) da mensagem — se um único caractere mudar, a prova quebra.</p>
+        <textarea class="msg" id="msgInput">CN=api.bancoexemplo.com.br | válido até 2026-03-14</textarea>
+        <div class="crypto-actions">
+          <button class="btn btn-primary" id="signBtn">Assinar com a chave privada</button>
+          <button class="btn btn-ghost" id="verifyBtn" disabled>Verificar com a chave pública</button>
+        </div>
+        <div class="sig-out"><span class="lbl">Hash SHA-256 + assinatura</span><span id="sigVal">— assine a mensagem para gerar —</span></div>
+        <div class="verdict" id="verdict"></div>
+      </div>
+    </div>
+
+    <div class="pq-note">
+      <div class="cap-tag">Por que isso importa hoje — e amanhã</div>
+      <h3>Validade curta é a nova revogação. E a criptografia está mudando de era.</h3>
+      <p>Certificados de <b>vida curta</b> reduzem a janela de exposição: se uma chave vaza, o estrago vale semanas, não 13 meses. Por isso o SC-081v3 força automação. Ao mesmo tempo, a computação quântica ameaça os algoritmos atuais — a resposta é <b>cripto-agilidade</b>: trocar de algoritmo sem reescrever o sistema. A CertLedgerPro já opera com criptografia resistente a ataques quânticos e trilha de auditoria imutável de cada evento.</p>
+      <span class="chip">Kyber768</span><span class="chip">AES-256</span><span class="chip">ACME</span><span class="chip">Hyperledger Fabric</span><span class="chip">Trilha imutável</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>Simulador educacional · <b style="color:var(--muted)">CertLedgerPro</b></div>
+  <div class="mono">SC-081v3 · 398 → 199 → 100 → 47 dias · 2026–2029</div>
+</footer>
+
+<div class="incident-overlay" id="incidentOverlay" role="dialog" aria-modal="true" aria-labelledby="incTitle">
+  <div class="incident">
+    <div class="inc-head">
+      <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3 3 20h18L12 3Z" stroke="#FF4D6A" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="#FF4D6A" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div>
+        <div class="sub">Incidente de segurança</div>
+        <h3 id="incTitle">Chave privada do wildcard vazou</h3>
+      </div>
+    </div>
+    <div class="inc-body" id="incBody"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   TAB SWITCHING
+============================================================ */
+const tabs=document.querySelectorAll('.tab');
+const views={flow:document.getElementById('view-flow'),game:document.getElementById('view-game'),crypto:document.getElementById('view-crypto')};
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  Object.values(views).forEach(v=>v.classList.remove('active'));
+  views[t.dataset.view].classList.add('active');
+}));
+
+/* ============================================================
+   TAB 1 — FLOW DIAGRAM
+============================================================ */
+const NODES=[
+  {n:'01',x:150,y:108,label:['Servidor /','Aplicação'],icon:'server',tag:'Ponto de partida',title:'O serviço precisa de um certificado válido',
+   text:'Todo site, API ou app de pagamento só fica no ar com um certificado TLS <b>válido</b>. Quando ele se aproxima do vencimento, a renovação começa — idealmente antes que o usuário perceba.'},
+  {n:'02',x:390,y:108,label:['Cliente ACME','(CertLedgerPro)'],icon:'bot',tag:'Automação',title:'O agente inicia a renovação sozinho',
+   text:'O cliente ACME dispara o processo <b>sem clique humano</b>. É essa automação que torna viável renovar dezenas ou milhares de certificados na cadência de 47 dias.'},
+  {n:'03',x:630,y:108,label:['Geração do','par de chaves'],icon:'key',tag:'Criptografia',title:'Nasce um par de chaves',crypto:true,
+   text:'Gera-se uma <b>chave privada</b> (secreta, que nunca sai do servidor) e uma <b>chave pública</b>. É a base matemática de toda a confiança que vem a seguir.'},
+  {n:'04',x:870,y:108,label:['CSR — pedido','de assinatura'],icon:'doc',tag:'Criptografia',title:'O CSR empacota a identidade',crypto:true,
+   text:'A chave pública mais a identidade do domínio são empacotadas num <b>CSR</b> e assinadas com a chave privada. É o pedido formal enviado à Autoridade Certificadora.'},
+  {n:'05',x:870,y:310,label:['Autoridade','Certificadora'],icon:'shield',tag:'Cadeia de confiança',title:'A CA recebe o pedido',
+   text:'A Autoridade Certificadora (CA) é a entidade em quem os navegadores confiam. Antes de assinar, ela precisa ter <b>certeza de que você controla o domínio</b>.'},
+  {n:'06',x:630,y:310,label:['Desafio de','validação'],icon:'puzzle',tag:'ACME · DNS-01 / HTTP-01',title:'A CA lança um desafio',
+   text:'A CA pede uma prova: publicar um registro DNS específico ou um arquivo no servidor. Automatizado, o desafio se resolve <b>em segundos</b> — manualmente, é o gargalo que quebra.'},
+  {n:'07',x:390,y:310,label:['Validação','confirmada'],icon:'check',tag:'Prova de posse',title:'Posse do domínio comprovada',
+   text:'A CA verifica o desafio. Confirmado, ela sabe que o pedido é legítimo. Na era dos 47 dias, essa validação de domínio acontece <b>cerca de 35 vezes por ano</b> por domínio.'},
+  {n:'08',x:150,y:310,label:['CA assina o','certificado'],icon:'pen',tag:'Criptografia',title:'A assinatura digital',crypto:true,
+   text:'A CA assina o certificado com <b>sua própria chave privada</b>. É essa assinatura que faz o navegador confiar — e que ninguém consegue falsificar sem a chave da CA.'},
+  {n:'09',x:150,y:512,label:['Certificate','Transparency'],icon:'log',tag:'Auditoria pública',title:'Registro em log público',
+   text:'Todo certificado emitido é gravado em <b>logs de Certificate Transparency</b>, públicos e monitoráveis. Qualquer emissão indevida fica visível para o mundo.'},
+  {n:'10',x:390,y:512,label:['Deploy no','servidor'],icon:'deploy',tag:'Zero downtime',title:'O novo certificado entra em produção',
+   text:'O certificado renovado é instalado e ativado <b>sem interrupção</b>. O serviço nunca chegou a expirar — o usuário nem percebeu que houve troca.'},
+  {n:'11',x:630,y:512,label:['Trilha de auditoria','imutável'],icon:'ledger',tag:'CertLedgerPro',title:'Cada evento fica provado — para sempre',ledger:true,
+   text:'A CLP grava cada evento de forma <b>inviolável</b>: o que aconteceu, quando e por quem. Log comum é editável; a trilha imutável é a prova que o auditor e o BACEN aceitam.'}
+];
+
+const ICONS={
+  server:'M6 5h12v5H6zM6 14h12v5H6zM9 7.5h.01M9 16.5h.01',
+  bot:'M9 6h6v3H9zM7 9h10v8H7zM10 13h.01M14 13h.01M12 4v2',
+  key:'M14 7a3 3 0 1 1-3 3l-5 5v3h3l1-1v-2h2l1-1',
+  doc:'M8 4h6l4 4v12H8zM14 4v4h4M10 13h6M10 16h6',
+  shield:'M12 4l6 2.5V12c0 4-3 6.5-6 8-3-1.5-6-4-6-8V6.5zM9.5 12l1.8 1.8L15 10',
+  puzzle:'M9 5h6v3a2 2 0 0 0 4 0v6h-3a2 2 0 0 0 0 4H9v-3a2 2 0 0 1-4 0V9h4z',
+  check:'M5 12l4.5 4.5L19 7',
+  pen:'M15 5l4 4-9 9H6v-4zM13 7l4 4',
+  log:'M7 5h10M7 9h10M7 13h7M7 17h5',
+  deploy:'M12 4v12M8 8l4-4 4 4M6 19h12',
+  ledger:'M8 6a3 3 0 0 0 0 6M16 12a3 3 0 0 1 0 6M10 9h4M10 15h4M9 9l6 6'
+};
+
+const cN=document.getElementById('nodes'),cC=document.getElementById('connectors');
+const SVGNS='http://www.w3.org/2000/svg';
+const BW=190,BH=110;
+const nodeEls=[];
+
+// connectors (drawn in order along the snake)
+for(let i=0;i<NODES.length-1;i++){
+  const a=NODES[i],b=NODES[i+1];
+  const ln=document.createElementNS(SVGNS,'line');
+  ln.setAttribute('x1',a.x);ln.setAttribute('y1',a.y);
+  ln.setAttribute('x2',b.x);ln.setAttribute('y2',b.y);
+  ln.setAttribute('class','connector');ln.dataset.idx=i;
+  cC.appendChild(ln);
+}
+// nodes
+NODES.forEach((nd,i)=>{
+  const g=document.createElementNS(SVGNS,'g');
+  g.setAttribute('class','node-g');g.dataset.idx=i;
+  g.setAttribute('tabindex','0');g.setAttribute('role','button');
+  g.setAttribute('aria-label','Etapa '+nd.n+': '+nd.label.join(' '));
+  const r=document.createElementNS(SVGNS,'rect');
+  r.setAttribute('x',nd.x-BW/2);r.setAttribute('y',nd.y-BH/2);
+  r.setAttribute('width',BW);r.setAttribute('height',BH);
+  r.setAttribute('rx',14);r.setAttribute('class','node-box');
+  g.appendChild(r);
+  const num=document.createElementNS(SVGNS,'text');
+  num.setAttribute('x',nd.x-BW/2+16);num.setAttribute('y',nd.y-BH/2+26);
+  num.setAttribute('class','node-num');num.textContent=nd.n;
+  g.appendChild(num);
+  // icon
+  const ic=document.createElementNS(SVGNS,'path');
+  ic.setAttribute('d',ICONS[nd.icon]);ic.setAttribute('class','node-icon');
+  ic.setAttribute('transform','translate('+(nd.x+BW/2-46)+','+(nd.y-BH/2+8)+') scale(0.9)');
+  ic.setAttribute('stroke-linecap','round');ic.setAttribute('stroke-linejoin','round');
+  g.appendChild(ic);
+  // labels (two lines)
+  nd.label.forEach((ln2,li)=>{
+    const t=document.createElementNS(SVGNS,'text');
+    t.setAttribute('x',nd.x-BW/2+16);
+    t.setAttribute('y',nd.y+8+li*19);
+    t.setAttribute('class','node-label');t.textContent=ln2;
+    g.appendChild(t);
+  });
+  g.addEventListener('click',()=>gotoStep(i+1));
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();gotoStep(i+1);}});
+  cN.appendChild(g);
+  nodeEls.push(g);
+});
+
+const packet=document.getElementById('packet');
+const capTag=document.getElementById('capTag'),capTitle=document.getElementById('capTitle'),
+      capText=document.getElementById('capText'),caption=document.getElementById('caption'),
+      stepNow=document.getElementById('stepNow');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),playBtn=document.getElementById('playBtn');
+
+let step=0, playing=false, animRAF=null;
+
+function renderStep(){
+  nodeEls.forEach((g,i)=>{
+    g.classList.remove('on','done');
+    if(i<step-1)g.classList.add('done');
+    if(i===step-1)g.classList.add('on');
+  });
+  document.querySelectorAll('.connector').forEach((c,i)=>{
+    c.classList.toggle('lit', i<step-1);
+  });
+  stepNow.textContent=step;
+  prevBtn.disabled=(step<=1)||playing;
+  nextBtn.disabled=(step>=NODES.length)||playing;
+  if(step===0){
+    capTag.textContent='Comece por aqui';capTitle.textContent='Pressione “Reproduzir fluxo”';
+    capText.innerHTML='Cada etapa acende conforme o certificado avança pela cadeia de confiança. Navegue com “Próximo” e “Anterior”, ou clique direto em qualquer nó.';
+    caption.className='caption';packet.setAttribute('opacity','0');return;
+  }
+  const nd=NODES[step-1];
+  capTag.textContent=nd.tag;capTitle.textContent=nd.title;capText.innerHTML=nd.text;
+  caption.className='caption'+(nd.crypto?' crypto':'')+(nd.ledger?' ledger':'');
+}
+
+function movePacket(from,to,dur,cb){
+  const a=NODES[from]||NODES[0], b=NODES[to];
+  packet.setAttribute('opacity','1');
+  const t0=performance.now();
+  cancelAnimationFrame(animRAF);
+  (function frame(now){
+    let p=Math.min(1,(now-t0)/dur);
+    const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    packet.setAttribute('cx',a.x+(b.x-a.x)*e);
+    packet.setAttribute('cy',a.y+(b.y-a.y)*e);
+    if(p<1){animRAF=requestAnimationFrame(frame);}else if(cb)cb();
+  })(t0);
+}
+
+function gotoStep(s){
+  if(playing)return;
+  const prev=step; step=Math.max(0,Math.min(NODES.length,s));
+  if(step>0){ movePacket(Math.max(0,prev-1),step-1,420,null); }
+  else packet.setAttribute('opacity','0');
+  renderStep();
+}
+nextBtn.addEventListener('click',()=>gotoStep(step+1));
+prevBtn.addEventListener('click',()=>gotoStep(step-1));
+
+playBtn.addEventListener('click',()=>{
+  if(playing){return;}
+  playing=true;playBtn.textContent='Reproduzindo…';playBtn.disabled=true;
+  step=0;renderStep();
+  let i=0;
+  function advance(){
+    i++;
+    movePacket(Math.max(0,i-2),i-1,650,()=>{
+      step=i;renderStep();
+      if(i<NODES.length){setTimeout(advance,900);}
+      else{playing=false;playBtn.textContent='Reproduzir de novo';playBtn.disabled=false;renderStep();}
+    });
+  }
+  setTimeout(advance,250);
+});
+renderStep();
+
+/* ============================================================
+   TAB 2 — THE GAME
+============================================================ */
+const PHASES=[
+  {y:'2025',days:398,drain:60,start:3,cap:4},
+  {y:'2026',days:199,drain:30,start:5,cap:6},
+  {y:'2027',days:100,drain:15,start:7,cap:8},
+  {y:'2029',days:47, drain:7, start:9,cap:10}
+];
+const DOMAINS=['api.bancoexemplo.com.br','pagamentos.fintechx.com.br','internetbanking.bancoexemplo.com.br','pix.fintechx.com.br','app.baasprovider.com.br','openfinance.bancoexemplo.com.br','gateway.fintechx.com.br','portal.baasprovider.com.br','auth.bancoexemplo.com.br','cartoes.fintechx.com.br'];
+
+let phase=0, auto=false, certs=[], gameRAF=null, lastT=0, paused=false;
+let renewCount=0, outCount=0;
+let upSecs=0, downSecs=0; // for uptime
+let started=false;
+
+const grid=document.getElementById('certGrid');
+const stUptime=document.getElementById('stUptime'),stRenew=document.getElementById('stRenew'),
+      stOut=document.getElementById('stOut'),stCount=document.getElementById('stCount');
+const gameMsg=document.getElementById('gameMsg'),gameMsgText=document.getElementById('gameMsgText');
+const autoToggle=document.getElementById('autoToggle');
+
+function makeCert(id,wildcard){
+  return {id,wildcard:!!wildcard,dom:wildcard?'*.bancoexemplo.com.br':DOMAINS[id%DOMAINS.length],validity:100,renewing:false,down:false,compromised:false,el:null,fill:null,dEl:null,flash:null};
+}
+function buildGrid(){
+  grid.innerHTML='';
+  certs.forEach(c=>{
+    const el=document.createElement('div');
+    el.className='cert';el.tabIndex=0;el.setAttribute('role','button');
+    el.setAttribute('aria-label','Renovar '+c.dom);
+    const meta=c.wildcard?'wildcard · cobre todos os subdomínios':'certificado TLS público';
+    el.innerHTML=(c.wildcard?'<div class="wc-badge">WILDCARD</div>':'')+
+      '<div class="dom">'+c.dom+'</div><div class="meta">'+meta+'</div>'+
+      '<div class="bar-track"><div class="bar-fill"></div></div>'+
+      '<div class="days"><span class="d">—</span><span class="h">dias restantes</span></div>'+
+      (c.wildcard?'<button class="leak-btn" type="button">Simular vazamento da chave privada</button>':'');
+    el.addEventListener('click',()=>manualRenew(c));
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();manualRenew(c);}});
+    if(c.wildcard){const lk=el.querySelector('.leak-btn');lk.addEventListener('click',e=>{e.stopPropagation();openIncident(c);});lk.addEventListener('keydown',e=>e.stopPropagation());}
+    grid.appendChild(el);
+    c.el=el;c.fill=el.querySelector('.bar-fill');c.dEl=el.querySelector('.d');
+  });
+  stCount.textContent=certs.length;
+}
+function resetGame(){
+  cancelAnimationFrame(gameRAF);
+  const ph=PHASES[phase];
+  certs=[];certs.push(makeCert(0,true));for(let i=1;i<ph.start;i++)certs.push(makeCert(i));
+  renewCount=0;outCount=0;upSecs=0;downSecs=0;started=false;lastT=0;
+  stRenew.textContent=0;stOut.textContent=0;stUptime.textContent='100%';
+  buildGrid();
+  setMsg('info','Fase '+ph.y+' — validade de '+ph.days+' dias. '+(auto?'Automação ligada: relaxe e observe.':'Clique nos certificados para renová-los a tempo.'));
+  gameRAF=requestAnimationFrame(loop);
+}
+function setMsg(kind,txt){
+  gameMsg.className='game-msg'+(kind==='bad'?' bad':kind==='good'?' good':'');
+  gameMsgText.innerHTML=txt;
+}
+function manualRenew(c){
+  if(c.renewing)return;
+  c.renewing=true;c.down=false;
+  c.el.classList.add('renewing');c.el.classList.remove('down','warn');
+  const f=document.createElement('div');f.className='renew-flash';
+  const steps=['gerando par de chaves…','montando CSR…','validando domínio…','assinando na CA…','deploy · trilha registrada'];
+  f.innerHTML='<div id="fs'+c.id+'">'+steps[0]+'</div>';
+  c.el.appendChild(f);c.flash=f;
+  let si=0;
+  const dur=auto?450:1300;
+  const int=setInterval(()=>{si++;if(si<steps.length){const fs=document.getElementById('fs'+c.id);if(fs)fs.textContent=steps[si];}},dur/steps.length);
+  setTimeout(()=>{
+    clearInterval(int);
+    c.validity=100;c.renewing=false;
+    c.el.classList.remove('renewing');
+    if(c.flash){c.flash.remove();c.flash=null;}
+    renewCount++;stRenew.textContent=renewCount;
+  },dur);
+}
+function loop(t){
+  if(paused){lastT=t;gameRAF=requestAnimationFrame(loop);return;}
+  if(!lastT)lastT=t;
+  let dt=(t-lastT)/1000;lastT=t;
+  if(dt>0.1)dt=0.1;
+  const ph=PHASES[phase];
+  const ratePerSec=100/ph.drain; // % per second
+  let anyLive=false;
+  certs.forEach(c=>{
+    if(!c.renewing){
+      if(c.validity>0){c.validity-=ratePerSec*dt;}
+      if(c.validity<=0){c.validity=0;if(!c.down){c.down=true;outCount++;stOut.textContent=outCount;}}
+    }
+    // uptime accounting
+    if(c.down)downSecs+=dt; else upSecs+=dt;
+    // auto renew
+    if(auto && !c.renewing && c.validity<=22){manualRenew(c);}
+    // render
+    const v=Math.max(0,c.validity);
+    c.fill.style.width=v+'%';
+    c.dEl.textContent=Math.ceil(v/100*ph.days);
+    c.el.classList.toggle('warn',v>0 && v<=35 && !c.renewing);
+    c.el.classList.toggle('down',c.down);
+    if(c.down && !c.el.querySelector('.down-flag')){
+      const fl=document.createElement('div');fl.className='down-flag pulse';fl.textContent='FORA DO AR';c.el.appendChild(fl);
+    }
+    if(!c.down){const fl=c.el.querySelector('.down-flag');if(fl)fl.remove();}
+    if(c.compromised && !c.el.querySelector('.cmp-flag')){
+      const fl=document.createElement('div');fl.className='cmp-flag pulse';fl.textContent='CHAVE VAZADA';c.el.appendChild(fl);
+    }
+    if(!c.compromised){const fl=c.el.querySelector('.cmp-flag');if(fl)fl.remove();}
+    c.el.classList.toggle('compromised',c.compromised && !c.down);
+    if(!c.down)anyLive=true;
+  });
+  // grow certs up to cap (adds pressure over time, manual only feel)
+  if(!auto && certs.length<ph.cap && upSecs>4 && Math.random()<0.004){
+    certs.push(makeCert(certs.length));buildGrid();
+  }
+  // uptime
+  const tot=upSecs+downSecs;
+  const up=tot>0?(upSecs/tot*100):100;
+  stUptime.textContent=up.toFixed(1)+'%';
+  // contextual messaging
+  if(outCount>0 && !auto && !started){started=true;}
+  updateContext(up);
+  gameRAF=requestAnimationFrame(loop);
+}
+let ctxTick=0;
+function updateContext(up){
+  ctxTick++;if(ctxTick%40!==0)return;
+  const ph=PHASES[phase];
+  if(auto){
+    if(outCount===0) setMsg('good','Automação sustentando <b>'+up.toFixed(1)+'% de disponibilidade</b>. Cada renovação já entrou na trilha de auditoria imutável — pronta para o auditor.');
+    else setMsg('good','Automação recuperando os serviços automaticamente. Sem depender de ninguém lembrar de renovar.');
+  }else{
+    if(phase>=3 && outCount>=1) setMsg('bad','Aos <b>47 dias</b>, o clique humano não acompanha. Cada queda dessas seria um <b>incidente reportável ao BACEN</b>. Ligue a automação.');
+    else if(phase>=2 && outCount>=1) setMsg('bad','No ritmo dos <b>100 dias (2027)</b>, a renovação manual já começa a falhar. Este é o ponto de ruptura.');
+    else if(outCount>=1) setMsg('bad','Um certificado expirou — serviço fora do ar. Clique nele para renovar. Em produção, isso já teria virado incidente.');
+    else setMsg('info','Fase '+ph.y+' — segurando o forte manualmente. Aumente a fase e veja quando você perde o controle.');
+  }
+}
+document.getElementById('phaseBtns').addEventListener('click',e=>{
+  const b=e.target.closest('.phase-btn');if(!b)return;
+  document.querySelectorAll('.phase-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');phase=+b.dataset.phase;resetGame();
+});
+function toggleAuto(){
+  auto=!auto;autoToggle.classList.toggle('on',auto);
+  autoToggle.setAttribute('aria-checked',auto);
+  if(auto)setMsg('good','Automação CertLedgerPro ligada. Os certificados agora se renovam sozinhos ao se aproximar do vencimento.');
+  else setMsg('info','Automação desligada. De volta ao controle manual — boa sorte na fase '+PHASES[phase].y+'.');
+}
+autoToggle.addEventListener('click',toggleAuto);
+autoToggle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleAuto();}});
+
+/* --- incidente de segurança: chave privada do wildcard vazada --- */
+const incidentOverlay=document.getElementById('incidentOverlay');
+const incBody=document.getElementById('incBody');
+let incidentCert=null;
+const EXPO={0:{t:'até ~13 meses',cls:'bad'},1:{t:'~6 meses',cls:'bad'},2:{t:'~3 meses',cls:'bad'},3:{t:'~6 semanas',cls:'good'}};
+const LOCK='<span class="lock"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#00E5A0" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#00E5A0" stroke-width="2"/></svg></span>';
+
+function openIncident(c){
+  incidentCert=c;paused=true;c.compromised=true;
+  const ph=PHASES[phase],ex=EXPO[phase];
+  incBody.innerHTML=
+    '<p>A chave privada do certificado <b>*.bancoexemplo.com.br</b> foi exposta. Por ser <b>wildcard</b>, ela vale para <span class="danger">todos os subdomínios</span> de uma vez — login, pix, internet banking, APIs.</p>'+
+    '<div class="browser">'+
+      '<div class="chrome"><div class="dots"><i></i><i></i><i></i></div>'+
+        '<div class="url">'+LOCK+'https://login.bancoexemplo.com.br</div></div>'+
+      '<div class="fake-site"><div class="fk-logo">Banco Exemplo</div><div class="fk-sub">Acesse sua conta</div>'+
+        '<div class="fk-field">Usuário / CPF</div><div class="fk-field">Senha</div></div>'+
+      '<div class="fake-warn">Site FALSO operado por um atacante — com um certificado tecnicamente válido</div>'+
+    '</div>'+
+    '<p>O cadeado está verde. O domínio parece certo. Mas quem responde é o atacante, porque ele tem a chave que vazou. <b>O cadeado só prova que a conexão está cifrada — não prova que você está no site certo.</b></p>'+
+    '<div class="inc-box"><div class="bt">Janela de exposição — fase '+ph.y+'</div>'+
+      '<div class="row"><span>Subdomínios que podem ser falsificados</span><span class="bad">todos (*)</span></div>'+
+      '<div class="row"><span>Validade do certificado vazado</span><span>'+ph.days+' dias</span></div>'+
+      '<div class="row"><span>Tempo que o site falso segue "válido"</span><span class="'+ex.cls+'">'+ex.t+'</span></div></div>'+
+    '<p>Revogar ajuda pouco: os navegadores fazem <b>soft-fail</b> na checagem de revogação (CRL/OCSP). Na prática, <b>validade curta é a revogação de verdade</b> — e é por isso que o SC-081v3 corta a validade de 398 para 47 dias.</p>'+
+    '<div class="inc-box clp"><div class="bt">Como a CertLedgerPro conteria</div>'+
+      '<div class="row"><span>Monitoramento de CT log</span><span class="good">detecta emissão anômala</span></div>'+
+      '<div class="row"><span>Rotação de chave + reemissão</span><span class="good">minutos, não semanas</span></div>'+
+      '<div class="row"><span>Trilha de auditoria imutável</span><span class="good">prova para o BACEN</span></div></div>'+
+    '<div class="inc-actions">'+
+      '<button class="btn btn-fix" id="incFix" type="button">Revogar e girar a chave</button>'+
+      '<button class="btn btn-danger" id="incIgnore" type="button">Ignorar o alerta</button></div>';
+  incidentOverlay.classList.add('show');
+  document.getElementById('incFix').addEventListener('click',fixIncident);
+  document.getElementById('incIgnore').addEventListener('click',ignoreIncident);
+  document.getElementById('incFix').focus();
+}
+function closeIncident(){incidentOverlay.classList.remove('show');paused=false;lastT=0;}
+function fixIncident(){
+  if(incidentCert){incidentCert.compromised=false;incidentCert.validity=100;incidentCert.down=false;renewCount++;stRenew.textContent=renewCount;}
+  closeIncident();
+  setMsg('good','Chave girada e certificado reemitido. A <b>trilha de auditoria imutável</b> registrou o vazamento e a resposta — evidência pronta para o auditor e o BACEN.');
+}
+function ignoreIncident(){
+  closeIncident();
+  setMsg('bad','Alerta ignorado. O <b>wildcard</b> segue comprometido: o atacante pode falsificar qualquer subdomínio até o certificado expirar. Quanto maior a validade, maior o estrago.');
+}
+incidentOverlay.addEventListener('click',e=>{if(e.target===incidentOverlay)ignoreIncident();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&incidentOverlay.classList.contains('show'))ignoreIncident();});
+
+resetGame();
+
+/* ============================================================
+   TAB 3 — CRYPTO
+============================================================ */
+const privKeyEl=document.getElementById('privKey'),pubKeyEl=document.getElementById('pubKey'),
+      msgInput=document.getElementById('msgInput'),sigVal=document.getElementById('sigVal'),
+      verdict=document.getElementById('verdict'),signBtn=document.getElementById('signBtn'),
+      verifyBtn=document.getElementById('verifyBtn'),genKeys=document.getElementById('genKeys');
+let keyPair=null, signedHash=null, signature=null;
+
+function randHex(n){let s='';const c='0123456789abcdef';for(let i=0;i<n;i++)s+=c[Math.floor(Math.random()*16)];return s;}
+function fmtKey(h){return h.match(/.{1,4}/g).join(' ');}
+function genKeyPair(){
+  const seed=randHex(16);
+  keyPair={priv:'d:'+seed+randHex(16),pub:'e:'+seed+randHex(8)};
+  privKeyEl.textContent=fmtKey(keyPair.priv.slice(2,26))+' …';
+  pubKeyEl.textContent=fmtKey(keyPair.pub.slice(2,26))+' …';
+  signedHash=null;signature=null;verifyBtn.disabled=true;
+  sigVal.textContent='— assine a mensagem para gerar —';
+  verdict.className='verdict';
+}
+async function sha256(str){
+  try{
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+    return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){ // fallback simple hash
+    let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=(h*0x01000193)>>>0;}
+    return (h>>>0).toString(16).padStart(8,'0').repeat(8).slice(0,64);
+  }
+}
+signBtn.addEventListener('click',async()=>{
+  if(!keyPair)genKeyPair();
+  const h=await sha256(msgInput.value);
+  signedHash=h;
+  // illustrative signature = hash mixed with private key
+  signature=(h.slice(0,24)+keyPair.priv.slice(2,10)).match(/.{1,4}/g).join(' ');
+  sigVal.innerHTML='<span style="color:var(--cyan)">hash:</span> '+fmtKey(h.slice(0,32))+' …<br><span style="color:var(--red)">assinatura:</span> '+signature+' …';
+  verifyBtn.disabled=false;
+  verdict.className='verdict';
+});
+verifyBtn.addEventListener('click',async()=>{
+  const h=await sha256(msgInput.value);
+  if(h===signedHash){
+    verdict.className='verdict ok show';
+    verdict.innerHTML='<b>Válido.</b>&nbsp;A chave pública confirma: a mensagem é autêntica e não foi alterada desde a assinatura.';
+  }else{
+    verdict.className='verdict fail show';
+    verdict.innerHTML='<b>Inválido.</b>&nbsp;O hash não bate — a mensagem foi <b>alterada</b> depois de assinada. É assim que a adulteração de um certificado é detectada.';
+  }
+});
+msgInput.addEventListener('input',()=>{if(signedHash){verdict.className='verdict';}});
+genKeys.addEventListener('click',genKeyPair);
+genKeyPair();
+</script>
+</body>
+</html>

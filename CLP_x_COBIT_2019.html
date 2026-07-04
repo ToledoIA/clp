@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLP × COBIT 2019 — Governança de I&T aplicada a certificados | CertLedgerPro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080D1A; --panel:#0E1526; --panel-2:#111B31; --panel-3:#16213C;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --txt:#E6EAF2; --muted:#8A94A6; --dim:#5A6478;
+  --amber:#F59E0B; --blue:#3B82F6; --purple:#8B5CF6;
+  --green:#10B981; --red:#EF4444; --cyan:#22D3EE;
+  --grad:linear-gradient(90deg,var(--amber),var(--blue),var(--purple));
+  --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:15.5px;line-height:1.65}
+::selection{background:rgba(59,130,246,.35)}
+a{color:var(--blue)}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.topbar{background:#fff}
+.topbar-in{max-width:1080px;margin:0 auto;padding:15px 24px;display:flex;align-items:center;gap:14px}
+.logo{font-family:var(--disp);font-weight:700;font-size:19px;color:#0B1F3A;letter-spacing:.06em}
+.logo span{color:var(--amber)}
+.logo-sub{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:#64748B;text-transform:uppercase}
+.grad-divider{height:3px;background:var(--grad)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:70px 0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:26px;height:2px;background:var(--grad)}
+h1{font-family:var(--disp);font-size:clamp(30px,4.4vw,44px);font-weight:700;line-height:1.15;letter-spacing:-.015em}
+h2{font-family:var(--disp);font-size:clamp(23px,3vw,31px);font-weight:600;line-height:1.22;margin-bottom:14px}
+h3{font-family:var(--disp);font-size:16.5px;font-weight:600}
+.lead{color:var(--muted);font-size:17px;max-width:780px;margin-top:18px}
+p.sub{color:var(--muted);max-width:780px;margin-bottom:36px}
+
+.hero{position:relative;overflow:hidden;padding:92px 0 76px}
+.hero::before{content:'';position:absolute;inset:-30%;background:
+  radial-gradient(700px 460px at 12% 18%,rgba(245,158,11,.07),transparent 60%),
+  radial-gradient(800px 560px at 88% 55%,rgba(139,92,246,.08),transparent 60%),
+  radial-gradient(600px 420px at 55% 15%,rgba(59,130,246,.07),transparent 60%);pointer-events:none}
+.hero .wrap{position:relative}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.frame{background:linear-gradient(120deg,rgba(245,158,11,.08),rgba(139,92,246,.08));border:1px solid rgba(245,158,11,.28);border-radius:16px;padding:28px 32px;margin-top:44px}
+.frame p{font-family:var(--disp);font-size:18.5px;line-height:1.5}
+.frame p b{color:var(--amber)}
+.frame small{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:block;margin-top:12px}
+
+/* Cascata */
+.cascade{display:grid;gap:0;max-width:860px}
+.cstep{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 26px;display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:start}
+.cstep+.carrow{text-align:center;font-family:var(--mono);color:var(--dim);padding:6px 0;font-size:15px}
+.cstep .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding-top:3px}
+.cstep b{display:block;margin-bottom:4px;font-size:15px}
+.cstep p{font-size:13.5px;color:var(--muted)}
+@media(max-width:640px){.cstep{grid-template-columns:1fr;gap:6px}}
+
+/* Mapa de correlação */
+.domain{font-family:var(--disp);font-size:15px;font-weight:600;margin:34px 0 6px;display:flex;align-items:center;gap:12px}
+.domain .dcode{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px}
+.domain::after{content:'';flex:1;height:1px;background:var(--line)}
+.domain-sub{font-size:12.5px;color:var(--dim);margin-bottom:16px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:760px){.g2{grid-template-columns:1fr}}
+.obj{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;transition:.2s}
+.obj:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.obj .code{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;margin-bottom:8px;display:inline-block;padding:3px 10px;border-radius:6px}
+.obj h3{margin-bottom:8px}
+.obj .goal{color:var(--muted);font-size:13px;margin-bottom:12px}
+.obj .clp{font-size:13.5px;border-top:1px dashed var(--line);padding-top:12px}
+.obj .clp b{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;display:block;margin-bottom:5px;color:var(--green)}
+
+/* Sete componentes */
+.comp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:760px){.comp-grid{grid-template-columns:1fr}}
+.comp{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.comp .n{font-family:var(--mono);font-size:13px;font-weight:700;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--panel-3);border:1px solid var(--line-2)}
+.comp b{display:block;font-size:14px;margin-bottom:3px}
+.comp p{font-size:12.5px;color:var(--muted)}
+
+/* Escada de capacidade */
+.cap-wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+@media(max-width:900px){.cap-wrap{grid-template-columns:1fr}}
+.ladder{display:flex;flex-direction:column-reverse;gap:8px}
+.rung{border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:var(--panel);cursor:pointer;transition:.25s;opacity:.55}
+.rung .lv{font-family:var(--mono);font-size:20px;font-weight:700;text-align:center}
+.rung b{font-size:13.5px;display:block}
+.rung small{font-size:11.5px;color:var(--muted)}
+.rung.active{opacity:1;border-color:var(--line-2);background:var(--panel-2);transform:translateX(6px)}
+.rung.zone-now.active{border-color:rgba(239,68,68,.5)}
+.rung.zone-clp.active{border-color:rgba(16,185,129,.5)}
+.cap-copy .marker{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.cap-copy .desc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;min-height:170px}
+.cap-copy .desc h3{margin-bottom:8px}
+.cap-copy .desc p{font-size:14px;color:var(--muted)}
+.cap-nav{display:flex;gap:8px;margin-top:16px}
+.cap-nav button{flex:1;background:var(--panel-2);border:1px solid var(--line-2);color:var(--muted);border-radius:10px;padding:10px;font-family:var(--body);font-size:12.5px;font-weight:600;cursor:pointer}
+.cap-nav button.on{color:var(--txt);border-color:var(--amber);background:var(--panel-3)}
+
+/* Tabela de evidências */
+.ev-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ev-table th{background:var(--panel-3);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:13px 18px;font-weight:500}
+.ev-table td{padding:13px 18px;font-size:13.5px;border-top:1px solid var(--line);vertical-align:top}
+.ev-table td.mono{font-family:var(--mono);font-size:12px;color:var(--cyan);white-space:nowrap}
+.ev-table td:last-child{color:var(--muted)}
+
+.cta{background:linear-gradient(150deg,var(--panel-2),var(--panel));border:1px solid var(--line-2);border-radius:20px;padding:50px;text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'EDM·APO·BAI·DSS·MEA';position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);font-family:var(--mono);font-size:64px;font-weight:700;color:rgba(255,255,255,.028);white-space:nowrap;pointer-events:none}
+.cta h2{margin-bottom:12px}
+.cta p{color:var(--muted);max-width:640px;margin:0 auto 26px}
+.btn{display:inline-block;background:var(--amber);color:#1A1200;font-weight:600;font-size:15px;padding:14px 32px;border-radius:11px;text-decoration:none;transition:.15s}
+.btn:hover{background:#FBB62B;transform:translateY(-2px)}
+.cta .url{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:16px}
+
+.note{font-size:12px;color:var(--dim);font-style:italic;margin-top:26px;max-width:820px}
+footer{border-top:1px solid var(--line);padding:30px 24px;text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--dim)}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="logo">CERT<span>LEDGER</span>PRO</div>
+    <div class="logo-sub">Paper · COBIT 2019</div>
+  </div>
+</header>
+<div class="grad-divider"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Governança e gestão de I&T</div>
+    <h1>CLP × COBIT 2019: certificados digitais como <em>objeto de governança</em></h1>
+    <p class="lead">COBIT é o vocabulário comum entre TI, gestão de riscos, auditoria interna e conselho. Este paper mapeia, objetivo por objetivo, como a plataforma CertLedgerPro materializa práticas COBIT no domínio dos certificados digitais — transformando um ativo tecnicamente invisível em um processo governado, medido e auditável.</p>
+    <div class="frame">
+      <p>COBIT define <b>o que</b> uma boa governança de I&T exige. A CLP entrega o <b>como</b> — para uma classe de ativos que cresce em volume, encurta em validade e derruba serviços críticos quando falha.</p>
+      <small>Tese do paper · CertLedgerPro · jul/2026</small>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASCATA ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Cascata de objetivos</div>
+    <h2>Da necessidade do stakeholder ao controle operacional</h2>
+    <p class="sub">O COBIT parte das necessidades das partes interessadas e as desdobra até os objetivos de governança e gestão. A gestão de certificados percorre essa cascata de ponta a ponta:</p>
+    <div class="cascade reveal">
+      <div class="cstep"><span class="tag" style="color:var(--amber)">Stakeholder</span><div><b>Necessidade das partes interessadas</b><p>Serviços digitais disponíveis, conformidade regulatória (BACEN, PCI, LGPD) e proteção da reputação — com diligência demonstrável da administração.</p></div></div>
+      <div class="carrow">↓</div>
+      <div class="cstep"><span class="tag" style="color:var(--blue)">Empresa</span><div><b>Objetivos corporativos</b><p>Continuidade de negócio, portfólio de produtos digitais competitivo, gestão de risco de negócio e conformidade com leis e regulações externas.</p></div></div>
+      <div class="carrow">↓</div>
+      <div class="cstep"><span class="tag" style="color:var(--purple)">Alinhamento</span><div><b>Objetivos de alinhamento de I&T</b><p>Segurança da informação, infraestrutura e aplicações; conformidade de I&T com regulação; entrega de serviços de I&T em linha com os requisitos do negócio.</p></div></div>
+      <div class="carrow">↓</div>
+      <div class="cstep" style="border-color:rgba(16,185,129,.4)"><span class="tag" style="color:var(--green)">COBIT × CLP</span><div><b>Objetivos de governança e gestão atendidos</b><p>EDM03, APO09, APO10, APO12, APO13, BAI09, BAI10, DSS01, DSS02, DSS04, DSS05, MEA01–MEA04 — detalhados no mapa a seguir.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAPA DE CORRELAÇÃO ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Mapa de correlação</div>
+    <h2>Objetivo COBIT → contribuição direta da CLP</h2>
+    <p class="sub">Seleção dos objetivos de governança e gestão do COBIT 2019 em que a plataforma atua como componente do sistema de governança — com a contribuição específica em cada um.</p>
+
+    <div class="domain"><span class="dcode" style="background:rgba(245,158,11,.14);color:#FCD34D">EDM</span> Avaliar, Dirigir e Monitorar <span class="domain-sub"></span></div>
+    <div class="domain-sub">Governança — responsabilidade do conselho e da alta administração</div>
+    <div class="grid g2">
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(245,158,11,.14);color:#FCD34D">EDM03</span>
+        <h3>Otimização de risco garantida</h3>
+        <p class="goal">O apetite e a tolerância a risco são compreendidos e o risco de I&T é identificado e gerenciado.</p>
+        <div class="clp"><b>Contribuição CLP</b>O risco de certificados sai do invisível: matriz inerente → residual demonstrável, KRIs contínuos e relatório executivo que permite ao conselho dirigir e monitorar dentro do apetite declarado.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(245,158,11,.14);color:#FCD34D">EDM05</span>
+        <h3>Engajamento das partes interessadas</h3>
+        <p class="goal">Comunicação e reporte transparentes às partes interessadas, com base em medição confiável.</p>
+        <div class="clp"><b>Contribuição CLP</b>Painéis e relatórios por audiência — operação, GRC, comitê de auditoria — a partir de uma única fonte de verdade, eliminando divergência entre o que a TI reporta e o que a auditoria encontra.</div>
+      </div>
+    </div>
+
+    <div class="domain"><span class="dcode" style="background:rgba(59,130,246,.14);color:#93C5FD">APO</span> Alinhar, Planejar e Organizar</div>
+    <div class="domain-sub">Gestão — estratégia, risco, segurança e relações com terceiros</div>
+    <div class="grid g2">
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(59,130,246,.14);color:#93C5FD">APO12</span>
+        <h3>Risco gerenciado</h3>
+        <p class="goal">Identificar, avaliar e reduzir continuamente o risco de I&T dentro da tolerância definida.</p>
+        <div class="clp"><b>Contribuição CLP</b>Descoberta contínua alimenta o registro de riscos com dados reais (e não estimativas); renovação automática e alertas reduzem a probabilidade; a trilha imutável evidencia o tratamento.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(59,130,246,.14);color:#93C5FD">APO13</span>
+        <h3>Segurança gerenciada</h3>
+        <p class="goal">Definir, operar e monitorar um sistema de gestão de segurança da informação.</p>
+        <div class="clp"><b>Contribuição CLP</b>A política criptográfica (algoritmos, tamanhos de chave, prazos) deixa de ser documento e vira regra aplicada por software — com detecção automática de desvios e prontidão pós-quântica.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(59,130,246,.14);color:#93C5FD">APO09</span>
+        <h3>Acordos de serviço gerenciados</h3>
+        <p class="goal">Serviços e níveis de serviço de I&T alinhados às necessidades da empresa.</p>
+        <div class="clp"><b>Contribuição CLP</b>Disponibilidade de canais depende de certificados válidos: a CLP torna esse pré-requisito mensurável e o vincula aos SLAs internos — com suporte estendido 24×7 como adicional para operações críticas.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(59,130,246,.14);color:#93C5FD">APO10</span>
+        <h3>Fornecedores gerenciados</h3>
+        <p class="goal">Serviços de terceiros gerenciados para minimizar o risco associado a fornecedores.</p>
+        <div class="clp"><b>Contribuição CLP</b>Visibilidade da postura de certificados de prestadores e conexões críticas via registros públicos (CT logs) — o risco de terceiros ganha um indicador objetivo e monitorável.</div>
+      </div>
+    </div>
+
+    <div class="domain"><span class="dcode" style="background:rgba(139,92,246,.14);color:#C4B5FD">BAI</span> Construir, Adquirir e Implementar</div>
+    <div class="domain-sub">Gestão — ativos e configuração</div>
+    <div class="grid g2">
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(139,92,246,.14);color:#C4B5FD">BAI09</span>
+        <h3>Ativos gerenciados</h3>
+        <p class="goal">Todos os ativos de I&T contabilizados ao longo do ciclo de vida, com inventário preciso.</p>
+        <div class="clp"><b>Contribuição CLP</b>O certificado é um ativo com ciclo de vida próprio. A CLP mantém o inventário completo, vivo e com dono definido por ativo — o requisito literal do objetivo, para uma classe de ativos que planilhas jamais alcançam.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(139,92,246,.14);color:#C4B5FD">BAI10</span>
+        <h3>Configuração gerenciada</h3>
+        <p class="goal">Repositório de configuração íntegro, com relações entre itens de configuração conhecidas.</p>
+        <div class="clp"><b>Contribuição CLP</b>Cada certificado vinculado ao serviço, sistema e responsável que o utiliza — o impacto de uma expiração ou revogação é conhecido antes de acontecer, não descoberto durante o incidente.</div>
+      </div>
+    </div>
+
+    <div class="domain"><span class="dcode" style="background:rgba(34,211,238,.14);color:#67E8F9">DSS</span> Entregar, Servir e Suportar</div>
+    <div class="domain-sub">Gestão — operação, incidentes, continuidade e serviços de segurança</div>
+    <div class="grid g2">
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(34,211,238,.14);color:#67E8F9">DSS01</span>
+        <h3>Operações gerenciadas</h3>
+        <p class="goal">Procedimentos operacionais executados de forma confiável e consistente.</p>
+        <div class="clp"><b>Contribuição CLP</b>Emissão, instalação e renovação deixam de ser tarefas manuais dispersas e viram fluxo automatizado, padronizado e registrado — consistência operacional por construção.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(34,211,238,.14);color:#67E8F9">DSS02</span>
+        <h3>Solicitações e incidentes gerenciados</h3>
+        <p class="goal">Incidentes resolvidos com agilidade; causas tratadas para evitar recorrência.</p>
+        <div class="clp"><b>Contribuição CLP</b>A causa-raiz mais evitável de indisponibilidade — a expiração — é eliminada preventivamente; quando um evento externo ocorre (CA comprometida), a substituição em massa reduz o MTTR de semanas para horas.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(34,211,238,.14);color:#67E8F9">DSS04</span>
+        <h3>Continuidade gerenciada</h3>
+        <p class="goal">Serviços críticos continuam disponíveis diante de eventos de interrupção.</p>
+        <div class="clp"><b>Contribuição CLP</b>Certificado válido é pré-condição de continuidade de qualquer canal digital. A CLP retira essa pré-condição do caminho crítico do plano de continuidade — e evidencia isso para o teste do plano.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(34,211,238,.14);color:#67E8F9">DSS05</span>
+        <h3>Serviços de segurança gerenciados</h3>
+        <p class="goal">Proteção da informação, incluindo gestão de chaves criptográficas e certificados.</p>
+        <div class="clp"><b>Contribuição CLP</b>O objetivo que cita certificados nominalmente. A CLP é o serviço de segurança que o implementa: controle de emissão, custódia de evidências, revogação tempestiva e criptografia forte em trânsito — em licença completa, sem fatiamento.</div>
+      </div>
+    </div>
+
+    <div class="domain"><span class="dcode" style="background:rgba(16,185,129,.14);color:#6EE7B7">MEA</span> Monitorar, Avaliar e Analisar</div>
+    <div class="domain-sub">Gestão — desempenho, controles internos, conformidade e asseguração</div>
+    <div class="grid g2">
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(16,185,129,.14);color:#6EE7B7">MEA01 · MEA02</span>
+        <h3>Desempenho e controle interno</h3>
+        <p class="goal">Metas e métricas monitoradas; sistema de controles internos operando com eficácia.</p>
+        <div class="clp"><b>Contribuição CLP</b>KRIs objetivos (certificados não gerenciados, taxa de renovação automática, desvios de política) e teste de controle automatizável — a 2ª linha monitora com dados, não com questionários.</div>
+      </div>
+      <div class="obj reveal">
+        <span class="code" style="background:rgba(16,185,129,.14);color:#6EE7B7">MEA03 · MEA04</span>
+        <h3>Conformidade externa e asseguração</h3>
+        <p class="goal">Conformidade com requisitos externos demonstrada; asseguração independente viabilizada.</p>
+        <div class="clp"><b>Contribuição CLP</b>Trilha de auditoria imutável mapeada a CMN 4.893, BCB 85, PCI DSS e LGPD: a auditoria independente encontra evidência íntegra e completa — não amostras reconstruídas manualmente.</div>
+      </div>
+    </div>
+
+    <p class="note">COBIT® é um framework da ISACA. Este paper apresenta uma correlação interpretativa elaborada pela CertLedgerPro para fins de arquitetura de governança; não constitui endosso da ISACA nem reproduz o conteúdo do framework.</p>
+  </div>
+</section>
+
+<!-- ============ SETE COMPONENTES ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Sistema de governança</div>
+    <h2>Os sete componentes — e onde a CLP se encaixa</h2>
+    <p class="sub">No COBIT 2019, objetivos são atingidos por meio de componentes do sistema de governança. A CLP contribui em todos os sete:</p>
+    <div class="comp-grid">
+      <div class="comp reveal"><span class="n" style="color:var(--amber)">01</span><div><b>Processos</b><p>O ciclo de vida do certificado vira processo formal: descoberta, emissão, renovação, revogação e evidenciação — com fluxo definido e repetível.</p></div></div>
+      <div class="comp reveal"><span class="n" style="color:var(--blue)">02</span><div><b>Estruturas organizacionais</b><p>Dono definido por ativo e matriz de responsabilidade clara entre operação, segurança, GRC e auditoria — accountability sem ambiguidade.</p></div></div>
+      <div class="comp reveal"><span class="n" style="color:var(--purple)">03</span><div><b>Informação</b><p>Inventário único como fonte de verdade; KRIs e relatórios como fluxos de informação para decisão em cada nível.</p></div></div>
+      <div class="comp reveal"><span class="n" style="color:var(--cyan)">04</span><div><b>Pessoas, habilidades e competências</b><p>Reduz a dependência de conhecimento tácito ("a pessoa que sabia das datas saiu") e libera especialistas de tarefas repetitivas de renovação.</p></div></div>
+      <div class="comp reveal"><span class="n" style="color:var(--green)">05</span><div><b>Políticas e procedimentos</b><p>A política criptográfica é aplicada por software: prazos, algoritmos e aprovações deixam de depender de adesão voluntária.</p></div></div>
+      <div class="comp reveal"><span class="n" style="color:var(--amber)">06</span><div><b>Cultura, ética e comportamento</b><p>Transparência por padrão — toda ação registrada em trilha imutável desestimula atalhos e emissões fora do processo.</p></div></div>
+      <div class="comp reveal" style="grid-column:1/-1"><span class="n" style="color:var(--blue)">07</span><div><b>Serviços, infraestrutura e aplicações</b><p>A própria plataforma CLP: o componente tecnológico que sustenta os demais — em licença completa (descoberta, automação, trilha imutável e criptografia pós-quântica inclusas), com suporte estendido 24×7 como único adicional.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NÍVEIS DE CAPACIDADE ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Avaliação de capacidade</div>
+    <h2>A escada de capacidade da gestão de certificados</h2>
+    <p class="sub">O COBIT 2019 mede processos em níveis de capacidade (0–5). Clique nos degraus e veja onde a maioria das empresas está — e até onde a CLP leva:</p>
+    <div class="cap-wrap">
+      <div class="ladder reveal" id="ladder"></div>
+      <div class="cap-copy reveal">
+        <span class="marker" id="capMarker"></span>
+        <div class="desc">
+          <h3 id="capTitle">—</h3>
+          <p id="capDesc">—</p>
+        </div>
+        <div class="cap-nav">
+          <button id="capNow" class="on">Realidade típica hoje</button>
+          <button id="capClp">Com a CLP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVIDÊNCIAS PARA AUDITORIA ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Para a auditoria baseada em COBIT</div>
+    <h2>Pergunta do auditor → evidência CLP</h2>
+    <p class="sub">Auditorias de TI estruturadas em COBIT fazem perguntas previsíveis. Com a CLP, cada uma tem resposta pronta e verificável:</p>
+    <table class="ev-table reveal">
+      <thead><tr><th>Pergunta típica de auditoria</th><th>Objetivo</th><th>Evidência entregue pela CLP</th></tr></thead>
+      <tbody>
+        <tr><td>A organização conhece todos os seus certificados?</td><td class="mono">BAI09</td><td>Inventário completo e datado, com origem da descoberta e dono por ativo.</td></tr>
+        <tr><td>Existe controle para impedir expiração de certificado em serviço crítico?</td><td class="mono">DSS01/02</td><td>Renovação automática configurada, log de execuções e taxa de sucesso do período.</td></tr>
+        <tr><td>A política criptográfica é cumprida na prática?</td><td class="mono">APO13</td><td>Relatório de conformidade por certificado: algoritmo, tamanho de chave e validade contra a política vigente.</td></tr>
+        <tr><td>Quem emitiu, renovou ou revogou — e com que autorização?</td><td class="mono">DSS05</td><td>Trilha imutável com autor, ação, data e contexto de cada operação, íntegra por construção.</td></tr>
+        <tr><td>O risco está sendo reportado à administração?</td><td class="mono">EDM03/MEA01</td><td>Histórico de painéis executivos e KRIs com data — prova de supervisão contínua, não pontual.</td></tr>
+        <tr><td>Como a empresa responderia a um comprometimento de algoritmo?</td><td class="mono">APO12/DSS04</td><td>Capacidade demonstrável de substituição em massa e plano de transição pós-quântica documentado na plataforma.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section>
+  <div class="wrap">
+    <div class="cta reveal">
+      <div class="eyebrow" style="justify-content:center">Próximo passo</div>
+      <h2>Leve o mapa COBIT × CLP para a sua avaliação de capacidade</h2>
+      <p>Comece pela evidência que nenhuma avaliação dispensa: o inventário real. A primeira análise da CLP levanta seus certificados via registros públicos e entrega o retrato do nível de capacidade atual — o ponto de partida de qualquer programa de governança.</p>
+      <a class="btn" href="https://app.certledgerpro.com/signup">Solicitar a primeira análise</a>
+      <div class="url">app.certledgerpro.com/signup · contact@certledgerpro.com</div>
+    </div>
+  </div>
+</section>
+
+<footer>CERTLEDGERPRO · PAPER EXECUTIVO · CLP × COBIT 2019 · COBIT® É MARCA DA ISACA — CORRELAÇÃO INTERPRETATIVA, SEM VÍNCULO OU ENDOSSO</footer>
+
+<script>
+/* Escada de capacidade */
+(function(){
+  const LEVELS=[
+    {lv:0,t:'Incompleto',s:'Ninguém sabe quantos certificados existem',d:'Não há processo. Certificados são emitidos ad hoc por quem precisa, sem registro central. A organização descobre o inventário durante o incidente.',zone:'now',c:'#EF4444'},
+    {lv:1,t:'Inicial',s:'Planilha de alguém, atualizada às vezes',d:'O processo existe, mas depende de esforço individual: uma planilha, lembretes de calendário e o conhecimento tácito de poucas pessoas. Funciona até a primeira férias ou desligamento.',zone:'now',c:'#EF4444'},
+    {lv:2,t:'Gerenciado',s:'Processo definido, execução manual',d:'Há procedimento documentado e responsáveis nomeados, mas a execução é manual. Com validades caindo para 100 e 47 dias, o volume de renovações torna este nível insustentável.',zone:'now',c:'#F59E0B'},
+    {lv:3,t:'Estabelecido',s:'Plataforma implantada, processo padronizado',d:'Com a CLP: inventário único via descoberta contínua, fluxo padronizado de emissão e renovação, política criptográfica aplicada por software e trilha de evidências ativa.',zone:'clp',c:'#3B82F6'},
+    {lv:4,t:'Previsível',s:'Medido por KRIs, dentro de limites',d:'O processo opera sob medição quantitativa: taxa de renovação automática, desvios de política e cobertura de descoberta acompanhados contra alvos — o risco residual é conhecido e reportado.',zone:'clp',c:'#8B5CF6'},
+    {lv:5,t:'Otimizado',s:'Melhoria contínua e cripto-agilidade',d:'O processo se aperfeiçoa continuamente e absorve mudanças externas — novos prazos do CA/Browser Forum, transição pós-quântica — como ajustes planejados, não como crises.',zone:'clp',c:'#10B981'}
+  ];
+  const ladder=document.getElementById('ladder');
+  LEVELS.forEach((L,i)=>{
+    const r=document.createElement('div');
+    r.className='rung zone-'+L.zone;r.dataset.i=i;
+    r.innerHTML='<span class="lv" style="color:'+L.c+'">'+L.lv+'</span><span><b>'+L.t+'</b><small>'+L.s+'</small></span>';
+    r.addEventListener('click',()=>select(i));
+    ladder.appendChild(r);
+  });
+  const title=document.getElementById('capTitle'),desc=document.getElementById('capDesc'),marker=document.getElementById('capMarker');
+  const bNow=document.getElementById('capNow'),bClp=document.getElementById('capClp');
+  function select(i){
+    const L=LEVELS[i];
+    document.querySelectorAll('.rung').forEach((r,j)=>r.classList.toggle('active',j===i));
+    title.textContent='Nível '+L.lv+' — '+L.t;
+    desc.textContent=L.d;
+    const now=L.zone==='now';
+    marker.textContent=now?'Realidade típica sem CLM':'Alcançável com a CLP';
+    marker.style.color=now?'#F87171':'#6EE7B7';
+    marker.style.border='1px solid '+(now?'rgba(239,68,68,.45)':'rgba(16,185,129,.45)');
+    bNow.classList.toggle('on',now);bClp.classList.toggle('on',!now);
+  }
+  bNow.addEventListener('click',()=>select(1));
+  bClp.addEventListener('click',()=>select(4));
+  select(1);
+  window.__selectCap=select;
+})();
+
+/* Reveal on scroll */
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+  els.forEach(e=>io.observe(e));
+})();
+</script>
+</body>
+</html>

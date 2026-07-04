@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta ao Conselho — Continuidade Operacional e Responsabilidade dos Administradores | CertLedgerPro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080D1A;
+  --bg-card:#0D1426;
+  --bg-card-2:#111A30;
+  --border:rgba(76,110,245,0.18);
+  --border-soft:rgba(255,255,255,0.07);
+  --blue:#4C6EF5;
+  --purple:#7C5CFC;
+  --cyan:#00D4FF;
+  --green:#00E5A0;
+  --amber:#F5A623;
+  --red:#FF4D6A;
+  --text:#E8ECF6;
+  --text-2:#9AA5C0;
+  --text-3:#66718F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== Topbar ===== */
+.topbar{
+  background:#FFFFFF;
+  padding:14px 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.logo{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  color:#0B1220;
+  letter-spacing:-0.02em;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.logo-mark{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:14px;font-weight:700;
+}
+.topbar-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:#5B6478;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.gradient-divider{
+  height:3px;
+  background:linear-gradient(90deg,var(--amber),var(--blue),var(--purple));
+}
+
+/* ===== Layout ===== */
+.wrap{max-width:860px;margin:0 auto;padding:0 28px}
+section{padding:56px 0}
+
+/* ===== Header ===== */
+.doc-header{padding:72px 0 48px;border-bottom:1px solid var(--border-soft)}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:20px;
+}
+.doc-header h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(30px,4.4vw,44px);
+  font-weight:700;
+  line-height:1.18;
+  letter-spacing:-0.02em;
+  margin-bottom:22px;
+}
+.doc-header h1 .hl{color:var(--amber)}
+.lede{font-size:18px;color:var(--text-2);max-width:680px}
+.doc-meta{
+  display:flex;gap:28px;flex-wrap:wrap;margin-top:32px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-3);
+}
+.doc-meta span b{color:var(--text-2);font-weight:500}
+
+/* ===== Typography ===== */
+h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:26px;font-weight:700;letter-spacing:-0.01em;
+  margin-bottom:8px;
+}
+.section-kicker{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:12px;
+}
+p{color:var(--text-2);margin-bottom:16px}
+p strong{color:var(--text);font-weight:600}
+.callout{
+  border-left:3px solid var(--amber);
+  background:linear-gradient(90deg,rgba(245,166,35,0.08),transparent 70%);
+  padding:20px 24px;border-radius:0 10px 10px 0;
+  margin:28px 0;
+}
+.callout p{margin:0;color:var(--text);font-size:17px}
+
+/* ===== Cards ===== */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
+.card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:24px;
+}
+.card .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:30px;font-weight:700;letter-spacing:-0.02em;
+  margin-bottom:6px;
+}
+.card .num.amber{color:var(--amber)}
+.card .num.red{color:var(--red)}
+.card .num.green{color:var(--green)}
+.card .num.cyan{color:var(--cyan)}
+.card .lbl{font-size:13px;color:var(--text-3);line-height:1.5}
+.card h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16px;font-weight:600;margin-bottom:8px;color:var(--text);
+}
+.card p{font-size:14px;margin:0}
+
+/* ===== Timeline SC-081v3 (assinatura visual) ===== */
+.timeline{
+  margin-top:36px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:36px 32px 28px;
+  overflow:hidden;
+  position:relative;
+}
+.timeline::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(600px 200px at 85% 0%,rgba(255,77,106,0.08),transparent);
+  pointer-events:none;
+}
+.tl-title{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--text-3);
+  margin-bottom:44px;
+}
+.tl-track{display:flex;align-items:flex-end;gap:10px;height:215px}
+.tl-step{flex:1;display:flex;flex-direction:column;justify-content:flex-end;text-align:center}
+.tl-bar{
+  border-radius:8px 8px 0 0;
+  position:relative;
+  transition:transform .2s ease;
+}
+.tl-step:hover .tl-bar{transform:translateY(-4px)}
+.tl-days{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;font-size:clamp(15px,2.4vw,22px);
+  margin-bottom:8px;
+}
+.tl-year{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--text-3);margin-top:10px;
+}
+.tl-note{font-size:11px;color:var(--text-3);margin-top:2px}
+.b1{height:145px;background:linear-gradient(180deg,rgba(76,110,245,0.85),rgba(76,110,245,0.25))}
+.b2{height:96px;background:linear-gradient(180deg,rgba(124,92,252,0.85),rgba(124,92,252,0.25))}
+.b3{height:52px;background:linear-gradient(180deg,rgba(245,166,35,0.9),rgba(245,166,35,0.25))}
+.b4{height:26px;background:linear-gradient(180deg,rgba(255,77,106,0.95),rgba(255,77,106,0.3))}
+.d1{color:var(--blue)}.d2{color:var(--purple)}.d3{color:var(--amber)}.d4{color:var(--red)}
+.tl-caption{margin-top:26px;font-size:14px;color:var(--text-2)}
+.tl-caption strong{color:var(--red)}
+
+/* ===== Tabela regulatória ===== */
+.reg-table{width:100%;border-collapse:collapse;margin-top:28px;font-size:14px}
+.reg-table th{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);
+  text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);
+}
+.reg-table td{
+  padding:16px;border-bottom:1px solid var(--border-soft);
+  color:var(--text-2);vertical-align:top;
+}
+.reg-table td:first-child{
+  font-family:'JetBrains Mono',monospace;color:var(--cyan);
+  white-space:nowrap;font-size:13px;
+}
+.reg-table td strong{color:var(--text)}
+
+/* ===== Perguntas ao CISO ===== */
+.q-list{margin-top:28px;display:flex;flex-direction:column;gap:14px}
+.q-item{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px 24px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.q-num{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;font-size:14px;color:var(--bg);
+  background:var(--cyan);
+  width:28px;height:28px;min-width:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:2px;
+}
+.q-item p{margin:0;color:var(--text)}
+.q-item .q-why{font-size:13px;color:var(--text-3);margin-top:6px}
+
+/* ===== Comparativo custo ===== */
+.cost-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.cost-box{border-radius:14px;padding:28px;border:1px solid var(--border)}
+.cost-box.risk{background:linear-gradient(160deg,rgba(255,77,106,0.10),var(--bg-card))}
+.cost-box.mitiga{background:linear-gradient(160deg,rgba(0,229,160,0.08),var(--bg-card))}
+.cost-box .tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px;
+}
+.cost-box.risk .tag{color:var(--red)}
+.cost-box.mitiga .tag{color:var(--green)}
+.cost-box .big{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-0.02em;
+  margin-bottom:8px;
+}
+.cost-box.risk .big{color:var(--red)}
+.cost-box.mitiga .big{color:var(--green)}
+.cost-box p{font-size:14px;margin:0}
+
+/* ===== Assinatura / fechamento ===== */
+.closing{
+  border-top:1px solid var(--border-soft);
+  margin-top:24px;
+}
+.closing .frase{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(20px,3vw,26px);
+  font-weight:600;line-height:1.45;
+  color:var(--text);
+  border-left:3px solid var(--purple);
+  padding-left:24px;
+  margin:36px 0;
+}
+.closing .frase em{color:var(--amber);font-style:normal}
+.sig{margin-top:40px;display:flex;gap:48px;flex-wrap:wrap}
+.sig .who{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text)}
+.sig .role{font-size:13px;color:var(--text-3)}
+
+/* ===== CTA ===== */
+.cta{
+  margin-top:48px;
+  background:linear-gradient(135deg,rgba(76,110,245,0.14),rgba(124,92,252,0.12));
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:40px 36px;
+  text-align:center;
+}
+.cta h2{margin-bottom:12px}
+.cta p{max-width:560px;margin:0 auto 26px}
+.btn{
+  display:inline-block;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;font-size:15px;
+  color:#fff;text-decoration:none;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  padding:14px 32px;border-radius:10px;
+  transition:opacity .2s ease,transform .2s ease;
+}
+.btn:hover{opacity:0.9;transform:translateY(-1px)}
+.btn-ghost{
+  display:inline-block;margin-left:14px;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+  color:var(--cyan);text-decoration:none;
+  padding:14px 24px;border-radius:10px;border:1px solid var(--border);
+}
+.btn-ghost:hover{background:rgba(0,212,255,0.06)}
+
+/* ===== Footer ===== */
+footer{
+  margin-top:64px;padding:32px 0 48px;
+  border-top:1px solid var(--border-soft);
+  font-size:12px;color:var(--text-3);
+}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+@media (max-width:720px){
+  .grid-3,.grid-2,.cost-compare{grid-template-columns:1fr}
+  .topbar{padding:12px 20px}
+  .topbar-tag{display:none}
+  section{padding:44px 0}
+  .btn-ghost{margin-left:0;margin-top:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  html{scroll-behavior:auto}
+}
+@media print{
+  body{background:#fff;color:#111}
+  .topbar{position:static}
+  .cta,.btn,.btn-ghost{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><span class="logo-mark">C</span>CertLedgerPro</div>
+  <div class="topbar-tag">Documento para Conselho de Administração · Confidencial</div>
+</div>
+<div class="gradient-divider"></div>
+
+<div class="wrap">
+
+  <!-- ===== Header ===== -->
+  <header class="doc-header">
+    <div class="eyebrow">Carta ao Conselho de Administração</div>
+    <h1>A falha de infraestrutura invisível que pode parar a sua operação — <span class="hl">e pela qual o conselho responde</span></h1>
+    <p class="lede">Este documento resume, em uma página, um risco operacional e regulatório que hoje está delegado à equipe técnica, mas cuja responsabilidade final é da administração: a expiração de certificados digitais TLS/SSL em sistemas críticos.</p>
+    <div class="doc-meta">
+      <span><b>Público:</b> Conselho, CEO, CFO, Comitê de Risco</span>
+      <span><b>Leitura:</b> 5 minutos</span>
+      <span><b>Data:</b> Julho 2026</span>
+    </div>
+  </header>
+
+  <!-- ===== O que está em jogo ===== -->
+  <section>
+    <div class="section-kicker">01 · O que está em jogo</div>
+    <h2>Quando um certificado expira, o negócio para</h2>
+    <p>Toda conexão segura da sua operação — PIX, Open Finance, internet banking, APIs de parceiros, aplicativo — depende de certificados digitais com prazo de validade. Quando um deles expira sem renovação, a conexão é <strong>bloqueada imediatamente</strong>: clientes veem tela de erro, transações falham, integrações com parceiros caem. Não é um ataque. É uma data no calendário que alguém esqueceu.</p>
+    <p>Grandes indisponibilidades recentes no mercado global — de operadoras de telecom a plataformas de pagamento — tiveram como causa raiz exatamente isso: um certificado expirado.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="num red">US$ 818 mil</div>
+        <div class="lbl">Custo médio de um incidente de indisponibilidade por falha de certificado (base usada por seguradoras cyber)</div>
+      </div>
+      <div class="card">
+        <div class="num amber">Horas</div>
+        <div class="lbl">Tempo típico até diagnóstico e reemissão manual — com PIX e canais digitais fora do ar durante todo o período</div>
+      </div>
+      <div class="card">
+        <div class="num cyan">100%</div>
+        <div class="lbl">Previsibilidade do risco: a data de expiração de cada certificado é conhecida com antecedência. A falha é sempre evitável</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Por que agora ===== -->
+  <section>
+    <div class="section-kicker">02 · Por que este assunto chega ao conselho agora</div>
+    <h2>O prazo de validade está encolhendo por decisão da indústria global</h2>
+    <p>O CA/Browser Forum — fórum que reúne Google, Apple, Microsoft e Mozilla — aprovou o cronograma <strong>SC-081v3</strong>, que reduz progressivamente a validade máxima dos certificados TLS. O que hoje é renovado uma vez por ano passará a exigir renovação <strong>a cada 47 dias até 2029</strong>. O volume de renovações da sua operação será multiplicado por até 8, e a janela para erro humano encolhe na mesma proporção.</p>
+
+    <div class="timeline">
+      <div class="tl-title">SC-081v3 · Validade máxima dos certificados TLS</div>
+      <div class="tl-track">
+        <div class="tl-step">
+          <div class="tl-days d1">200 dias</div>
+          <div class="tl-bar b1"></div>
+          <div class="tl-year">Mar 2026</div>
+          <div class="tl-note">renovação semestral</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-days d2">100 dias</div>
+          <div class="tl-bar b2"></div>
+          <div class="tl-year">Mar 2027</div>
+          <div class="tl-note">renovação trimestral</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-days d3">64 dias</div>
+          <div class="tl-bar b3"></div>
+          <div class="tl-year">2028</div>
+          <div class="tl-note">transição</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-days d4">47 dias</div>
+          <div class="tl-bar b4"></div>
+          <div class="tl-year">Mar 2029</div>
+          <div class="tl-note">renovação contínua</div>
+        </div>
+      </div>
+      <div class="tl-caption">Com centenas de certificados renovando a cada <strong>47 dias</strong>, a gestão por planilha e calendário deixa de ser um risco tolerável e passa a ser uma falha operacional estatisticamente garantida.</div>
+    </div>
+  </section>
+
+  <!-- ===== Responsabilidade ===== -->
+  <section>
+    <div class="section-kicker">03 · A dimensão que não é técnica</div>
+    <h2>A responsabilidade é da administração, não da TI</h2>
+    <p>O arcabouço regulatório brasileiro é explícito: a gestão de riscos de segurança cibernética e de continuidade de serviços é dever da <strong>administração</strong> das instituições, com política aprovada pelo conselho. Uma indisponibilidade causada por risco conhecido, previsível e documentado — como a expiração de um certificado — é o tipo de falha que caracteriza gestão negligente e pode comprometer inclusive a cobertura do seguro <strong>D&amp;O</strong> dos administradores.</p>
+
+    <table class="reg-table">
+      <thead>
+        <tr><th>Norma</th><th>O que exige</th><th>Implicação para o conselho</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Res. CMN 4.893/2021</td>
+          <td>Política de segurança cibernética e planos de resposta a incidentes e de continuidade</td>
+          <td><strong>Aprovação e responsabilidade do conselho de administração</strong>, com designação de diretor responsável perante o BACEN</td>
+        </tr>
+        <tr>
+          <td>Res. BCB 85/2021</td>
+          <td>Requisitos equivalentes para instituições de pagamento</td>
+          <td>Fintechs, IPs e BaaS respondem sob o mesmo padrão de diligência</td>
+        </tr>
+        <tr>
+          <td>PCI DSS 4.2.1 e 12.3.3</td>
+          <td>Inventário completo de certificados e criptografia, com gestão documentada do ciclo de vida</td>
+          <td>Não conformidade compromete a operação de pagamentos com cartão e gera passivo em auditoria</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p>Pergunta que uma auditoria ou um regulador fará após um incidente: <strong>"A administração sabia que os certificados expiravam em datas conhecidas e qual controle instituiu para impedir a falha?"</strong> "A planilha do time de infra" não é uma resposta defensável.</p>
+    </div>
+  </section>
+
+  <!-- ===== Custo ===== -->
+  <section>
+    <div class="section-kicker">04 · A conta</div>
+    <h2>O custo de eliminar o risco é uma fração do custo de sofrê-lo</h2>
+    <div class="cost-compare">
+      <div class="cost-box risk">
+        <div class="tag">Custo de um único incidente</div>
+        <div class="big">R$ 4M+</div>
+        <p>Receita perdida por hora de canais fora do ar, custo de resposta, multas contratuais com parceiros, exposição regulatória e dano reputacional — além do questionamento da cobertura D&amp;O.</p>
+      </div>
+      <div class="cost-box mitiga">
+        <div class="tag">Custo de eliminar o risco</div>
+        <div class="big">&lt; 2%</div>
+        <p>A automação completa do ciclo de vida dos certificados custa menos de 2% de um único incidente evitado — retorno estimado de 78× — e gera trilha de auditoria imutável que documenta a diligência da administração.</p>
+      </div>
+    </div>
+    <p style="margin-top:24px">A CertLedgerPro automatiza todo o ciclo de vida do certificado digital, com <strong>trilha de auditoria imutável em blockchain</strong> — evidência permanente de diligência para regulador, auditor e seguradora — e criptografia pós-quântica, com dados soberanos no Brasil e conformidade nativa com LGPD e BACEN.</p>
+  </section>
+
+  <!-- ===== Perguntas ao CISO ===== -->
+  <section>
+    <div class="section-kicker">05 · Ação imediata</div>
+    <h2>Três perguntas para levar à próxima reunião</h2>
+    <p>O conselho não precisa entender de criptografia. Precisa apenas exigir respostas objetivas do responsável técnico:</p>
+    <div class="q-list">
+      <div class="q-item">
+        <div class="q-num">1</div>
+        <div>
+          <p>Temos inventário completo e atualizado de todos os certificados da operação, incluindo os de parceiros e integrações?</p>
+          <div class="q-why">Se a resposta for "quase" ou "estamos levantando", o risco já é material. Não se gerencia o que não se enxerga.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">2</div>
+        <div>
+          <p>Qual é o nosso plano para operar com renovações a cada 47 dias a partir de 2029 — e ele depende de processo manual?</p>
+          <div class="q-why">Qualquer plano baseado em planilha e alertas de calendário falhará por volume. A resposta defensável é automação com evidência auditável.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-num">3</div>
+        <div>
+          <p>Se um certificado crítico expirasse hoje, em quanto tempo detectamos, e qual seria o custo por hora de indisponibilidade?</p>
+          <div class="q-why">Esse número transforma um assunto técnico em decisão de negócio — e deve constar do mapa de riscos aprovado pelo conselho.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Fechamento ===== -->
+  <section class="closing">
+    <div class="frase">"Seu CISO gerencia certificados. Você responde pela continuidade do negócio. <em>A partir de 2027, essas duas coisas se encontram a cada 100 dias e em 2029 a cada 47 dias.</em>"</div>
+
+    <p>Recomendamos que o tema seja incluído na pauta do comitê de risco como <strong>risco operacional previsível de alta severidade</strong>, com plano de mitigação e responsável designado. Nossa equipe pode conduzir, sem custo, um diagnóstico do inventário de certificados da instituição e apresentar os resultados diretamente ao comitê.</p>
+
+    <div class="sig">
+      <div>
+        <div class="who">Toledo</div>
+        <div class="role">CEO e Cofundador · CertLedgerPro</div>
+      </div>
+      <div>
+        <div class="who">Galeno Garbe</div>
+        <div class="role">CTO e Cofundador · CertLedgerPro, Ex-executivo Gartner</div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h2>Diagnóstico executivo sem custo</h2>
+      <p>Mapeamos os certificados expostos da sua instituição e dos seus parceiros críticos e entregamos um relatório de risco em linguagem de conselho, em até 10 dias úteis.</p>
+      <a class="btn" href="https://app.certledgerpro.com/signup">Solicitar diagnóstico</a>
+      <a class="btn-ghost" href="mailto:contato@certledgerpro.com">Falar com os fundadores</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>CertLedgerPro · Gestão automatizada do ciclo de vida de certificados com trilha de auditoria imutável</div>
+    <div>Referências: SC-081v3 (CA/Browser Forum) · Res. CMN 4.893/2021 · Res. BCB 85/2021 · PCI DSS v4.0 · Gartner G00823796 / G00837777</div>
+  </div>
+</footer>
+
+</body>
+</html>

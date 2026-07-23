@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do risco técnico à decisão de board — guia para levar indisponibilidade por certificados à mesa da diretoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080D1A;--bg-elev:#0D1424;--bg-card:#0F1728;
+    --border:#1C2842;--border-soft:#141E33;
+    --text:#F4F6FB;--text-mut:#8B97AE;--text-dim:#5D6980;
+    --amber:#F5A623;--blue:#3B82F6;--purple:#8B5CF6;
+    --green:#34D399;--red:#F87171;--cyan:#22D3EE;
+    --display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+
+  .topbar{background:#fff;position:sticky;top:0;z-index:100}
+  .topbar-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:15px 32px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--amber),var(--blue) 55%,var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;color:#fff;font-size:14px}
+  .brand-name{font-family:var(--display);font-weight:700;color:#0B1220;font-size:18px;letter-spacing:-.02em}
+  .brand-name span{color:var(--blue)}
+  .topbar-tag{font-family:var(--mono);font-size:11px;color:#6B7688;letter-spacing:.03em}
+  .gradient-divider{height:3px;background:linear-gradient(90deg,var(--amber),var(--blue) 50%,var(--purple))}
+
+  .wrap{max-width:1000px;margin:0 auto;padding:0 32px}
+  section{padding:54px 0}
+
+  .hero{padding:78px 0 48px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;top:-40%;right:-12%;width:540px;height:540px;background:radial-gradient(circle,rgba(59,130,246,.10),transparent 62%);pointer-events:none}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--blue)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(31px,4.8vw,50px);line-height:1.07;letter-spacing:-.03em;max-width:870px;margin-bottom:22px;position:relative}
+  h1 .accent{background:linear-gradient(120deg,var(--blue),var(--cyan) 50%,var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-lead{font-size:18px;color:var(--text-mut);max-width:690px;position:relative}
+  .hero-for{margin-top:26px;background:var(--bg-elev);border:1px solid var(--border-soft);border-left:2px solid var(--blue);border-radius:0 12px 12px 0;padding:18px 24px;font-size:14.5px;color:var(--text-mut);max-width:690px;position:relative}
+  .hero-for b{color:var(--text)}
+
+  .sec-label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:13px}
+  h2{font-family:var(--display);font-weight:700;font-size:clamp(25px,3.5vw,33px);letter-spacing:-.02em;margin-bottom:15px}
+  .lead{color:var(--text-mut);max-width:740px;font-size:16.5px}
+  .divider-thin{height:1px;background:var(--border-soft)}
+
+  /* tradução */
+  .trans{display:grid;gap:12px;margin-top:30px}
+  .tr{display:grid;grid-template-columns:1fr 44px 1fr;gap:18px;align-items:center;background:var(--bg-card);border:1px solid var(--border-soft);border-radius:13px;padding:20px 24px}
+  .tr-from{color:var(--text-dim);font-size:14.5px}
+  .tr-from .tl{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:6px}
+  .tr-ar{display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:19px}
+  .tr-to{color:var(--text);font-size:15px;font-weight:500}
+  .tr-to .tl{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px;font-weight:400}
+
+  /* perguntas do board */
+  .qs{display:grid;gap:13px;margin-top:30px}
+  .qa{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:13px;overflow:hidden}
+  .qa-q{padding:19px 24px;font-family:var(--display);font-size:16px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;user-select:none;transition:background .15s;line-height:1.4}
+  .qa-q:hover{background:var(--bg-elev)}
+  .qa-q::after{content:"+";font-family:var(--mono);color:var(--amber);font-size:19px;flex-shrink:0}
+  .qa.open .qa-q::after{content:"−"}
+  .qa-a{display:none;padding:0 24px 22px}
+  .qa.open .qa-a{display:block;border-top:1px solid var(--border-soft);padding-top:18px}
+  .qa-a .say{font-size:15px;color:var(--text);line-height:1.75;margin-bottom:14px}
+  .qa-a .tip{font-size:13.5px;color:var(--text-mut);background:var(--bg-elev);border-left:2px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px}
+  .qa-a .tip b{color:var(--text)}
+
+  /* simulador */
+  .sim{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(139,92,246,.05));border:1px solid var(--border);border-radius:18px;padding:36px;margin-top:28px}
+  .sim-f{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:26px}
+  .sf label{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:8px}
+  .sf input{width:100%;background:var(--bg-card);border:1px solid var(--border-soft);border-radius:8px;color:var(--text);font-family:var(--body);font-size:15px;padding:11px 13px;outline:none}
+  .sf input:focus{border-color:var(--blue)}
+  .sf .hint{font-size:12px;color:var(--text-dim);margin-top:6px}
+  .sim-out{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:14px;padding:26px}
+  .so-row{display:grid;grid-template-columns:1fr auto;gap:20px;padding:13px 0;border-bottom:1px solid var(--border-soft);align-items:baseline}
+  .so-row:last-child{border-bottom:none;padding-bottom:0}
+  .so-l{color:var(--text-mut);font-size:14.5px}
+  .so-v{font-family:var(--display);font-weight:700;font-size:20px;color:var(--text);letter-spacing:-.01em;text-align:right}
+  .so-row.hi .so-v{color:var(--amber);font-size:26px}
+  .so-note{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);margin-top:16px;padding-top:14px;border-top:1px solid var(--border-soft);line-height:1.8}
+
+  /* estrutura de apresentação */
+  .slides{display:grid;gap:13px;margin-top:30px}
+  .sl{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:13px;padding:22px 26px;display:grid;grid-template-columns:52px 1fr;gap:22px;align-items:start}
+  .sl-n{width:38px;height:38px;border-radius:10px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber)}
+  .sl h4{font-family:var(--display);font-size:16.5px;font-weight:600;margin-bottom:7px;letter-spacing:-.01em}
+  .sl p{color:var(--text-mut);font-size:14.5px}
+  .sl .said{margin-top:11px;font-size:14px;color:var(--text);background:var(--bg-elev);border-left:2px solid var(--amber);border-radius:0 8px 8px 0;padding:11px 16px;font-style:italic}
+
+  /* armadilhas */
+  .traps{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .trap{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:13px;padding:24px 26px}
+  .trap .tn{font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.06em;margin-bottom:10px}
+  .trap h4{font-family:var(--display);font-size:15.5px;font-weight:600;margin-bottom:8px}
+  .trap p{color:var(--text-mut);font-size:14px}
+  .trap .fix{margin-top:11px;font-size:13.5px;color:var(--text);padding-top:11px;border-top:1px solid var(--border-soft)}
+  .trap .fix b{color:var(--green)}
+
+  /* criterios */
+  .crit{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .cr{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:13px;padding:24px 26px}
+  .cr h4{font-family:var(--display);font-size:15.5px;font-weight:600;margin-bottom:11px;display:flex;align-items:center;gap:10px}
+  .cr h4 .n{font-family:var(--mono);font-size:11px;color:var(--amber)}
+  .cr p{color:var(--text-mut);font-size:14px}
+
+  .close{background:var(--bg-elev);border:1px solid var(--border);border-radius:18px;padding:44px;position:relative;overflow:hidden;margin-top:10px}
+  .close::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(59,130,246,.08),transparent 60%);pointer-events:none}
+  .close h2,.close p,.close .cta,.close .sub{position:relative}
+  .close p{color:var(--text-mut);max-width:640px;font-size:16px;margin-bottom:24px}
+  .cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:14px;font-weight:600;color:#0B1220;background:linear-gradient(135deg,var(--amber),#f7b955);border-radius:10px;padding:15px 28px;text-decoration:none;letter-spacing:.02em;box-shadow:0 8px 28px rgba(245,166,35,.26);transition:transform .15s,box-shadow .15s}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(245,166,35,.38)}
+  .close .sub{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-top:18px}
+
+  footer{border-top:1px solid var(--border-soft);padding:34px 0 46px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+  .foot .fb{font-family:var(--display);font-weight:600;font-size:15px}
+  .foot .fn{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);max-width:600px;text-align:right;line-height:1.75}
+
+  @media(max-width:820px){
+    .wrap,.topbar-inner{padding-left:20px;padding-right:20px}
+    .tr{grid-template-columns:1fr;gap:10px}
+    .tr-ar{justify-content:flex-start;transform:rotate(90deg);width:24px}
+    .sim-f{grid-template-columns:1fr}
+    .traps,.crit{grid-template-columns:1fr}
+    .sl{grid-template-columns:1fr;gap:12px}
+    .sim,.close{padding:26px 22px}
+    section{padding:38px 0}
+    .topbar-tag{display:none}
+    .foot .fn{text-align:left}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">CL</div>
+      <div class="brand-name">CertLedger<span>Pro</span></div>
+    </div>
+    <div class="topbar-tag">MATERIAL PARA LIDERANÇA DE SEGURANÇA</div>
+  </div>
+</header>
+<div class="gradient-divider"></div>
+
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Guia de argumentação executiva</div>
+  <h1>Do risco técnico à decisão de board: como <span class="accent">defender o investimento</span> em gestão de certificados</h1>
+  <p class="hero-lead">Certificados digitais expirados derrubam sistemas em produção com regularidade — e mesmo assim é um dos temas mais difíceis de aprovar em conselho. Não porque o risco seja pequeno, mas porque ele costuma ser apresentado na linguagem errada. Este guia traz a tradução, os números e as respostas para as perguntas que virão da mesa.</p>
+  <div class="hero-for"><b>Para quem é este material:</b> CISOs, CIOs e líderes de infraestrutura que precisam levar um pedido de investimento em gestão de certificados a um comitê executivo, conselho ou comitê de auditoria — e querem chegar com o argumento montado.</div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">O problema de comunicação</div>
+  <h2>Por que o board não aprova o que você está pedindo</h2>
+  <p class="lead">O board não rejeita o risco — ele rejeita a forma como o risco chega até ele. Conselheiros decidem sobre continuidade, exposição financeira e responsabilidade. Quando o pedido chega em vocabulário de infraestrutura, ele é lido como custo de TI e disputa espaço com todos os outros custos de TI. A mesma solicitação, traduzida, passa a competir na categoria de gestão de risco corporativo — onde tem prioridade natural.</p>
+  <div class="trans">
+    <div class="tr">
+      <div class="tr-from"><span class="tl">Como costuma ser dito</span>"Precisamos de uma plataforma de gerenciamento do ciclo de vida de certificados TLS."</div>
+      <div class="tr-ar">&rarr;</div>
+      <div class="tr-to"><span class="tl">Como o board escuta</span>"Temos um ponto único de falha capaz de parar sistemas críticos, e hoje não conseguimos dizer quantos são nem quando cada um falha."</div>
+    </div>
+    <div class="tr">
+      <div class="tr-from"><span class="tl">Como costuma ser dito</span>"A validade dos certificados vai cair de 398 para 47 dias até 2029."</div>
+      <div class="tr-ar">&rarr;</div>
+      <div class="tr-to"><span class="tl">Como o board escuta</span>"O número de operações críticas que precisamos executar sem falha vai se multiplicar por oito, com a mesma equipe e o mesmo processo manual de hoje."</div>
+    </div>
+    <div class="tr">
+      <div class="tr-from"><span class="tl">Como costuma ser dito</span>"Não temos inventário centralizado nem trilha de auditoria."</div>
+      <div class="tr-ar">&rarr;</div>
+      <div class="tr-to"><span class="tl">Como o board escuta</span>"Se um regulador ou auditor perguntar hoje se o controle está funcionando, não temos como comprovar — e a responsabilidade por essa lacuna recai sobre a administração."</div>
+    </div>
+    <div class="tr">
+      <div class="tr-from"><span class="tl">Como costuma ser dito</span>"A renovação é manual e depende do time de infraestrutura."</div>
+      <div class="tr-ar">&rarr;</div>
+      <div class="tr-to"><span class="tl">Como o board escuta</span>"Nossa continuidade operacional depende de uma pessoa lembrar de uma tarefa recorrente — um controle que nenhum auditor consideraria adequado."</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">Construa o número</div>
+  <h2>Dimensione a exposição com os dados da sua operação</h2>
+  <p class="lead">Board decide com número, não com adjetivo. Use os campos abaixo para construir a ordem de grandeza da exposição da sua organização — e leve o cálculo, não só o resultado. Um número que o conselho vê sendo montado é muito mais difícil de contestar que um número pronto trazido por fornecedor.</p>
+
+  <div class="sim">
+    <div class="sim-f">
+      <div class="sf">
+        <label>Certificados estimados no parque</label>
+        <input id="s_certs" type="number" min="1" step="10" placeholder="Ex.: 400" value="400">
+        <div class="hint">Inclua sistemas, APIs, equipamentos e integrações</div>
+      </div>
+      <div class="sf">
+        <label>Custo de 1 hora de indisponibilidade (R$)</label>
+        <input id="s_hora" type="number" min="0" step="1000" placeholder="Ex.: 50000" value="50000">
+        <div class="hint">Do sistema crítico mais exposto</div>
+      </div>
+      <div class="sf">
+        <label>Horas médias até restabelecer</label>
+        <input id="s_horas" type="number" min="0.5" step="0.5" placeholder="Ex.: 4" value="4">
+        <div class="hint">Da queda até o serviço normalizado</div>
+      </div>
+    </div>
+
+    <div class="sim-out">
+      <div class="so-row">
+        <div class="so-l">Renovações por ano <b style="color:var(--text)">hoje</b> (validade de até 398 dias)</div>
+        <div class="so-v" id="o_hoje">—</div>
+      </div>
+      <div class="so-row">
+        <div class="so-l">Renovações por ano <b style="color:var(--text)">a partir de 2029</b> (validade de 47 dias)</div>
+        <div class="so-v" id="o_2029">—</div>
+      </div>
+      <div class="so-row">
+        <div class="so-l">Operações críticas adicionais por ano, sem aumento de equipe</div>
+        <div class="so-v" id="o_delta">—</div>
+      </div>
+      <div class="so-row hi">
+        <div class="so-l">Custo de <b style="color:var(--text)">um único</b> incidente de indisponibilidade</div>
+        <div class="so-v" id="o_custo">—</div>
+      </div>
+      <div class="so-note" id="o_note">—</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">A conversa na mesa</div>
+  <h2>As seis perguntas que o board vai fazer</h2>
+  <p class="lead">Clique em cada uma para ver uma resposta possível e a lógica por trás dela. Adapte ao vocabulário do seu conselho — o que não muda é a estrutura: reconhecer a pergunta, responder com fato, devolver a decisão à mesa.</p>
+
+  <div class="qs">
+
+    <div class="qa">
+      <div class="qa-q">"Isso já aconteceu conosco? Se nunca aconteceu, por que investir agora?"</div>
+      <div class="qa-a">
+        <div class="say">"Se já aconteceu, apresento o caso e o custo. Se não aconteceu, o ponto é outro: nossa ausência de histórico reflete um parque menor e validades mais longas. A partir de 2029 a frequência de renovações se multiplica por oito. O histórico de hoje não é preditivo do cenário que vem — e é justamente por isso que a hora de agir é antes do primeiro incidente, não depois."</div>
+        <div class="tip"><b>A lógica:</b> não conteste a ausência de incidentes — isso soa defensivo. Desloque o argumento para a mudança estrutural externa, que independe da competência do time e não pode ser atribuída a alarmismo.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Não dá para resolver com o time que já temos?"</div>
+      <div class="qa-a">
+        <div class="say">"Dá, até certo volume. O problema é que estamos falando de multiplicar por oito uma tarefa que já é manual e recorrente. Podemos alocar pessoas para isso, mas estaríamos criando um custo permanente de operação para executar uma tarefa que é, por natureza, automatizável — e mantendo o erro humano como risco residual. A pergunta que proponho à mesa é se queremos escalar o processo com pessoas ou com plataforma."</div>
+        <div class="tip"><b>A lógica:</b> não diga que é impossível — o board sabe que não é. Reposicione como escolha entre custo recorrente de pessoal com risco residual versus investimento em automação. Isso é linguagem de alocação de capital.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Qual o retorno desse investimento?"</div>
+      <div class="qa-a">
+        <div class="say">"O retorno tem três componentes. O primeiro é evitação de perda: um único incidente de indisponibilidade no nosso sistema mais crítico custa aproximadamente [use o número do simulador]. O segundo é eficiência: horas de equipe técnica hoje consumidas em renovação manual. O terceiro, e o mais relevante para esta mesa, é redução de exposição: a capacidade de comprovar controle diante de auditoria e regulador."</div>
+        <div class="tip"><b>A lógica:</b> jamais prometa retorno financeiro direto — gestão de risco não gera receita e prometer isso destrói credibilidade. Estruture como evitação de perda, eficiência e redução de exposição, que é como o board avalia controles.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Por que agora e não no próximo ciclo orçamentário?"</div>
+      <div class="qa-a">
+        <div class="say">"Por duas razões. A primeira é que a mudança de validade é progressiva, não acontece de uma vez em 2029 — a pressão aumenta a cada etapa. A segunda é que a implantação exige descobrir e inventariar o parque antes de automatizar, e isso leva tempo. Começar quando a frequência já estiver alta significa fazer a transição sob pressão operacional, que é a pior condição possível."</div>
+        <div class="tip"><b>A lógica:</b> a objeção de timing se responde com tempo de implantação, não com urgência retórica. Mostre que existe um prazo técnico entre a decisão e a proteção efetiva.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Qual a nossa responsabilidade se algo der errado?"</div>
+      <div class="qa-a">
+        <div class="say">"É a pergunta central. Em um incidente com impacto relevante, a investigação examina se a administração conhecia o risco e se adotou medidas proporcionais. Estamos formalizando esse conhecimento agora, nesta apresentação. A decisão da mesa sobre agir ou aceitar o risco fica registrada — e essa é a diferença entre risco assumido conscientemente e lacuna de controle não endereçada."</div>
+        <div class="tip"><b>A lógica:</b> esta é a alavanca mais forte, e por isso exige cuidado. Não ameace nem insinue responsabilização pessoal — apenas descreva o mecanismo de forma neutra. O board entende sozinho a implicação, e a formalização da ciência protege a você e a eles.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qa-q">"Não é mais simples comprar isso da nuvem que já usamos?"</div>
+      <div class="qa-a">
+        <div class="say">"Para os certificados que vivem inteiramente dentro de um provedor, sim, e devemos usar o que já está incluído. O problema é que nosso parque é heterogêneo: temos certificados em sistemas próprios, equipamentos, integrações com terceiros e ambientes de diferentes fornecedores. Nenhum provedor enxerga o parque inteiro. O que precisamos é da camada de governança que atravessa todos eles e nos dá inventário único e comprovação centralizada."</div>
+        <div class="tip"><b>A lógica:</b> reconheça a validade parcial da alternativa — negá-la soa como defesa de fornecedor. O argumento real é heterogeneidade do parque e necessidade de visão consolidada para fins de auditoria.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">Estrutura da apresentação</div>
+  <h2>Cinco slides, quinze minutos</h2>
+  <p class="lead">Sugestão de estrutura para a pauta. A ordem importa: o board precisa entender a exposição antes de ouvir qualquer solução, ou a conversa vira avaliação de produto em vez de decisão de risco.</p>
+  <div class="slides">
+    <div class="sl">
+      <div class="sl-n">01</div>
+      <div>
+        <h4>A exposição, em uma frase</h4>
+        <p>Abra pelo risco de negócio, não pelo tema técnico. Uma frase que qualquer conselheiro entenda sem contexto prévio.</p>
+        <div class="said">"Temos um ponto de falha que pode parar sistemas críticos sem aviso, e hoje não sabemos dizer quantos pontos desses existem na operação."</div>
+      </div>
+    </div>
+    <div class="sl">
+      <div class="sl-n">02</div>
+      <div>
+        <h4>O número</h4>
+        <p>Apresente o custo de um incidente e o salto de operações críticas por ano. Mostre a conta sendo feita — transparência no cálculo é o que sustenta o número sob questionamento.</p>
+        <div class="said">"Um incidente no sistema mais crítico custa cerca de X. E vamos passar de Y para Z renovações por ano com a mesma equipe."</div>
+      </div>
+    </div>
+    <div class="sl">
+      <div class="sl-n">03</div>
+      <div>
+        <h4>Por que o processo atual não sobrevive</h4>
+        <p>Explique a mudança de validade como fato externo e progressivo. Deixe claro que não é falha do time — é mudança de contexto.</p>
+        <div class="said">"O controle atual funciona hoje. Ele não falha por incompetência; falha por volume, quando a frequência se multiplicar."</div>
+      </div>
+    </div>
+    <div class="sl">
+      <div class="sl-n">04</div>
+      <div>
+        <h4>As opções sobre a mesa</h4>
+        <p>Apresente três caminhos, não um pedido único: manter o processo atual e aceitar o risco, ampliar a equipe, ou automatizar. Board decide melhor entre alternativas do que sobre uma proposta isolada.</p>
+        <div class="said">"São três caminhos possíveis, com custos e riscos residuais diferentes. Minha recomendação técnica é a terceira, e explico por quê."</div>
+      </div>
+    </div>
+    <div class="sl">
+      <div class="sl-n">05</div>
+      <div>
+        <h4>A decisão que você precisa</h4>
+        <p>Peça algo específico e pequeno. Autorização para um diagnóstico ou prova de conceito é muito mais aprovável que aprovação de compra — e gera os dados que sustentam a decisão seguinte.</p>
+        <div class="said">"O que peço hoje não é a compra. É autorização para levantar o parque real e voltar a esta mesa com números da nossa operação."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">Cuidados</div>
+  <h2>Quatro armadilhas que derrubam a aprovação</h2>
+  <div class="traps">
+    <div class="trap">
+      <div class="tn">ARMADILHA 01</div>
+      <h4>Usar vocabulário técnico na mesa</h4>
+      <p>Termos como TLS, PKI, autoridade certificadora ou handshake fazem o conselheiro desligar. Não é desinteresse — é ausência de contexto para decidir.</p>
+      <div class="fix"><b>Faça assim:</b> fale em sistemas que param, operações que precisam ser executadas sem falha e controle que pode ou não ser comprovado.</div>
+    </div>
+    <div class="trap">
+      <div class="tn">ARMADILHA 02</div>
+      <h4>Pedir a compra logo de saída</h4>
+      <p>Pedido de orçamento sem dados da própria operação convida o board a adiar por falta de informação — e o adiamento costuma virar arquivamento.</p>
+      <div class="fix"><b>Faça assim:</b> peça autorização para diagnosticar. Volte com números próprios e o pedido seguinte se defende sozinho.</div>
+    </div>
+    <div class="trap">
+      <div class="tn">ARMADILHA 03</div>
+      <h4>Apoiar-se em medo</h4>
+      <p>Cenário catastrófico sem probabilidade nem número é lido como alarmismo de área técnica, e corrói sua credibilidade nas próximas pautas.</p>
+      <div class="fix"><b>Faça assim:</b> apresente frequência, custo unitário e tendência. Deixe a conclusão para a mesa — ela chega sozinha.</div>
+    </div>
+    <div class="trap">
+      <div class="tn">ARMADILHA 04</div>
+      <h4>Levar o fornecedor cedo demais</h4>
+      <p>Se a primeira conversa envolve um fornecedor, a pauta vira avaliação de produto e a decisão desce de nível — deixa de ser risco corporativo.</p>
+      <div class="fix"><b>Faça assim:</b> estabeleça o risco e a decisão de agir primeiro. Fornecedor entra depois, na fase de como executar.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">Fase seguinte</div>
+  <h2>Se o board aprovar, o que avaliar</h2>
+  <p class="lead">Critérios objetivos para a etapa de seleção — úteis inclusive para comparar alternativas e demonstrar à mesa que a escolha foi criteriosa.</p>
+  <div class="crit">
+    <div class="cr"><h4><span class="n">01</span>Descoberta abrangente</h4><p>Encontra certificados em todo o parque, incluindo equipamentos e sistemas fora do controle direto da TI — e revela o que não estava inventariado.</p></div>
+    <div class="cr"><h4><span class="n">02</span>Automação real do ciclo</h4><p>Emissão, renovação e revogação sem intervenção manual, com integração às autoridades certificadoras já em uso.</p></div>
+    <div class="cr"><h4><span class="n">03</span>Comprovação para auditoria</h4><p>Registro íntegro e verificável de cada evento, apresentável a auditor e regulador sem esforço manual de compilação.</p></div>
+    <div class="cr"><h4><span class="n">04</span>Preparo para o que vem</h4><p>Capacidade de acompanhar a evolução criptográfica sem exigir novo projeto de substituição a cada mudança de padrão.</p></div>
+  </div>
+</section>
+
+<section style="padding-top:20px">
+  <div class="close">
+    <h2>Precisa de apoio para montar o caso?</h2>
+    <p>A CertLedgerPro trabalha com líderes de segurança na etapa anterior à decisão: levantamento do parque real, dimensionamento da exposição e construção do material para a mesa. Sem compromisso comercial associado — o diagnóstico tem valor por si só, e você decide o que fazer com ele.</p>
+    <a class="cta" href="mailto:contact@certledgerpro.com?subject=Apoio%20para%20caso%20executivo%20-%20gestao%20de%20certificados">Falar com a CertLedgerPro →</a>
+    <div class="sub">Conversa técnica, sem apresentação comercial na primeira reunião.</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <div class="fb">CertLedger<span style="color:var(--blue)">Pro</span></div>
+    <div class="fn">Material informativo de apoio à argumentação executiva. As estimativas geradas são ordens de grandeza baseadas nos dados informados e não substituem análise formal de risco. Considerações sobre responsabilidade da administração são apresentadas em caráter geral e não constituem orientação jurídica.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function num(id){ var e=document.getElementById(id); return e ? parseFloat(e.value) : 0; }
+  function brl(n){ return isFinite(n) ? 'R$ ' + Math.round(n).toLocaleString('pt-BR') : '—'; }
+  function fmt(n){ return isFinite(n) ? Math.round(n).toLocaleString('pt-BR') : '—'; }
+
+  function calc(){
+    var certs=num('s_certs'), hora=num('s_hora'), horas=num('s_horas');
+    if(!(certs>0)){ return; }
+
+    // 398 dias -> ~0,92 renovacoes/ano por certificado; 47 dias -> ~7,77/ano
+    var porAnoHoje = 365/398, porAno2029 = 365/47;
+    var hoje = certs*porAnoHoje, futuro = certs*porAno2029;
+
+    document.getElementById('o_hoje').textContent = fmt(hoje);
+    document.getElementById('o_2029').textContent = fmt(futuro);
+    document.getElementById('o_delta').textContent = '+' + fmt(futuro-hoje);
+
+    var custo = hora*horas;
+    document.getElementById('o_custo').textContent = (hora>0 && horas>0) ? brl(custo) : '—';
+
+    var mult=(futuro/hoje).toFixed(1).replace('.',',');
+    document.getElementById('o_note').innerHTML =
+      'Base do cálculo: ' + fmt(certs) + ' certificados, validade de até 398 dias hoje e 47 dias a partir de 2029 '
+      + '(aumento de ' + mult + ' vezes no volume de renovações). '
+      + ((hora>0 && horas>0) ? 'Custo por incidente: ' + brl(hora) + ' por hora × ' + String(horas).replace('.',',') + 'h de indisponibilidade.' : '')
+      + '<br>Números indicativos, destinados a dimensionar ordem de grandeza para discussão executiva.';
+  }
+
+  ['s_certs','s_hora','s_horas'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('input', calc);
+  });
+  calc();
+
+  document.querySelectorAll('.qa-q').forEach(function(q){
+    q.addEventListener('click', function(){ q.parentElement.classList.toggle('open'); });
+  });
+})();
+</script>
+
+</body>
+</html>

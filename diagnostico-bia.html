@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CertLedgerPro — Diagnóstico de Impacto Operacional (BIA reduzido)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080D1A;--bg-elev:#0D1424;--bg-card:#0F1728;
+    --border:#1C2842;--border-soft:#141E33;
+    --text:#F4F6FB;--text-mut:#8B97AE;--text-dim:#5D6980;
+    --amber:#F5A623;--blue:#3B82F6;--purple:#8B5CF6;
+    --green:#34D399;--red:#F87171;--cyan:#22D3EE;
+    --display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+
+  .topbar{background:#fff;position:sticky;top:0;z-index:100}
+  .topbar-inner{max-width:940px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:15px 32px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--amber),var(--blue) 55%,var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;color:#fff;font-size:14px}
+  .brand-name{font-family:var(--display);font-weight:700;color:#0B1220;font-size:18px;letter-spacing:-.02em}
+  .brand-name span{color:var(--blue)}
+  .topbar-tag{font-family:var(--mono);font-size:11px;color:#6B7688;letter-spacing:.03em}
+  .gradient-divider{height:3px;background:linear-gradient(90deg,var(--amber),var(--blue) 50%,var(--purple))}
+
+  .wrap{max-width:940px;margin:0 auto;padding:0 32px}
+  section{padding:44px 0}
+
+  .hero{padding:64px 0 34px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);display:inline-flex;align-items:center;gap:10px;margin-bottom:20px}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--amber)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.6vw,44px);line-height:1.08;letter-spacing:-.03em;max-width:800px;margin-bottom:18px}
+  .hero-lead{font-size:17px;color:var(--text-mut);max-width:660px}
+  .howto{background:var(--bg-elev);border:1px solid var(--border-soft);border-radius:12px;padding:18px 22px;margin-top:26px;font-size:14px;color:var(--text-mut)}
+  .howto b{color:var(--text)}
+
+  .sec-label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+  h2{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em;margin-bottom:12px}
+  .lead{color:var(--text-mut);max-width:700px;margin-bottom:24px}
+  .divider-thin{height:1px;background:var(--border-soft)}
+
+  /* blocos de formulário */
+  .block{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:16px;padding:28px 30px;margin-bottom:18px}
+  .block-h{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border-soft)}
+  .block-n{width:34px;height:34px;border-radius:9px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber);flex-shrink:0}
+  .block-h h3{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.01em}
+  .block-h .bsub{font-size:13px;color:var(--text-dim);margin-top:2px}
+
+  .q{padding:16px 0;border-bottom:1px solid var(--border-soft)}
+  .q:last-child{border-bottom:none;padding-bottom:0}
+  .q-label{font-size:14.5px;color:var(--text);margin-bottom:12px;display:block}
+  .q-hint{font-size:12.5px;color:var(--text-dim);margin-top:-6px;margin-bottom:10px}
+  .opts{display:flex;flex-wrap:wrap;gap:9px}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0;width:0;height:0}
+  .opt label{display:inline-block;font-family:var(--body);font-size:13.5px;color:var(--text-mut);background:var(--bg-elev);border:1px solid var(--border-soft);border-radius:8px;padding:9px 15px;cursor:pointer;transition:all .15s;user-select:none}
+  .opt label:hover{border-color:var(--border)}
+  .opt input:checked + label{background:rgba(59,130,246,.12);border-color:var(--blue);color:var(--text)}
+  .inp{width:100%;max-width:340px;background:var(--bg-elev);border:1px solid var(--border-soft);border-radius:8px;color:var(--text);font-family:var(--body);font-size:14.5px;padding:10px 13px;outline:none;transition:border-color .15s}
+  .inp:focus{border-color:var(--blue)}
+  .inp::placeholder{color:var(--text-dim)}
+  .inp-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .inp-row .inp{max-width:100%}
+  .flabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:7px}
+
+  /* resultado */
+  .result{background:linear-gradient(135deg,rgba(245,166,35,.07),rgba(59,130,246,.05),rgba(139,92,246,.06));border:1px solid var(--border);border-radius:18px;padding:38px;margin-top:8px}
+  .res-top{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;margin-bottom:28px}
+  .gauge{width:150px;height:150px;flex-shrink:0;position:relative}
+  .gauge svg{transform:rotate(-90deg)}
+  .gauge-txt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .gauge-n{font-family:var(--display);font-size:38px;font-weight:700;line-height:1;letter-spacing:-.02em}
+  .gauge-l{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-top:5px}
+  .res-verdict h3{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+  .res-verdict p{color:var(--text-mut);font-size:15px}
+
+  .res-cost{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:14px;padding:26px;margin-bottom:20px}
+  .res-cost .rk{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+  .cost-big{font-family:var(--display);font-size:clamp(28px,5vw,40px);font-weight:700;color:var(--amber);letter-spacing:-.02em;line-height:1.1}
+  .cost-sub{color:var(--text-mut);font-size:14px;margin-top:10px}
+  .cost-formula{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-top:16px;padding-top:14px;border-top:1px solid var(--border-soft);line-height:1.8}
+
+  .findings{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:14px;padding:26px}
+  .findings .rk{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px}
+  .findings ul{list-style:none}
+  .findings li{padding:10px 0;border-bottom:1px solid var(--border-soft);color:var(--text-mut);font-size:14.5px;display:flex;gap:12px}
+  .findings li:last-child{border-bottom:none}
+  .findings li::before{content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:9px}
+  .findings li b{color:var(--text)}
+
+  /* ações */
+  .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .btn{font-family:var(--mono);font-size:13.5px;font-weight:600;letter-spacing:.02em;border:none;border-radius:10px;padding:14px 24px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;text-decoration:none;transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{color:#0B1220;background:linear-gradient(135deg,var(--amber),#f7b955);box-shadow:0 8px 24px rgba(245,166,35,.28)}
+  .btn-ghost{color:var(--text);background:var(--bg-elev);border:1px solid var(--border)}
+  .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+  .act-note{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-top:16px;line-height:1.8}
+
+  .hidden{display:none!important}
+
+  footer{border-top:1px solid var(--border-soft);padding:32px 0 48px}
+  .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .foot .fb{font-family:var(--display);font-weight:600;font-size:15px}
+  .foot .fn{font-family:var(--mono);font-size:12px;color:var(--text-dim);max-width:560px;text-align:right;line-height:1.7}
+
+  @media(max-width:820px){
+    .wrap,.topbar-inner{padding-left:20px;padding-right:20px}
+    .inp-row{grid-template-columns:1fr}
+    .res-top{grid-template-columns:1fr;gap:22px;text-align:center}
+    .gauge{margin:0 auto}
+    .block,.result{padding:24px 20px}
+    section{padding:32px 0}
+    .foot .fn{text-align:left}
+  }
+
+  @media print{
+    @page{margin:14mm 12mm}
+    body{background:#fff;color:#0B1220;font-size:11pt}
+    .topbar{position:static;border-bottom:2px solid #0B1220}
+    .actions,.howto,.no-print{display:none!important}
+    .block,.result,.res-cost,.findings{background:#fff;border-color:#D8DEEA;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid}
+    h1,h2,h3,.res-verdict h3{color:#0B1220}
+    .hero-lead,.lead,.res-verdict p,.cost-sub,.findings li{color:#2A3446}
+    .opt label{border-color:#D8DEEA;color:#5D6980}
+    .opt input:checked + label{background:#EAF1FE;border-color:#3B82F6;color:#0B1220}
+    .inp{border-color:#D8DEEA;color:#0B1220}
+    .cost-big,.gauge-n{color:#C67C10}
+    .gradient-divider{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">CL</div>
+      <div class="brand-name">CertLedger<span>Pro</span></div>
+    </div>
+    <div class="topbar-tag">DIAGNÓSTICO DE IMPACTO OPERACIONAL</div>
+  </div>
+</header>
+<div class="gradient-divider"></div>
+
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">BIA reduzido · autoaplicável</div>
+  <h1>Qual seria o impacto se um certificado digital vencesse hoje na sua operação?</h1>
+  <p class="hero-lead">Este é um diagnóstico rápido de impacto no negócio (BIA reduzido) focado em um ponto de falha específico e frequentemente ignorado: a expiração de certificados digitais. Em poucos minutos você terá uma leitura da sua exposição e uma estimativa de ordem de grandeza do custo de uma parada.</p>
+  <div class="howto"><b>Como usar:</b> responda com a melhor estimativa disponível — não é preciso levantar dados exatos. O objetivo é dimensionar a ordem de grandeza do risco, não produzir um número contábil. Nada é enviado automaticamente: ao final, você decide se quer gerar um PDF ou compartilhar o resultado.</div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-label">Parte 1 de 4</div>
+  <h2>Perfil da operação</h2>
+  <p class="lead">Contexto básico para calibrar o diagnóstico.</p>
+
+  <div class="block">
+    <div class="block-h"><div class="block-n">01</div><div><h3>Identificação</h3><div class="bsub">Usado apenas no relatório gerado</div></div></div>
+    <div class="q">
+      <div class="inp-row">
+        <div><span class="flabel">Empresa</span><input class="inp" id="f_empresa" type="text" placeholder="Nome da empresa"></div>
+        <div><span class="flabel">Setor de atuação</span><input class="inp" id="f_setor" type="text" placeholder="Ex.: logística, banco, saúde"></div>
+      </div>
+    </div>
+    <div class="q">
+      <div class="inp-row">
+        <div><span class="flabel">Responsável pelo preenchimento</span><input class="inp" id="f_nome" type="text" placeholder="Nome"></div>
+        <div><span class="flabel">E-mail de contato</span><input class="inp" id="f_email" type="email" placeholder="email@empresa.com"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="sec-label">Parte 2 de 4</div>
+  <h2>Visibilidade do parque</h2>
+  <p class="lead">O primeiro fator de risco não é o volume de certificados — é quanto você enxerga deles.</p>
+
+  <div class="block">
+    <div class="block-h"><div class="block-n">02</div><div><h3>O que você consegue enxergar hoje</h3><div class="bsub">Quatro perguntas</div></div></div>
+
+    <div class="q">
+      <span class="q-label">Sua organização tem um inventário atualizado de todos os certificados digitais em uso?</span>
+      <div class="opts" data-q="q1">
+        <div class="opt"><input type="radio" name="q1" id="q1a" value="0"><label for="q1a">Sim, centralizado e atualizado</label></div>
+        <div class="opt"><input type="radio" name="q1" id="q1b" value="2"><label for="q1b">Parcial — planilhas por área</label></div>
+        <div class="opt"><input type="radio" name="q1" id="q1c" value="4"><label for="q1c">Não temos inventário</label></div>
+        <div class="opt"><input type="radio" name="q1" id="q1d" value="3"><label for="q1d">Não sei dizer</label></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Aproximadamente quantos certificados sua operação utiliza?</span>
+      <div class="q-hint">Considere sistemas, APIs, equipamentos, dispositivos e integrações. Se não souber, estime.</div>
+      <div class="opts" data-q="q2">
+        <div class="opt"><input type="radio" name="q2" id="q2a" value="1"><label for="q2a">Até 50</label></div>
+        <div class="opt"><input type="radio" name="q2" id="q2b" value="2"><label for="q2b">50 a 200</label></div>
+        <div class="opt"><input type="radio" name="q2" id="q2c" value="3"><label for="q2c">200 a 1.000</label></div>
+        <div class="opt"><input type="radio" name="q2" id="q2d" value="4"><label for="q2d">Mais de 1.000</label></div>
+        <div class="opt"><input type="radio" name="q2" id="q2e" value="4"><label for="q2e">Não temos essa contagem</label></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Existem certificados em equipamentos ou dispositivos fora do controle direto da TI?</span>
+      <div class="q-hint">Balanças, sensores, dispositivos médicos, sistemas industriais, equipamentos de campo, IoT.</div>
+      <div class="opts" data-q="q3">
+        <div class="opt"><input type="radio" name="q3" id="q3a" value="0"><label for="q3a">Não, tudo sob a TI</label></div>
+        <div class="opt"><input type="radio" name="q3" id="q3b" value="3"><label for="q3b">Sim, alguns</label></div>
+        <div class="opt"><input type="radio" name="q3" id="q3c" value="4"><label for="q3c">Sim, muitos</label></div>
+        <div class="opt"><input type="radio" name="q3" id="q3d" value="4"><label for="q3d">Provavelmente, mas não mapeamos</label></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Nos últimos 24 meses, houve alguma indisponibilidade causada por certificado vencido?</span>
+      <div class="opts" data-q="q4">
+        <div class="opt"><input type="radio" name="q4" id="q4a" value="0"><label for="q4a">Nunca aconteceu</label></div>
+        <div class="opt"><input type="radio" name="q4" id="q4b" value="3"><label for="q4b">Uma vez</label></div>
+        <div class="opt"><input type="radio" name="q4" id="q4c" value="4"><label for="q4c">Mais de uma vez</label></div>
+        <div class="opt"><input type="radio" name="q4" id="q4d" value="2"><label for="q4d">Não saberia identificar a causa</label></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="sec-label">Parte 3 de 4</div>
+  <h2>Processo de renovação</h2>
+  <p class="lead">Como a renovação acontece hoje determina se ela sobrevive ao encurtamento da validade.</p>
+
+  <div class="block">
+    <div class="block-h"><div class="block-n">03</div><div><h3>Como vocês renovam hoje</h3><div class="bsub">Três perguntas</div></div></div>
+
+    <div class="q">
+      <span class="q-label">Como a renovação de certificados é executada?</span>
+      <div class="opts" data-q="q5">
+        <div class="opt"><input type="radio" name="q5" id="q5a" value="0"><label for="q5a">Totalmente automatizada</label></div>
+        <div class="opt"><input type="radio" name="q5" id="q5b" value="2"><label for="q5b">Parcialmente automatizada</label></div>
+        <div class="opt"><input type="radio" name="q5" id="q5c" value="4"><label for="q5c">Manual, por lembrete ou planilha</label></div>
+        <div class="opt"><input type="radio" name="q5" id="q5d" value="4"><label for="q5d">Reativa — renovamos quando falha</label></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Existe alerta antecipado de expiração chegando à equipe responsável?</span>
+      <div class="opts" data-q="q6">
+        <div class="opt"><input type="radio" name="q6" id="q6a" value="0"><label for="q6a">Sim, automático e confiável</label></div>
+        <div class="opt"><input type="radio" name="q6" id="q6b" value="2"><label for="q6b">Sim, mas depende de alguém checar</label></div>
+        <div class="opt"><input type="radio" name="q6" id="q6c" value="4"><label for="q6c">Não temos alerta</label></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Vocês conseguem comprovar, para auditoria, o histórico de renovações?</span>
+      <div class="opts" data-q="q7">
+        <div class="opt"><input type="radio" name="q7" id="q7a" value="0"><label for="q7a">Sim, com registro formal</label></div>
+        <div class="opt"><input type="radio" name="q7" id="q7b" value="2"><label for="q7b">Parcialmente, com esforço manual</label></div>
+        <div class="opt"><input type="radio" name="q7" id="q7c" value="4"><label for="q7c">Não conseguimos comprovar</label></div>
+        <div class="opt"><input type="radio" name="q7" id="q7d" value="1"><label for="q7d">Não é exigido de nós</label></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="sec-label">Parte 4 de 4</div>
+  <h2>Impacto de uma parada</h2>
+  <p class="lead">Estes números alimentam a estimativa de custo. Use a melhor aproximação disponível.</p>
+
+  <div class="block">
+    <div class="block-h"><div class="block-n">04</div><div><h3>Dimensionamento do impacto</h3><div class="bsub">Três estimativas</div></div></div>
+
+    <div class="q">
+      <span class="q-label">Qual o custo aproximado de <b>uma hora</b> de indisponibilidade do seu sistema mais crítico?</span>
+      <div class="q-hint">Considere receita perdida, ociosidade, multas e retrabalho. Uma estimativa grosseira já é suficiente.</div>
+      <span class="flabel">Custo por hora parada (R$)</span>
+      <input class="inp" id="f_custohora" type="number" min="0" step="1000" placeholder="Ex.: 50000">
+    </div>
+
+    <div class="q">
+      <span class="q-label">Quanto tempo sua equipe leva, em média, para identificar e resolver uma falha desse tipo?</span>
+      <div class="q-hint">Do início da indisponibilidade até o serviço restabelecido.</div>
+      <div class="opts" data-q="q8">
+        <div class="opt"><input type="radio" name="q8" id="q8a" value="1" data-h="1"><label for="q8a">Menos de 1 hora</label></div>
+        <div class="opt"><input type="radio" name="q8" id="q8b" value="2" data-h="3"><label for="q8b">1 a 4 horas</label></div>
+        <div class="opt"><input type="radio" name="q8" id="q8c" value="3" data-h="8"><label for="q8c">4 a 12 horas</label></div>
+        <div class="opt"><input type="radio" name="q8" id="q8d" value="4" data-h="20"><label for="q8d">Mais de 12 horas</label></div>
+      </div>
+    </div>
+
+    <div class="q">
+      <span class="q-label">Além da indisponibilidade, quais impactos se aplicam ao seu negócio?</span>
+      <div class="q-hint">Marque todos os que se aplicam.</div>
+      <div class="opts" data-q="q9">
+        <div class="opt"><input type="checkbox" name="q9" id="q9a" value="1"><label for="q9a">Multa contratual ou SLA</label></div>
+        <div class="opt"><input type="checkbox" name="q9" id="q9b" value="1"><label for="q9b">Exposição regulatória</label></div>
+        <div class="opt"><input type="checkbox" name="q9" id="q9c" value="1"><label for="q9c">Dano reputacional</label></div>
+        <div class="opt"><input type="checkbox" name="q9" id="q9d" value="1"><label for="q9d">Perda ou dano de carga/produto</label></div>
+        <div class="opt"><input type="checkbox" name="q9" id="q9e" value="1"><label for="q9e">Impacto em segurança ou atendimento</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="btn btn-primary" id="calc" type="button">
+      <svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>
+      Ver meu diagnóstico
+    </button>
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section id="resultado" class="hidden" style="padding-top:10px">
+  <div class="divider-thin" style="margin-bottom:40px"></div>
+  <div class="sec-label">Resultado</div>
+  <h2>Seu diagnóstico de exposição</h2>
+
+  <div class="result">
+    <div class="res-top">
+      <div class="gauge">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="64" fill="none" stroke="#141E33" stroke-width="13"/>
+          <circle id="gaugeArc" cx="75" cy="75" r="64" fill="none" stroke="#F5A623" stroke-width="13" stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402"/>
+        </svg>
+        <div class="gauge-txt">
+          <div class="gauge-n" id="scoreNum">—</div>
+          <div class="gauge-l">de 100</div>
+        </div>
+      </div>
+      <div class="res-verdict">
+        <h3 id="verdictTitle">—</h3>
+        <p id="verdictText">—</p>
+      </div>
+    </div>
+
+    <div class="res-cost">
+      <div class="rk">Estimativa de custo por incidente</div>
+      <div class="cost-big" id="costValue">—</div>
+      <div class="cost-sub" id="costSub">—</div>
+      <div class="cost-formula" id="costFormula">—</div>
+    </div>
+
+    <div class="findings">
+      <div class="rk">Pontos de atenção identificados</div>
+      <ul id="findingsList"></ul>
+    </div>
+
+    <div class="actions no-print">
+      <button class="btn btn-primary" id="genPdf" type="button">
+        <svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Gerar PDF do diagnóstico
+      </button>
+      <a class="btn btn-ghost" id="sendMail" href="#">
+        <svg viewBox="0 0 24 24" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
+        Enviar resultado para discussão
+      </a>
+    </div>
+    <div class="act-note no-print">O envio abre seu próprio cliente de e-mail com o resumo preenchido — você revisa antes de enviar. Nenhum dado sai deste navegador automaticamente.</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <div class="fb">CertLedger<span style="color:var(--blue)">Pro</span></div>
+    <div class="fn">Diagnóstico indicativo de impacto operacional. As estimativas são ordens de grandeza baseadas nos dados informados e não substituem um BIA formal nem constituem avaliação contratual.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var MAX_SCORE = 32; // q1..q8 pesos máximos: 4+4+4+4+4+4+4+4
+
+  function radioVal(name){
+    var el=document.querySelector('input[name="'+name+'"]:checked');
+    return el ? parseInt(el.value,10) : null;
+  }
+  function radioHours(name){
+    var el=document.querySelector('input[name="'+name+'"]:checked');
+    return el ? parseFloat(el.getAttribute('data-h')||'0') : 0;
+  }
+  function checkedList(name){
+    return [].slice.call(document.querySelectorAll('input[name="'+name+'"]:checked'))
+      .map(function(el){ return el.nextElementSibling.textContent.trim(); });
+  }
+  function txt(id){ var e=document.getElementById(id); return e? e.value.trim() : ''; }
+  function brl(n){
+    if(!isFinite(n)) return '—';
+    return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+  }
+
+  document.getElementById('calc').addEventListener('click', function(){
+    // --- score de exposição ---
+    var qs=['q1','q2','q3','q4','q5','q6','q7','q8'];
+    var soma=0, respondidas=0;
+    qs.forEach(function(q){
+      var v=radioVal(q);
+      if(v!==null){ soma+=v; respondidas++; }
+    });
+    if(respondidas < 4){
+      alert('Responda ao menos as perguntas de visibilidade e renovação para gerar o diagnóstico.');
+      return;
+    }
+    // normaliza pelo que foi respondido, projetando para 0-100
+    var maxPossivel = respondidas * 4;
+    var score = Math.round((soma / maxPossivel) * 100);
+
+    // --- gauge ---
+    var circ=402;
+    var arc=document.getElementById('gaugeArc');
+    arc.setAttribute('stroke-dashoffset', circ - (circ * score / 100));
+    var cor = score>=67 ? '#F87171' : (score>=34 ? '#F5A623' : '#34D399');
+    arc.setAttribute('stroke', cor);
+    var sn=document.getElementById('scoreNum');
+    sn.textContent=score; sn.style.color=cor;
+
+    // --- veredito ---
+    var vt=document.getElementById('verdictTitle'), vp=document.getElementById('verdictText');
+    if(score>=67){
+      vt.textContent='Exposição alta';
+      vt.style.color='#F87171';
+      vp.textContent='A combinação de baixa visibilidade e processo manual indica que uma expiração não detectada é uma questão de tempo, não de probabilidade. Com o encurtamento da validade dos certificados, a frequência de renovações aumenta e a margem para erro humano desaparece.';
+    } else if(score>=34){
+      vt.textContent='Exposição moderada';
+      vt.style.color='#F5A623';
+      vp.textContent='Existem controles, mas com lacunas relevantes — tipicamente pontos cegos em equipamentos fora da TI ou dependência de acompanhamento humano. Esse arranjo tende a funcionar hoje e a falhar quando o volume de renovações aumentar.';
+    } else {
+      vt.textContent='Exposição controlada';
+      vt.style.color='#34D399';
+      vp.textContent='Os controles atuais cobrem bem o cenário de hoje. O ponto de atenção passa a ser a escala: verifique se o processo se sustenta quando o número de renovações anuais se multiplicar com a redução da validade.';
+    }
+
+    // --- custo estimado ---
+    var custoHora=parseFloat(txt('f_custohora'))||0;
+    var horas=radioHours('q8')||0;
+    var extras=checkedList('q9');
+    var cv=document.getElementById('costValue');
+    var cs=document.getElementById('costSub');
+    var cf=document.getElementById('costFormula');
+
+    if(custoHora>0 && horas>0){
+      var base=custoHora*horas;
+      var mult=1 + (extras.length*0.15); // agravantes elevam a ordem de grandeza
+      var total=base*mult;
+      var faixaMin=total*0.7, faixaMax=total*1.4;
+      cv.textContent = brl(faixaMin) + '  a  ' + brl(faixaMax);
+      cs.textContent = 'Ordem de grandeza do prejuízo estimado por incidente de indisponibilidade causado por certificado expirado.';
+      cf.innerHTML = 'Base do cálculo: ' + brl(custoHora) + ' por hora × ' + horas + 'h de indisponibilidade média'
+        + (extras.length ? ' · agravantes informados: ' + extras.length + ' (' + extras.join(', ') + ')' : ' · sem agravantes informados')
+        + '<br>Faixa apresentada como intervalo por se tratar de estimativa indicativa, não de cálculo contábil.';
+    } else {
+      cv.textContent='Dados insuficientes';
+      cs.textContent='Informe o custo por hora de indisponibilidade e o tempo médio de resolução para estimar o impacto financeiro.';
+      cf.textContent='';
+    }
+
+    // --- achados ---
+    var f=[];
+    if(radioVal('q1')>=3) f.push('<b>Sem inventário confiável.</b> Não é possível proteger o que não se enxerga — a descoberta é o primeiro passo de qualquer plano.');
+    if(radioVal('q2')>=3) f.push('<b>Volume elevado de certificados.</b> Nessa escala, o controle manual deixa de ser viável quando a validade encurta.');
+    if(radioVal('q3')>=3) f.push('<b>Certificados fora do controle da TI.</b> Equipamentos e dispositivos operacionais são a origem mais comum de paradas inesperadas.');
+    if(radioVal('q4')>=3) f.push('<b>Histórico de incidentes.</b> Já houve indisponibilidade por esta causa — o risco é comprovado, não hipotético.');
+    if(radioVal('q5')>=3) f.push('<b>Renovação manual ou reativa.</b> O processo depende de memória humana e não escala com o aumento da frequência.');
+    if(radioVal('q6')>=3) f.push('<b>Ausência de alerta antecipado.</b> Sem aviso prévio, a descoberta da falha acontece junto com a parada.');
+    if(radioVal('q7')>=3) f.push('<b>Dificuldade de comprovação para auditoria.</b> A ausência de trilha formal transfere risco para a área responsável.');
+    if(!f.length) f.push('Nenhum ponto crítico identificado nas respostas fornecidas. Vale revalidar o cenário considerando o aumento futuro na frequência de renovações.');
+    document.getElementById('findingsList').innerHTML = f.map(function(i){ return '<li>'+i+'</li>'; }).join('');
+
+    // --- e-mail ---
+    var emp=txt('f_empresa')||'(empresa não informada)';
+    var corpo = 'Resultado do diagnóstico de impacto operacional (BIA reduzido) - CertLedgerPro'
+      + '\n\nEmpresa: ' + emp
+      + '\nSetor: ' + (txt('f_setor')||'-')
+      + '\nResponsavel: ' + (txt('f_nome')||'-')
+      + '\nE-mail: ' + (txt('f_email')||'-')
+      + '\n\nScore de exposicao: ' + score + '/100 (' + vt.textContent + ')'
+      + '\nEstimativa de custo por incidente: ' + cv.textContent
+      + '\n\nGostaria de discutir este resultado com a equipe da CertLedgerPro.';
+    document.getElementById('sendMail').setAttribute('href',
+      'mailto:contact@certledgerpro.com?subject=' + encodeURIComponent('Diagnostico BIA - ' + emp)
+      + '&body=' + encodeURIComponent(corpo));
+
+    // --- exibe e rola ---
+    var res=document.getElementById('resultado');
+    res.classList.remove('hidden');
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  document.getElementById('genPdf').addEventListener('click', function(){
+    var emp=txt('f_empresa');
+    if(emp) document.title='Diagnostico BIA - ' + emp + ' - CertLedgerPro';
+    window.print();
+  });
+})();
+</script>
+
+</body>
+</html>

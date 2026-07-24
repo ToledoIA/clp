@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CertLedgerPro — Playbook de Prospecção para Parceiros de Canal</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Playbook de prospecção CertLedgerPro para parceiros de canal: cadência de toques, textos prontos, roteiro de ligação e tratamento de objeções.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080D1A;--bg-elev:#0D1424;--bg-card:#0F1728;
+    --border:#1C2842;--border-soft:#141E33;
+    --text:#F4F6FB;--text-mut:#8B97AE;--text-dim:#5D6980;
+    --amber:#F5A623;--blue:#3B82F6;--purple:#8B5CF6;
+    --green:#34D399;--red:#F87171;--cyan:#22D3EE;
+    --display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  .topbar{background:#fff;position:sticky;top:0;z-index:200}
+  .topbar-inner{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--amber),var(--blue) 55%,var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;color:#fff;font-size:14px}
+  .brand-name{font-family:var(--display);font-weight:700;color:#0B1220;font-size:18px;letter-spacing:-.02em}
+  .brand-name span{color:var(--blue)}
+  .topbar-tag{font-family:var(--mono);font-size:11px;font-weight:600;color:#0B1220;border:1.5px solid #0B1220;padding:5px 12px;border-radius:6px;letter-spacing:.06em;white-space:nowrap}
+  .gradient-divider{height:3px;background:linear-gradient(90deg,var(--amber),var(--blue) 50%,var(--purple))}
+
+  .doc-meta{border-bottom:1px solid var(--border-soft)}
+  .doc-meta .wrap{display:flex;flex-wrap:wrap;gap:24px;padding-top:13px;padding-bottom:13px;font-family:var(--mono);font-size:11.5px;color:var(--text-dim)}
+  .doc-meta b{color:var(--text-mut);font-weight:500}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+  section{padding:44px 0}
+
+  .hero{padding:52px 0 30px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--amber)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.03em;max-width:800px;margin-bottom:16px}
+  .hero-lead{font-size:16.5px;color:var(--text-mut);max-width:720px}
+
+  .sec-num{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.1em}
+  h2{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em;margin:6px 0 10px}
+  .sec-intro{color:var(--text-mut);max-width:740px;margin-bottom:24px}
+  .divider-thin{height:1px;background:var(--border-soft)}
+
+  /* aviso de registro de oportunidade */
+  .reg-alert{background:linear-gradient(135deg,rgba(245,166,35,.10),rgba(59,130,246,.08));border:1px solid rgba(245,166,35,.35);border-radius:14px;padding:24px 28px;margin-top:26px}
+  .reg-alert .ra-k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+  .reg-alert h3{font-family:var(--display);font-size:18px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+  .reg-alert p{color:var(--text-mut);font-size:14.5px;margin-bottom:10px}
+  .reg-alert p:last-child{margin-bottom:0}
+  .reg-alert b{color:var(--text)}
+
+  /* personalização */
+  .person{background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:6px;position:sticky;top:62px;z-index:150}
+  .person .pk{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+  .pfields{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .pf label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px}
+  .pf input{width:100%;background:var(--bg-card);border:1px solid var(--border-soft);border-radius:7px;color:var(--text);font-family:var(--body);font-size:14px;padding:8px 11px;outline:none}
+  .pf input:focus{border-color:var(--blue)}
+  .pf input::placeholder{color:var(--text-dim)}
+
+  /* princípios */
+  .rules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+  .rule{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:12px;padding:20px}
+  .rule .rn{font-family:var(--mono);font-size:11px;color:var(--amber);margin-bottom:9px}
+  .rule h4{font-family:var(--display);font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3}
+  .rule p{color:var(--text-mut);font-size:13.5px}
+
+  /* cadência timeline */
+  .cad{display:grid;gap:14px;margin-top:26px}
+  .step{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:14px;overflow:hidden}
+  .step-h{display:flex;align-items:center;gap:14px;padding:16px 24px;background:var(--bg-elev);border-bottom:1px solid var(--border-soft);flex-wrap:wrap}
+  .step-day{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--amber);min-width:42px}
+  .step-ch{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:5px}
+  .ch-mail{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.28)}
+  .ch-wa{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.28)}
+  .ch-call{background:rgba(245,166,35,.12);color:var(--amber);border:1px solid rgba(245,166,35,.3)}
+  .ch-in{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.3)}
+  .step-t{font-family:var(--display);font-size:16px;font-weight:600;flex:1;min-width:200px;letter-spacing:-.01em}
+  .step-obj{font-size:12.5px;color:var(--text-dim);font-family:var(--mono)}
+  .step-b{padding:20px 24px}
+  .step-note{font-size:13.5px;color:var(--text-mut);margin-bottom:14px}
+  .step-note b{color:var(--text)}
+
+  /* template copiável */
+  .tpl{background:var(--bg-elev);border:1px solid var(--border-soft);border-radius:10px;padding:16px 18px;position:relative;margin-top:10px}
+  .tpl-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px}
+  .tpl-l{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim)}
+  .copy{font-family:var(--mono);font-size:11px;font-weight:600;color:#0B1220;background:var(--amber);border:none;border-radius:6px;padding:5px 11px;cursor:pointer;transition:opacity .15s;flex-shrink:0}
+  .copy:hover{opacity:.85}
+  .copy.done{background:var(--green)}
+  .tpl-body{font-size:14px;color:var(--text);white-space:pre-wrap;line-height:1.7}
+  .tpl-body .v{color:var(--cyan);font-weight:500}
+
+  /* roteiro de call */
+  .call-flow{display:grid;gap:12px;margin-top:22px}
+  .cf{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:12px;padding:20px 24px;border-left:2px solid var(--amber)}
+  .cf-l{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:9px}
+  .cf-say{font-size:15px;color:var(--text);line-height:1.7}
+  .cf-say .v{color:var(--cyan);font-weight:500}
+  .cf-note{font-size:13px;color:var(--text-dim);margin-top:11px;padding-top:11px;border-top:1px solid var(--border-soft);font-style:italic}
+  .branch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .br{background:var(--bg-elev);border-radius:9px;padding:14px 16px;font-size:13.5px;color:var(--text-mut)}
+  .br .brt{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px}
+  .br.yes .brt{color:var(--green)}
+  .br.no .brt{color:var(--red)}
+  .br b{color:var(--text)}
+
+  /* objeções */
+  .obj{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:12px;margin-bottom:11px;overflow:hidden}
+  .obj-q{padding:16px 22px;font-family:var(--display);font-size:15.5px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;user-select:none;transition:background .15s}
+  .obj-q:hover{background:var(--bg-elev)}
+  .obj-q::after{content:"+";font-family:var(--mono);color:var(--amber);font-size:18px;flex-shrink:0}
+  .obj.open .obj-q::after{content:"−"}
+  .obj-a{display:none;padding:0 22px 20px;border-top:1px solid var(--border-soft);padding-top:16px}
+  .obj.open .obj-a{display:block}
+  .obj-a .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px}
+  .obj-a .resp{font-size:14.5px;color:var(--text);line-height:1.7;margin-bottom:14px}
+  .obj-a .why{font-size:13.5px;color:var(--text-mut);background:var(--bg-elev);border-left:2px solid var(--blue);border-radius:0 8px 8px 0;padding:11px 15px}
+  .obj-a .why b{color:var(--text)}
+
+  /* qualificação */
+  .qual{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+  .qbox{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:14px;padding:24px 26px}
+  .qbox h4{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .qbox h4 .ic{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:600}
+  .qbox.go h4 .ic{background:rgba(52,211,153,.14);color:var(--green)}
+  .qbox.stop h4 .ic{background:rgba(248,113,113,.14);color:var(--red)}
+  .qbox ul{list-style:none}
+  .qbox li{padding:9px 0;border-bottom:1px solid var(--border-soft);color:var(--text-mut);font-size:14px;display:flex;gap:11px}
+  .qbox li:last-child{border-bottom:none}
+  .qbox li::before{content:"";flex-shrink:0;width:5px;height:5px;border-radius:50%;margin-top:8px}
+  .qbox.go li::before{background:var(--green)}
+  .qbox.stop li::before{background:var(--red)}
+
+  /* handoff */
+  .handoff{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+  .ho{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:12px;padding:22px 24px}
+  .ho .hn{font-family:var(--mono);font-size:11px;color:var(--amber);margin-bottom:9px}
+  .ho h4{font-family:var(--display);font-size:15.5px;font-weight:600;margin-bottom:8px;line-height:1.3}
+  .ho p{color:var(--text-mut);font-size:13.5px}
+  .ho b{color:var(--text)}
+
+  /* limites */
+  .limits{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:0 14px 14px 0;padding:24px 28px;margin-top:24px}
+  .limits h4{font-family:var(--display);font-size:16px;font-weight:600;margin-bottom:14px}
+  .limits ul{list-style:none}
+  .limits li{padding:8px 0;border-bottom:1px solid var(--border-soft);color:var(--text-mut);font-size:14px;display:flex;gap:11px}
+  .limits li:last-child{border-bottom:none}
+  .limits li::before{content:"—";color:var(--red);flex-shrink:0}
+  .limits b{color:var(--text)}
+
+  /* metas */
+  table{width:100%;border-collapse:collapse;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:22px}
+  th,td{text-align:left;padding:13px 18px;font-size:14px;border-bottom:1px solid var(--border-soft)}
+  th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);background:var(--bg-elev)}
+  td{color:var(--text-mut)}
+  td:first-child{font-family:var(--display);color:var(--text);font-weight:600}
+  td.num{font-family:var(--mono);color:var(--amber);font-weight:600}
+  tr:last-child td{border-bottom:none}
+
+  /* contato */
+  .contact{background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:26px 28px;margin-top:24px}
+  .contact h4{font-family:var(--display);font-size:17px;font-weight:600;margin-bottom:10px}
+  .contact p{color:var(--text-mut);font-size:14.5px;margin-bottom:14px}
+  .contact a{color:var(--blue);text-decoration:none;font-weight:500}
+  .contact a:hover{text-decoration:underline}
+  .contact .cline{font-family:var(--mono);font-size:13px;color:var(--text-mut);padding:7px 0;border-bottom:1px solid var(--border-soft)}
+  .contact .cline:last-child{border-bottom:none}
+  .contact .cline b{color:var(--text-dim);font-weight:500;display:inline-block;min-width:150px}
+
+  footer{border-top:1px solid var(--border-soft);padding:32px 0 48px}
+  .foot{font-family:var(--mono);font-size:12px;color:var(--text-dim);line-height:1.9}
+  .foot b{color:var(--text-mut)}
+
+  @media(max-width:860px){
+    .wrap,.topbar-inner{padding-left:20px;padding-right:20px}
+    .pfields{grid-template-columns:1fr 1fr}
+    .rules{grid-template-columns:1fr 1fr}
+    .qual,.branch,.handoff{grid-template-columns:1fr}
+    .person{position:static}
+    section{padding:34px 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">CL</div>
+      <div class="brand-name">CertLedger<span>Pro</span></div>
+    </div>
+    <div class="topbar-tag">PROGRAMA DE CANAL</div>
+  </div>
+</header>
+<div class="gradient-divider"></div>
+
+<div class="doc-meta">
+  <div class="wrap">
+    <span><b>Documento</b> Playbook de prospecção — parceiros</span>
+    <span><b>Versão</b> 1.0</span>
+    <span><b>Destinatário</b> Parceiros de canal autorizados</span>
+    <span><b>Objetivo único</b> Agendar a reunião de diagnóstico</span>
+    <span><b>Cadência</b> 12 dias úteis · 9 toques</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section class="hero">
+  <div class="eyebrow">Habilitação de canal · pré-vendas</div>
+  <h1>Playbook de prospecção para parceiros CertLedgerPro</h1>
+  <p class="hero-lead">Material de apoio para a equipe comercial do parceiro. Traz a cadência de toques, os textos prontos para copiar, o roteiro de ligação com as ramificações mais comuns e as respostas para as objeções mais frequentes. A meta de cada toque é uma só: conquistar trinta minutos de conversa. A partir daí, a CertLedgerPro entra junto com você.</p>
+
+  <div class="reg-alert">
+    <div class="ra-k">Antes de começar</div>
+    <h3>Registre a oportunidade antes do primeiro contato</h3>
+    <p>O <b>registro de oportunidade</b> (deal registration) é o que garante a sua proteção comercial sobre a conta e a sua margem. Ele deve ser feito <b>antes</b> do primeiro toque, não depois da reunião marcada.</p>
+    <p>Contas já registradas por outro parceiro ou em atendimento direto pela CertLedgerPro são informadas no momento do registro. Prospectar sem registrar prévio significa correr o risco de trabalhar uma conta que já pertence a outro — e sem direito à proteção.</p>
+  </div>
+</section>
+
+<div class="person">
+  <div class="pk">Personalizar os textos abaixo</div>
+  <div class="pfields">
+    <div class="pf"><label>Nome do contato</label><input id="p_nome" type="text" placeholder="Ex.: Carlos"></div>
+    <div class="pf"><label>Empresa do prospect</label><input id="p_empresa" type="text" placeholder="Ex.: Terminal Santos"></div>
+    <div class="pf"><label>Seu nome</label><input id="p_sdr" type="text" placeholder="Ex.: Ana"></div>
+    <div class="pf"><label>Sua empresa</label><input id="p_parceiro" type="text" placeholder="Ex.: Integra TI"></div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-num">01 / PRINCÍPIOS</div>
+  <h2>Quatro regras que sustentam o playbook</h2>
+  <p class="sec-intro">Antes dos textos, o que faz eles funcionarem. Se algum toque contrariar uma destas regras, ele perde eficácia mesmo com a redação perfeita.</p>
+  <div class="rules">
+    <div class="rule">
+      <div class="rn">REGRA 01</div>
+      <h4>Venda a reunião, não o produto</h4>
+      <p>O objetivo do toque é despertar curiosidade suficiente para trinta minutos. Explicar a plataforma inteira no primeiro contato mata a razão de existir da reunião.</p>
+    </div>
+    <div class="rule">
+      <div class="rn">REGRA 02</div>
+      <h4>Abra pelo problema dele</h4>
+      <p>Ninguém responde a "somos uma plataforma de gestão de certificados". As pessoas respondem a "o que acontece quando um certificado vence na sua operação".</p>
+    </div>
+    <div class="rule">
+      <div class="rn">REGRA 03</div>
+      <h4>Uma pergunta por toque</h4>
+      <p>Cada mensagem termina com uma única pergunta fácil de responder. Duas perguntas dobram o esforço de resposta e reduzem a taxa de retorno.</p>
+    </div>
+    <div class="rule">
+      <div class="rn">REGRA 04</div>
+      <h4>Persistência sem insistência</h4>
+      <p>Nove toques em doze dias úteis, cada um trazendo algo novo. Repetir "só dando um follow-up" sem conteúdo novo é o que queima a lista.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">02 / CADÊNCIA</div>
+  <h2>Nove toques em doze dias úteis</h2>
+  <p class="sec-intro">Sequência multicanal. Preencha os campos no topo da página e os textos abaixo já saem personalizados — use o botão copiar em cada um. Se houver resposta em qualquer ponto, a cadência para e a conversa assume.</p>
+
+  <div class="cad">
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D1</span>
+        <span class="step-ch ch-mail">E-mail</span>
+        <span class="step-t">Abertura pelo problema</span>
+        <span class="step-obj">Objetivo: gerar reconhecimento</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Assunto curto e específico. <b>Não anexe material nem inclua link no primeiro e-mail</b> — reduz entregabilidade e parece disparo em massa. Assine com o nome da <b>sua</b> empresa; a CertLedgerPro aparece como a solução que você representa.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Assunto</span><button class="copy" data-tpl="t1s">Copiar</button></div>
+          <div class="tpl-body" id="t1s">Certificados vencendo na <span class="v">[EMPRESA]</span>?</div>
+        </div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Corpo</span><button class="copy" data-tpl="t1b">Copiar</button></div>
+          <div class="tpl-body" id="t1b"><span class="v">[NOME]</span>, tudo bem?
+
+Trabalho com empresas que descobriram, do pior jeito, que um certificado digital vencido derruba sistema em produção sem nenhum aviso prévio.
+
+A pergunta que costuma incomodar os times técnicos: quantos certificados existem hoje na operação de vocês e quem acompanha o vencimento de cada um?
+
+Faz sentido conversarmos 30 minutos sobre isso?
+
+<span class="v">[SEU NOME]</span>
+<span class="v">[PARCEIRO]</span> · Parceiro CertLedgerPro</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D2</span>
+        <span class="step-ch ch-in">LinkedIn</span>
+        <span class="step-t">Conexão sem pitch</span>
+        <span class="step-obj">Objetivo: virar rosto conhecido</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Convite de conexão <b>sem nota de vendas</b>. Se a plataforma permitir nota, use algo neutro. O objetivo é que seu nome não seja estranho quando o telefone tocar no D4.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Nota de conexão (opcional)</span><button class="copy" data-tpl="t2">Copiar</button></div>
+          <div class="tpl-body" id="t2"><span class="v">[NOME]</span>, acompanho o trabalho da <span class="v">[EMPRESA]</span> e trabalho com continuidade operacional na área de infraestrutura. Vamos nos conectar?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D4</span>
+        <span class="step-ch ch-call">Ligação</span>
+        <span class="step-t">Primeira tentativa de contato</span>
+        <span class="step-obj">Objetivo: agenda direta</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Roteiro completo na seção 03. <b>Se cair em caixa postal, não deixe recado nesta primeira tentativa</b> — recado cedo demais consome o efeito surpresa do D6.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D5</span>
+        <span class="step-ch ch-wa">WhatsApp</span>
+        <span class="step-t">Primeiro toque no canal direto</span>
+        <span class="step-obj">Objetivo: resposta rápida</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Mensagem <b>curta, sem áudio, sem link</b>. Identifique-se logo na primeira linha — mensagem de número desconhecido sem identificação é ignorada ou bloqueada.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Mensagem</span><button class="copy" data-tpl="t3">Copiar</button></div>
+          <div class="tpl-body" id="t3"><span class="v">[NOME]</span>, bom dia. Aqui é <span class="v">[SEU NOME]</span>, da <span class="v">[PARCEIRO]</span> — te mandei um e-mail essa semana.
+
+Pergunta rápida: hoje vocês têm um inventário de quais certificados digitais estão rodando na operação da <span class="v">[EMPRESA]</span> e quando cada um vence?
+
+É a resposta que costuma surpreender. Consigo 30 minutos com você essa semana ou na próxima?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D6</span>
+        <span class="step-ch ch-call">Ligação</span>
+        <span class="step-t">Segunda tentativa + recado</span>
+        <span class="step-obj">Objetivo: agenda ou callback</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Tente em <b>horário diferente</b> do D4 (se ligou de manhã, ligue no fim da tarde). Agora sim, deixe recado se cair na caixa.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Recado na caixa postal</span><button class="copy" data-tpl="t4">Copiar</button></div>
+          <div class="tpl-body" id="t4"><span class="v">[NOME]</span>, aqui é <span class="v">[SEU NOME]</span>, da <span class="v">[PARCEIRO]</span>. Liguei por causa de um risco específico: certificado digital vencido derrubando sistema em produção sem aviso. Te mandei um e-mail com o contexto. Se fizer sentido, me retorna neste número. Obrigado.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D8</span>
+        <span class="step-ch ch-mail">E-mail</span>
+        <span class="step-t">Prova social e material</span>
+        <span class="step-obj">Objetivo: dar valor antes de pedir</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Aqui sim entra <b>um link</b> — use apenas as peças públicas da CertLedgerPro liberadas para canal (páginas de vertical e o diagnóstico de impacto). Dá valor sem exigir reunião, e o clique é um sinal de interesse.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Assunto</span><button class="copy" data-tpl="t5s">Copiar</button></div>
+          <div class="tpl-body" id="t5s">O que muda em 2029 para quem gerencia certificados</div>
+        </div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Corpo</span><button class="copy" data-tpl="t5b">Copiar</button></div>
+          <div class="tpl-body" id="t5b"><span class="v">[NOME]</span>,
+
+Complemento o contato anterior com um dado concreto: a validade dos certificados digitais está caindo de até 398 dias para 47 dias até 2029, por decisão do fórum internacional que rege o setor.
+
+Na prática, cada certificado passa a exigir cerca de oito renovações por ano em vez de uma. Times que hoje controlam por planilha não conseguem sustentar essa frequência.
+
+Preparei um material rápido sobre o impacto disso: [LINK DA PEÇA DA VERTICAL]
+
+Se preferir ir direto ao ponto, me diz um horário que eu te mostro em 30 minutos como isso afeta a <span class="v">[EMPRESA]</span> especificamente.
+
+<span class="v">[SEU NOME]</span>
+<span class="v">[PARCEIRO]</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D9</span>
+        <span class="step-ch ch-wa">WhatsApp</span>
+        <span class="step-t">Follow-up do material</span>
+        <span class="step-obj">Objetivo: converter interesse</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Se houve clique no link do D8, <b>mencione isso naturalmente</b>. Se não houve, mande o diagnóstico de impacto como alternativa de baixo compromisso.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Mensagem</span><button class="copy" data-tpl="t6">Copiar</button></div>
+          <div class="tpl-body" id="t6"><span class="v">[NOME]</span>, te mandei um material sobre a mudança na validade dos certificados.
+
+Se preferir uma leitura rápida da exposição da <span class="v">[EMPRESA]</span> antes de qualquer conversa, temos um diagnóstico de 5 minutos que te dá um score e uma estimativa de custo de parada: [LINK DO DIAGNÓSTICO]
+
+Qualquer coisa, é só me chamar por aqui.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D11</span>
+        <span class="step-ch ch-call">Ligação</span>
+        <span class="step-t">Terceira tentativa</span>
+        <span class="step-obj">Objetivo: última chance de diálogo</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">Tentativa em <b>terceiro horário diferente</b>. Se atender, use a abertura de referência: "te mandei um material sobre a mudança de validade — chegou a ver?". A conversa começa de um ponto mais avançado.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h">
+        <span class="step-day">D12</span>
+        <span class="step-ch ch-mail">E-mail</span>
+        <span class="step-t">Encerramento honesto</span>
+        <span class="step-obj">Objetivo: resposta ou arquivamento limpo</span>
+      </div>
+      <div class="step-b">
+        <div class="step-note">O toque de maior taxa de resposta da cadência. Funciona porque <b>libera a pessoa da culpa</b> e devolve o controle a ela. Não use ironia nem tom de cobrança — encerre de verdade.</div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Assunto</span><button class="copy" data-tpl="t7s">Copiar</button></div>
+          <div class="tpl-body" id="t7s">Encerro por aqui?</div>
+        </div>
+        <div class="tpl">
+          <div class="tpl-h"><span class="tpl-l">Corpo</span><button class="copy" data-tpl="t7b">Copiar</button></div>
+          <div class="tpl-body" id="t7b"><span class="v">[NOME]</span>,
+
+Tentei contato algumas vezes e não quero virar ruído na sua caixa de entrada.
+
+Se o tema não é prioridade agora, sem problema — me responde só "não é o momento" que eu encerro o assunto e te procuro daqui a alguns meses.
+
+Se for prioridade e apenas não houve tempo, me diz um horário e eu me adapto à sua agenda.
+
+Obrigado pela atenção de qualquer forma.
+
+<span class="v">[SEU NOME]</span>
+<span class="v">[PARCEIRO]</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">03 / ROTEIRO DE LIGAÇÃO</div>
+  <h2>A ligação, passo a passo</h2>
+  <p class="sec-intro">Estrutura de cerca de noventa segundos até o pedido de agenda. O texto é referência, não script para ler — leitura literal soa como telemarketing e derruba a chamada.</p>
+
+  <div class="call-flow">
+
+    <div class="cf">
+      <div class="cf-l">01 · Abertura — peça permissão</div>
+      <div class="cf-say">"<span class="v">[NOME]</span>, bom dia. Aqui é <span class="v">[SEU NOME]</span>, da <span class="v">[PARCEIRO]</span>. Liguei sem agendar — você tem trinta segundos para eu explicar o motivo, ou prefere que eu ligue em outro momento?"</div>
+      <div class="cf-note">Pedir permissão desarma a resistência inicial e reduz o desligamento imediato. Se ele disser "pode falar", você ganhou atenção legítima, não roubada.</div>
+    </div>
+
+    <div class="cf">
+      <div class="cf-l">02 · Motivo em uma frase</div>
+      <div class="cf-say">"Trabalho com empresas que tiveram sistema em produção parado por causa de um certificado digital vencido — daqueles que ninguém sabia que existia. É um ponto de falha que quase nunca aparece no radar até acontecer."</div>
+      <div class="cf-note">Uma frase, sem falar da plataforma. O objetivo é que ele reconheça o cenário, não que entenda o produto.</div>
+    </div>
+
+    <div class="cf">
+      <div class="cf-l">03 · Pergunta de diagnóstico</div>
+      <div class="cf-say">"Como vocês controlam isso hoje na <span class="v">[EMPRESA]</span>? Existe um inventário centralizado ou cada área cuida dos seus?"</div>
+      <div class="cf-note">Pergunta aberta e sem julgamento. Qualquer resposta serve: se ele diz "cada área cuida do seu", você já tem a dor. Se diz "temos tudo centralizado", pergunte se inclui equipamentos fora da TI.</div>
+      <div class="branch">
+        <div class="br yes">
+          <div class="brt">Se admitir descontrole</div>
+          <b>Não celebre nem venda.</b> Diga: "É o cenário mais comum, e vai ficar mais difícil — a validade cai para 47 dias até 2029." E vá direto ao pedido de agenda.
+        </div>
+        <div class="br no">
+          <div class="brt">Se disser que está tudo sob controle</div>
+          <b>Não confronte.</b> Pergunte: "E cobre também equipamentos e sistemas fora do controle direto da TI?" É onde quase sempre há lacuna — sem que você precise apontá-la.
+        </div>
+      </div>
+    </div>
+
+    <div class="cf">
+      <div class="cf-l">04 · Pedido de agenda — direto</div>
+      <div class="cf-say">"Faz o seguinte: me dá trinta minutos essa semana ou na próxima. Eu te mostro o que muda com a redução de validade e como outras operações estão se preparando. Se não fizer sentido para vocês, você me diz e eu não te procuro mais. Terça de manhã ou quinta à tarde funciona melhor?"</div>
+      <div class="cf-note">Três elementos: tempo definido, promessa clara de valor e saída fácil. A pergunta final oferece duas opções em vez de perguntar "podemos agendar?" — que convida ao "não".</div>
+    </div>
+
+    <div class="cf">
+      <div class="cf-l">05 · Confirmação e fechamento</div>
+      <div class="cf-say">"Perfeito. Vou te mandar o convite agora por e-mail — confirma que <span class="v">[e-mail]</span> está correto? Vou levar junto um especialista da CertLedgerPro, que é a plataforma que representamos nessa frente. Obrigado pelo tempo, <span class="v">[NOME]</span>."</div>
+      <div class="cf-note">Envie o convite <b>durante a ligação, não depois</b>. Agenda confirmada em tempo real tem taxa de comparecimento muito maior. Avisar que haverá um especialista junto eleva a percepção de valor da reunião — e é o momento de acionar o time da CLP.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">04 / OBJEÇÕES</div>
+  <h2>As sete que mais aparecem</h2>
+  <p class="sec-intro">Clique para abrir. O padrão de resposta é sempre o mesmo: reconhecer sem concordar, reposicionar com um fato, e devolver o pedido de agenda reduzido.</p>
+
+  <div class="obj">
+    <div class="obj-q">"Não tenho interesse."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"Entendo, e nem esperava interesse numa ligação que você não pediu. Só me responde uma coisa antes de eu desligar: se um certificado vencesse hoje num sistema crítico de vocês, quanto tempo levaria para descobrir a causa? Se a resposta for 'rápido', eu encerro e não te incomodo mais."</div>
+      <div class="why"><b>Por que funciona:</b> aceita a recusa sem discutir, e troca o pedido de reunião por uma pergunta única e barata de responder. A maioria hesita — e a hesitação é a abertura.</div>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">"Já temos uma ferramenta / já resolvemos isso."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"Ótimo, isso já coloca vocês à frente da maioria. Curiosidade profissional: essa ferramenta cobre também os certificados que estão em equipamentos e sistemas fora do controle direto da TI? É onde a gente mais encontra lacuna, mesmo em quem já tem solução."</div>
+      <div class="why"><b>Por que funciona:</b> valida a decisão dele em vez de atacá-la, e move a conversa para o ponto cego típico. Não é confronto — é ampliação de escopo.</div>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">"Me manda um e-mail com o material."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"Mando sim. Só para eu não te enviar material genérico: o que é mais crítico para vocês hoje — parada de sistema ou a parte de auditoria e conformidade? Aí eu te mando só o que interessa e te ligo na quinta para saber o que achou. Pode ser?"</div>
+      <div class="why"><b>Por que funciona:</b> aceita o pedido, extrai qualificação e <b>agenda o próximo toque com permissão</b>. Sem isso, "manda um e-mail" é apenas uma recusa educada.</div>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">"Não sou eu quem cuida disso."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"Faz sentido. Quem seria a pessoa certa para essa conversa na <span class="v">[EMPRESA]</span> — alguém de infraestrutura, segurança ou operações? E você toparia me colocar em contato ou prefere que eu procure diretamente?"</div>
+      <div class="why"><b>Por que funciona:</b> transforma a objeção em referência interna. Uma indicação vinda de dentro vale muito mais que uma ligação fria para o mesmo contato.</div>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">"Estamos sem orçamento agora."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"Perfeito, e nem estou ligando para vender nada agora. A conversa de trinta minutos é para você entender o que muda até 2029 e conseguir dimensionar isso quando for montar o orçamento do próximo ciclo. Sair da reunião com o número na mão é melhor do que descobrir depois que ficou de fora, não?"</div>
+      <div class="why"><b>Por que funciona:</b> desarma a objeção financeira ao remover a compra do horizonte imediato, e reposiciona a reunião como insumo de planejamento orçamentário.</div>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">"Nunca tivemos problema com isso."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"É exatamente o que a maioria diz — até a primeira vez. E o que muda o jogo é que a validade cai para 47 dias até 2029: o mesmo certificado que vocês renovam uma vez por ano vai precisar de renovação umas oito vezes. O histórico de hoje não prevê o cenário de amanhã."</div>
+      <div class="why"><b>Por que funciona:</b> não contesta a experiência dele (o que geraria defesa) e desloca o argumento para uma mudança estrutural externa, que independe da competência do time.</div>
+    </div>
+  </div>
+
+  <div class="obj">
+    <div class="obj-q">"Estou sem tempo agora."</div>
+    <div class="obj-a">
+      <div class="lbl">Resposta</div>
+      <div class="resp">"Imaginei, por isso não vou tomar seu tempo agora. Me diz só um dia da semana que costuma ser mais tranquilo para você e eu te ligo nesse horário. Amanhã cedo ou sexta no fim do dia?"</div>
+      <div class="why"><b>Por que funciona:</b> aceita imediatamente e converte a recusa em agendamento de callback. Insistir em falar "só dois minutinhos" nesse momento queima o contato.</div>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">05 / QUALIFICAÇÃO</div>
+  <h2>Quando avançar e quando desistir</h2>
+  <p class="sec-intro">Tempo comercial é o recurso mais escasso. Estes critérios evitam que uma cadência inteira seja gasta com quem não tem aderência ao produto.</p>
+  <div class="qual">
+    <div class="qbox go">
+      <h4><span class="ic">&#10003;</span>Sinais de que vale avançar</h4>
+      <ul>
+        <li>Já teve indisponibilidade por certificado vencido nos últimos meses</li>
+        <li>Não sabe dizer quantos certificados a operação tem</li>
+        <li>Controle por planilha, lembrete de calendário ou memória de alguém</li>
+        <li>Tem equipamentos ou dispositivos conectados fora do controle da TI</li>
+        <li>Passa por auditoria, acreditação ou exigência regulatória</li>
+        <li>Setor com regulador próprio ou exposição a indisponibilidade em escala</li>
+      </ul>
+    </div>
+    <div class="qbox stop">
+      <h4><span class="ic">!</span>Sinais de que não é hora</h4>
+      <ul>
+        <li>Operação pequena, com um punhado de certificados e tudo automatizado</li>
+        <li>Contrato recém-assinado com concorrente direto</li>
+        <li>Contato sem qualquer influência e que se recusa a indicar outra pessoa</li>
+        <li>Empresa em reestruturação profunda com projetos congelados</li>
+        <li>Recusa explícita e definitiva — respeite e registre</li>
+      </ul>
+    </div>
+  </div>
+  <p class="sec-intro" style="margin-top:20px;font-size:14px;color:var(--text-dim)">Desistir não é descartar: registre o motivo e reprograme o contato para o próximo trimestre. "Não é o momento" quase nunca significa "nunca" — significa que o gatilho ainda não chegou.</p>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">06 / HANDOFF</div>
+  <h2>Agenda marcada — e agora?</h2>
+  <p class="sec-intro">A reunião de diagnóstico é conduzida em conjunto. Você abre a porta e permanece dono da relação; a CertLedgerPro entra com a profundidade técnica do produto.</p>
+
+  <div class="handoff">
+    <div class="ho">
+      <div class="hn">PASSO 01</div>
+      <h4>Avise a CLP assim que agendar</h4>
+      <p>Comunique a reunião com <b>pelo menos 48 horas</b> de antecedência, informando empresa, contato, cargo e o que foi levantado na conversa. É o que permite preparar a reunião com contexto real em vez de apresentação genérica.</p>
+    </div>
+    <div class="ho">
+      <div class="hn">PASSO 02</div>
+      <h4>Confirme o registro da oportunidade</h4>
+      <p>Se ainda não registrou a conta, faça <b>antes</b> da reunião. A proteção comercial e a margem do parceiro dependem do registro válido e vigente — reunião realizada não substitui registro.</p>
+    </div>
+    <div class="ho">
+      <div class="hn">PASSO 03</div>
+      <h4>Você conduz, a CLP apoia</h4>
+      <p>Na reunião, o parceiro abre e conduz o relacionamento. O especialista da CertLedgerPro entra na parte técnica e responde o que for específico da plataforma. <b>A conta continua sua</b> em todas as etapas seguintes.</p>
+    </div>
+  </div>
+
+  <div class="limits">
+    <h4>O que não fazer sem alinhamento prévio com a CertLedgerPro</h4>
+    <ul>
+      <li><b>Não apresente preços, descontos ou condições comerciais</b> por conta própria. Valores são definidos com a CLP caso a caso, conforme volume e escopo.</li>
+      <li><b>Não assuma compromisso de prazo de implantação, SLA ou roadmap de produto.</b> Encaminhe a pergunta ao time da CLP.</li>
+      <li><b>Não faça comparativos técnicos com concorrentes nomeados</b> em material escrito enviado ao prospect.</li>
+      <li><b>Não prospecte contas já registradas por outro parceiro</b> ou em atendimento direto pela CertLedgerPro — consulte antes de iniciar a cadência.</li>
+      <li><b>Não utilize marca, logotipo ou materiais da CertLedgerPro</b> em peças próprias sem aprovação prévia.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">07 / MÉTRICAS</div>
+  <h2>Como medir se está funcionando</h2>
+  <p class="sec-intro">Referências de trabalho para acompanhar a operação e identificar onde o funil trava. São parâmetros de calibração — ajuste conforme a realidade da sua base e do seu mercado.</p>
+  <table>
+    <thead>
+      <tr><th>Indicador</th><th>Referência de trabalho</th><th>O que fazer se estiver abaixo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Taxa de resposta (e-mail)</td><td class="num">5% a 10%</td><td>Revisar assunto e primeira linha — o problema quase sempre está na abertura</td></tr>
+      <tr><td>Taxa de conexão (ligação)</td><td class="num">15% a 25%</td><td>Variar horários de tentativa e revisar a qualidade dos telefones da base</td></tr>
+      <tr><td>Conexão que vira agenda</td><td class="num">10% a 20%</td><td>Revisar o pedido de agenda — normalmente falta oferecer duas opções de horário</td></tr>
+      <tr><td>Comparecimento na reunião</td><td class="num">acima de 70%</td><td>Enviar convite durante a ligação e confirmar no dia anterior por WhatsApp</td></tr>
+      <tr><td>Agenda que vira oportunidade</td><td class="num">30% a 50%</td><td>Reforçar a qualificação — sinal de que a cadência está trazendo perfil errado</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider-thin"></div>
+
+<section>
+  <div class="sec-num">08 / SUPORTE</div>
+  <h2>Com quem falar</h2>
+  <p class="sec-intro">O time de canal da CertLedgerPro apoia a operação do parceiro em todas as etapas — do registro da conta ao acompanhamento da proposta.</p>
+  <div class="contact">
+    <h4>Canais de apoio ao parceiro</h4>
+    <p>Para registro de oportunidade, agendamento de reunião conjunta, dúvidas técnicas ou solicitação de material aprovado:</p>
+    <div class="cline"><b>Registro de oportunidade</b> <a href="mailto:parceiros@certledgerpro.com">parceiros@certledgerpro.com</a></div>
+    <div class="cline"><b>Apoio técnico pré-venda</b> <a href="mailto:parceiros@certledgerpro.com">parceiros@certledgerpro.com</a></div>
+    <div class="cline"><b>Materiais aprovados</b> Solicite ao time de canal a lista vigente de peças liberadas para envio a prospects</div>
+    <div class="cline"><b>Prazo de retorno</b> Até 1 dia útil para registro de conta</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <div><b>CertLedgerPro</b> — Playbook de prospecção para parceiros · v1.0</div>
+    <div>Material de habilitação destinado a parceiros de canal autorizados. Os textos são ponto de partida: adapte ao seu tom de voz, porque mensagem lida como script tem desempenho pior que mensagem imperfeita e natural. Condições comerciais, margens e regras de registro de oportunidade constam do contrato de canal firmado com a CertLedgerPro e prevalecem sobre qualquer orientação deste documento.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var campos={ '[NOME]':'p_nome', '[EMPRESA]':'p_empresa', '[SEU NOME]':'p_sdr', '[PARCEIRO]':'p_parceiro' };
+  var originais={};
+
+  // guarda o HTML original de cada template
+  document.querySelectorAll('.tpl-body, .cf-say').forEach(function(el,i){
+    if(!el.id) el.id='auto_'+i;
+    originais[el.id]=el.innerHTML;
+  });
+
+  function valor(id){
+    var e=document.getElementById(id);
+    return e ? e.value.trim() : '';
+  }
+
+  function aplicar(){
+    Object.keys(originais).forEach(function(id){
+      var html=originais[id];
+      Object.keys(campos).forEach(function(tag){
+        var v=valor(campos[tag]);
+        if(v){
+          var esc=tag.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+          html=html.replace(new RegExp(esc,'g'), v);
+        }
+      });
+      document.getElementById(id).innerHTML=html;
+    });
+  }
+
+  ['p_nome','p_empresa','p_sdr','p_parceiro'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('input', aplicar);
+  });
+
+  // copiar template
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var alvo=document.getElementById(btn.getAttribute('data-tpl'));
+      if(!alvo) return;
+      var texto=alvo.innerText;
+      function ok(){
+        var antes=btn.textContent;
+        btn.textContent='Copiado';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent=antes; btn.classList.remove('done'); },1600);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(texto).then(ok).catch(function(){ fallback(texto,ok); });
+      } else { fallback(texto,ok); }
+    });
+  });
+
+  function fallback(texto,cb){
+    var ta=document.createElement('textarea');
+    ta.value=texto; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); cb(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  // acordeão de objeções
+  document.querySelectorAll('.obj-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      q.parentElement.classList.toggle('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

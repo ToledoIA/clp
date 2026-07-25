@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Executivo de CLM | CertLedgerPro</title>
+<meta name="description" content="Guia executivo sobre gestão do ciclo de vida de certificados TLS: o que muda com a SC-081v3, quanto esforço o novo regime exige e como avaliar plataformas de CLM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080D1A;
+  --card:#0D1526;
+  --card-2:#111B30;
+  --line:#1C2A47;
+  --line-soft:#16233D;
+  --text:#E8EDF7;
+  --text-2:#9FADC8;
+  --text-3:#64748B;
+  --blue:#4C6EF5;
+  --purple:#7C5CFC;
+  --cyan:#00D4FF;
+  --green:#00E5A0;
+  --amber:#F5A623;
+  --red:#FF4D6A;
+  --blue-fg:#7B96FF;
+  --purple-fg:#A78BFF;
+  --blue-soft:rgba(76,110,245,.12);
+  --purple-soft:rgba(124,92,252,.12);
+  --cyan-soft:rgba(0,212,255,.10);
+  --green-soft:rgba(0,229,160,.10);
+  --amber-soft:rgba(245,166,35,.12);
+  --red-soft:rgba(255,77,106,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);
+  font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--blue);color:#fff}
+a{color:var(--blue-fg)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ── Topbar ── */
+.topbar{
+  background:#FFFFFF;padding:16px 40px;position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.topbar .brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;letter-spacing:3px;color:#0F172A;text-transform:uppercase}
+.topbar .brand span{color:#6B6EF5}
+.topbar .doc-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#64748B}
+.grad-divider{height:3px;background:linear-gradient(90deg,var(--amber) 0%,var(--blue) 50%,var(--purple) 100%);position:sticky;top:57px;z-index:49}
+
+.wrap{max-width:980px;margin:0 auto;padding:0 32px 96px}
+
+/* ── Tipografia estrutural ── */
+h1{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(32px,5.2vw,52px);
+  line-height:1.12;letter-spacing:-.02em;margin-bottom:20px;
+}
+h2{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:clamp(23px,3.4vw,32px);
+  line-height:1.22;letter-spacing:-.015em;margin-bottom:14px;
+}
+h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;line-height:1.35;margin-bottom:8px}
+p{color:var(--text-2)}
+p + p{margin-top:14px}
+strong{color:var(--text);font-weight:600}
+.lede{font-size:17px;line-height:1.7;color:var(--text-2);max-width:74ch}
+.sub{font-size:16px;color:var(--text-2);max-width:74ch;margin-bottom:30px}
+
+section{margin-top:78px;scroll-margin-top:90px}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--blue-fg);
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--line-soft)}
+
+/* ── Hero ── */
+.hero{padding:72px 0 4px}
+.hero .kicker{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--amber);margin-bottom:22px;
+}
+.aud{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chip{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--text-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;background:var(--card);
+}
+
+/* ── Régua de regimes (elemento assinatura) ── */
+.regimes{
+  margin-top:44px;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;
+}
+.regimes-head{
+  padding:16px 22px;border-bottom:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+}
+.regimes-head .t{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--text-3)}
+.regimes-head .c{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-2)}
+.regimes-head .c b{color:var(--amber);font-weight:600}
+.rail{display:grid;grid-template-columns:repeat(4,1fr)}
+.rg{padding:22px;border-right:1px solid var(--line-soft);position:relative}
+.rg:last-child{border-right:0}
+.rg .bar{height:3px;border-radius:2px;margin-bottom:16px;background:var(--line)}
+.rg .d{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.rg .d small{font-size:14px;font-weight:500;color:var(--text-3);margin-left:4px;letter-spacing:0}
+.rg .w{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);margin-top:8px;letter-spacing:.5px}
+.rg .st{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.6px;text-transform:uppercase;
+  margin-top:12px;display:inline-block;padding:4px 9px;border-radius:5px;
+}
+.rg-past .bar{background:var(--text-3)}
+.rg-past .d{color:var(--text-3)}
+.rg-now .bar{background:var(--amber)}
+.rg-now .d{color:var(--amber)}
+.rg-now .st{background:var(--amber-soft);color:var(--amber)}
+.rg-next .bar{background:var(--blue)}
+.rg-next .d{color:var(--blue-fg)}
+.rg-next .st{background:var(--blue-soft);color:var(--blue-fg)}
+.rg-far .bar{background:var(--purple)}
+.rg-far .d{color:var(--purple-fg)}
+.rg-far .st{background:var(--purple-soft);color:var(--purple-fg)}
+.rg-past .st{background:rgba(100,116,139,.14);color:var(--text-3)}
+
+/* ── Cards e grids ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;
+  transition:border-color .2s ease,transform .2s ease;
+}
+.card:hover{border-color:var(--line);transform:translateY(-2px)}
+.card .n{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:2px;
+  color:var(--text-3);margin-bottom:12px;
+}
+.card p{font-size:14.5px;line-height:1.68}
+.why{
+  margin-top:14px;padding-top:13px;border-top:1px solid var(--line-soft);
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--text-3);
+}
+
+/* ── Callouts ── */
+.callout{border-radius:14px;padding:22px 24px;border:1px solid var(--line);background:var(--card-2);margin-top:22px}
+.callout .co-title{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;margin-bottom:8px;color:var(--text);
+}
+.callout p{font-size:14.5px}
+.co-amber{border-left:3px solid var(--amber);background:linear-gradient(90deg,var(--amber-soft),transparent 55%)}
+.co-blue{border-left:3px solid var(--blue);background:linear-gradient(90deg,var(--blue-soft),transparent 55%)}
+.co-green{border-left:3px solid var(--green);background:linear-gradient(90deg,var(--green-soft),transparent 55%)}
+.co-red{border-left:3px solid var(--red);background:linear-gradient(90deg,var(--red-soft),transparent 55%)}
+.src{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line-soft);
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;
+  letter-spacing:.4px;color:var(--text-3);
+}
+
+/* ── Resumo do conselho ── */
+.board{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden}
+.board-row{display:grid;grid-template-columns:150px 1fr;gap:0;border-bottom:1px solid var(--line-soft)}
+.board-row:last-child{border-bottom:0}
+.board-k{
+  padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--blue-fg);border-right:1px solid var(--line-soft);background:var(--card-2);
+}
+.board-v{padding:20px 24px;font-size:14.8px;line-height:1.7;color:var(--text-2)}
+
+/* ── Calculadora ── */
+.calc{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;margin-top:26px}
+.calc-in{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:24px;
+  border-bottom:1px solid var(--line-soft);background:var(--card-2);
+}
+.fld label{
+  display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;
+  text-transform:uppercase;color:var(--text-3);margin-bottom:9px;
+}
+.fld input{
+  width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;
+  padding:11px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:15px;
+}
+.fld input:hover{border-color:var(--blue)}
+.opt{
+  padding:14px 24px;border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text-2);
+}
+.opt input{width:16px;height:16px;accent-color:var(--blue);cursor:pointer}
+.opt label{cursor:pointer}
+.calc-out{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{
+  text-align:left;padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:1.6px;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+tbody td{padding:15px 20px;border-bottom:1px solid var(--line-soft);color:var(--text-2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:'JetBrains Mono',monospace;color:var(--text);white-space:nowrap}
+.reg-tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.6px;color:var(--text);
+  display:flex;align-items:center;gap:9px;white-space:nowrap;
+}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.calc-note{padding:14px 20px;font-size:12.5px;color:var(--text-3);border-top:1px solid var(--line-soft)}
+
+/* ── Tabela auditoria ── */
+.audit-tbl thead th:first-child{width:44%}
+.audit-tbl td:first-child{color:var(--text);font-weight:500}
+
+/* ── Checklist ── */
+.check{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;margin-top:24px}
+.ck{
+  display:flex;gap:14px;align-items:flex-start;padding:16px 22px;
+  border-bottom:1px solid var(--line-soft);cursor:pointer;transition:background .15s ease;
+}
+.ck:last-of-type{border-bottom:1px solid var(--line-soft)}
+.ck:hover{background:var(--card-2)}
+.ck input{margin-top:3px;width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.ck span{font-size:14.5px;color:var(--text-2);line-height:1.6}
+.score{padding:20px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card-2)}
+.score .big{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--text)}
+.score .big em{font-style:normal;font-size:17px;color:var(--text-3);font-weight:500}
+.score .msg{font-size:14.5px;color:var(--text-2);flex:1;min-width:240px}
+
+/* ── CTA ── */
+.cta{
+  margin-top:34px;border:1px solid var(--line);border-radius:16px;padding:38px 32px;text-align:center;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(76,110,245,.16),transparent 62%),var(--card);
+}
+.cta h3{font-size:22px;margin-bottom:10px}
+.cta p{max-width:62ch;margin:0 auto 22px}
+.contact{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.5px;
+  color:#fff;background:var(--blue);border-radius:10px;padding:13px 30px;text-decoration:none;
+  transition:background .18s ease;
+}
+.contact:hover{background:#3d5ce0}
+
+footer{border-top:1px solid var(--line-soft);margin-top:80px;padding:30px 32px 60px;text-align:center}
+.fb{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-2);margin-bottom:8px}
+.fb span{color:var(--blue-fg)}
+footer div:last-child{font-size:12px;color:var(--text-3)}
+
+/* ── Responsivo ── */
+@media (max-width:900px){
+  .rail{grid-template-columns:1fr 1fr}
+  .rg:nth-child(2){border-right:0}
+  .rg:nth-child(1),.rg:nth-child(2){border-bottom:1px solid var(--line-soft)}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .calc-in{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .topbar{padding:14px 20px}
+  .wrap{padding:0 20px 72px}
+  section{margin-top:58px}
+  .rail{grid-template-columns:1fr}
+  .rg{border-right:0;border-bottom:1px solid var(--line-soft)}
+  .rg:last-child{border-bottom:0}
+  .grid-2,.grid-3,.calc-in{grid-template-columns:1fr}
+  .board-row{grid-template-columns:1fr}
+  .board-k{border-right:0;border-bottom:1px solid var(--line-soft)}
+  thead th,tbody td{padding:12px 14px}
+}
+
+/* ── Impressão (folheto A4 de evento) ── */
+@media print{
+  :root{--bg:#fff;--card:#fff;--card-2:#F7F9FC;--line:#D8DFEC;--line-soft:#E7ECF5;
+        --text:#0F172A;--text-2:#33415A;--text-3:#64748B;--blue-fg:#3B52C4;--purple-fg:#6B4FD8;--amber:#B57500}
+  body{font-size:11pt}
+  .topbar{position:static;padding:0 0 12px}
+  .grad-divider{position:static}
+  .card:hover{transform:none}
+  .cta{background:#F7F9FC}
+  section{margin-top:26px;page-break-inside:avoid}
+  .calc,.check,.board,.regimes{page-break-inside:avoid}
+  .opt,.calc-note{display:none}
+  a{color:#3B52C4;text-decoration:none}
+  @page{margin:14mm}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">CertLedger<span>Pro</span></div>
+  <div class="doc-tag">Guia Executivo de CLM · ed. 2026.2</div>
+</div>
+<div class="grad-divider"></div>
+
+<main class="wrap">
+
+<!-- ══════ HERO ══════ -->
+<header class="hero">
+  <div class="kicker">Material educativo · Distribuição livre</div>
+  <h1>O certificado deixou de ser<br>um item de infraestrutura.</h1>
+  <p class="lede">
+    Desde março de 2026, o prazo máximo de validade de um certificado TLS público caiu pela metade —
+    e cairá de novo em 2027 e em 2029. O que era uma tarefa anual de infraestrutura virou um processo
+    contínuo, com evidência exigida por auditores, reguladores e conselhos. Este guia explica o que
+    mudou, quanto esforço o novo regime exige do seu parque específico e quais critérios usar para
+    avaliar plataformas de gestão do ciclo de vida de certificados.
+  </p>
+  <div class="aud">
+    <div class="chip">CISO</div>
+    <div class="chip">CIO / CTO</div>
+    <div class="chip">Risco e controles internos</div>
+    <div class="chip">Auditoria</div>
+    <div class="chip">Conselho e comitês</div>
+  </div>
+
+  <!-- Régua de regimes -->
+  <div class="regimes">
+    <div class="regimes-head">
+      <div class="t">Validade máxima de certificados TLS públicos · CA/Browser Forum SC-081v3</div>
+      <div class="c">Faltam <b id="cd-dias">—</b> dias para o regime de 100 dias</div>
+    </div>
+    <div class="rail">
+      <div class="rg rg-past">
+        <div class="bar"></div>
+        <div class="d">398<small>dias</small></div>
+        <div class="w">até 14/03/2026</div>
+        <div class="st">Encerrado</div>
+      </div>
+      <div class="rg rg-now">
+        <div class="bar"></div>
+        <div class="d">200<small>dias</small></div>
+        <div class="w">desde 15/03/2026</div>
+        <div class="st">Vigente</div>
+      </div>
+      <div class="rg rg-next">
+        <div class="bar"></div>
+        <div class="d">100<small>dias</small></div>
+        <div class="w">a partir de 15/03/2027</div>
+        <div class="st">Próxima fase</div>
+      </div>
+      <div class="rg rg-far">
+        <div class="bar"></div>
+        <div class="d">47<small>dias</small></div>
+        <div class="w">a partir de 15/03/2029</div>
+        <div class="st">Regime final</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════ 01 · RESUMO PARA O CONSELHO ══════ -->
+<section>
+  <div class="eyebrow">01 · Resumo executivo</div>
+  <h2>O essencial em noventa segundos</h2>
+  <p class="sub">
+    Se você só tem tempo para uma página, é esta. O restante do guia detalha cada linha.
+  </p>
+
+  <div class="board">
+    <div class="board-row">
+      <div class="board-k">O que mudou</div>
+      <div class="board-v">
+        O CA/Browser Forum aprovou, em abril de 2025, a redução progressiva da validade máxima dos
+        certificados TLS públicos de 398 para 47 dias. A primeira fase entrou em vigor em 15 de março
+        de 2026 — o teto hoje é de 200 dias, e as autoridades certificadoras já emitem com 199.
+      </div>
+    </div>
+    <div class="board-row">
+      <div class="board-k">Por que importa</div>
+      <div class="board-v">
+        O processo de renovação anual, que a maioria das organizações executa manualmente, deixa de
+        funcionar. A frequência de renovação multiplica-se por quatro até 2027 e por oito até 2029,
+        sobre exatamente o mesmo time.
+      </div>
+    </div>
+    <div class="board-row">
+      <div class="board-k">O risco</div>
+      <div class="board-v">
+        Certificado vencido derruba serviço em produção sem aviso e sem ataque. Em instituições
+        financeiras, isso significa indisponibilidade de canal, acionamento regulatório e — cada vez
+        mais — questionamento sobre a diligência da administração no desenho do controle.
+      </div>
+    </div>
+    <div class="board-row">
+      <div class="board-k">A janela</div>
+      <div class="board-v">
+        Projetos de automação de CLM levam de 4 a 8 semanas entre decisão e produção, e mais tempo
+        ainda quando há inventário desconhecido. Quem iniciar depois de dezembro de 2026 entra no
+        regime de 100 dias ainda renovando manualmente.
+      </div>
+    </div>
+    <div class="board-row">
+      <div class="board-k">A pergunta</div>
+      <div class="board-v">
+        Não é "qual ferramenta comprar". É: <strong>a organização sabe quantos certificados possui,
+        onde estão e quando vencem — e consegue provar isso a um auditor?</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 02 · O QUE É CLM ══════ -->
+<section>
+  <div class="eyebrow">02 · Fundamentos</div>
+  <h2>O que é gestão do ciclo de vida de certificados</h2>
+  <p class="sub">
+    CLM é a disciplina que cobre a vida inteira de um certificado digital: descoberta, emissão,
+    instalação, monitoramento, renovação, revogação e registro de evidência. Não é um produto de
+    nicho de infraestrutura — é um controle de continuidade de negócio.
+  </p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="n">DESCOBERTA</div>
+      <h3>Saber o que existe</h3>
+      <p>
+        Todo parque tem certificados que ninguém inventariou: ambientes legados, aplicações de
+        terceiros, dispositivos de rede, filiais. É a origem da maior parte das quedas.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">OPERAÇÃO</div>
+      <h3>Renovar sem intervenção</h3>
+      <p>
+        Emissão, distribuição e recarga do serviço de forma orquestrada, incluindo balanceadores,
+        CDNs, dispositivos de rede e sistemas que não aceitam automação nativa.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">EVIDÊNCIA</div>
+      <h3>Provar que funcionou</h3>
+      <p>
+        Registro íntegro de quem emitiu, quando, com qual algoritmo e sob qual aprovação. Sem isso,
+        a resposta à auditoria depende do depoimento do operador.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout co-red">
+    <div class="co-title">A falha mais cara é a mais banal</div>
+    <p>
+      Incidentes de indisponibilidade por certificado expirado não envolvem invasor, exploração de
+      vulnerabilidade ou falha de fornecedor. Envolvem uma data no calendário e um e-mail de aviso
+      que foi para a caixa de entrada de alguém que mudou de área.
+    </p>
+    <p>
+      Em pesquisa com 596 profissionais de TI e segurança, <strong>74% relataram que certificados
+      digitais já causaram indisponibilidade não planejada</strong> em suas organizações. A perda
+      econômica média estimada por incidente foi de <strong>US$ 11,1 milhões</strong>, dos quais
+      cerca de US$ 3 milhões correspondem a receita perdida de forma imediata. Os respondentes
+      registraram, em média, quatro incidentes desse tipo ao longo de dois anos.
+    </p>
+    <div class="src">
+      Fonte: Ponemon Institute e Keyfactor, “The Impact of Unsecured Digital Identities” (2019),
+      596 respondentes. Estimativa complementar da Venafi para empresas Global 5000 situa a média em
+      US$ 15 milhões por incidente. Referência de custo de indisponibilidade: Gartner, “The Cost of
+      Downtime”, Andrew Lerner (2014), US$ 5.600 por minuto.
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 03 · SC-081v3 ══════ -->
+<section>
+  <div class="eyebrow">03 · O que determina a SC-081v3</div>
+  <h2>Três fases, uma direção</h2>
+  <p class="sub">
+    A medida foi proposta pela Apple, patrocinada pela Sectigo e aprovada por unanimidade em abril
+    de 2025, com apoio de Apple, Google, Mozilla e Microsoft. Não há discussão em aberto sobre
+    reversão: os quatro programas raiz que definem o que o navegador confia já implementaram o
+    cronograma.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="n">FASE VIGENTE · DESDE 15/03/2026</div>
+      <h3>200 dias</h3>
+      <p>
+        Encerra a renovação anual. Quem operava um ciclo por ano passou a operar dois. Na prática, as
+        autoridades emitem com 199 dias para evitar disputas de borda, e a reutilização de validação
+        de domínio também encolheu.
+      </p>
+      <div class="why">Efeito: o calendário anual quebrou</div>
+    </div>
+    <div class="card">
+      <div class="n">PRÓXIMA FASE · 15/03/2027</div>
+      <h3>100 dias</h3>
+      <p>
+        Ponto de ruptura para a maioria das organizações. Renovação trimestral em um parque de
+        centenas de certificados deixa de ser gerenciável por planilha, e a automação ponto a ponto
+        já não basta — é preciso orquestração central.
+      </p>
+      <div class="why">Efeito: processo manual deixa de escalar</div>
+    </div>
+    <div class="card">
+      <div class="n">REGIME FINAL · 15/03/2029</div>
+      <h3>47 dias</h3>
+      <p>
+        Uma organização com mil certificados públicos passa a executar cerca de 7.800 renovações por
+        ano — algo em torno de 21 operações por dia útil. Mesmo um único certificado exige atenção
+        mensal.
+      </p>
+      <div class="why">Efeito: automação vira pré-requisito</div>
+    </div>
+    <div class="card">
+      <div class="n">EM PARALELO</div>
+      <h3>Validação de domínio</h3>
+      <p>
+        O prazo de reutilização da validação de domínio cai de 398 para 10 dias até 2029, exigindo
+        revalidação quase contínua. E, desde março de 2026, as autoridades passaram a validar DNSSEC
+        na emissão, o que expõe fragilidades de configuração de DNS antes invisíveis.
+      </p>
+      <div class="why">Efeito: o DNS entra no escopo do controle</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 04 · CALCULADORA ══════ -->
+<section>
+  <div class="eyebrow">04 · A conta que não fecha</div>
+  <h2>Quanto esforço o seu parque vai exigir</h2>
+  <p class="sub">
+    Ajuste os três parâmetros abaixo para o seu ambiente. O cálculo é aritmético e conservador:
+    não considera retrabalho, falhas de emissão, janelas de mudança nem indisponibilidade.
+  </p>
+
+  <div class="calc">
+    <div class="calc-in">
+      <div class="fld">
+        <label for="q-cert">Certificados no parque</label>
+        <input id="q-cert" type="number" min="1" max="1000000" step="1" value="500" inputmode="numeric">
+      </div>
+      <div class="fld">
+        <label for="q-hora">Horas por renovação manual</label>
+        <input id="q-hora" type="number" min="0.25" max="40" step="0.25" value="4" inputmode="decimal">
+      </div>
+      <div class="fld">
+        <label for="q-custo">Custo da hora técnica (R$)</label>
+        <input id="q-custo" type="number" min="0" max="10000" step="10" value="120" inputmode="numeric">
+      </div>
+    </div>
+    <div class="opt">
+      <input id="q-margem" type="checkbox" checked>
+      <label for="q-margem">Considerar renovação 14 dias antes do vencimento (prática recomendada)</label>
+    </div>
+    <div class="calc-out">
+      <table>
+        <thead>
+          <tr>
+            <th>Regime</th>
+            <th>Renovações por ano</th>
+            <th>Horas por ano</th>
+            <th>Equivalente em pessoas</th>
+            <th>Custo anual de mão de obra</th>
+          </tr>
+        </thead>
+        <tbody id="calc-body"></tbody>
+      </table>
+    </div>
+    <div class="calc-note">
+      Equivalente em pessoas calculado sobre 1.760 horas úteis por ano, dedicação integral.
+      Valores arredondados.
+    </div>
+  </div>
+
+  <div class="callout co-amber">
+    <div class="co-title">O que o número realmente diz</div>
+    <p>
+      Nenhuma organização vai contratar essas pessoas. O que acontece na prática é que a operação
+      absorve o volume até o limite, prioriza o que é visível e deixa vencer o que ninguém está
+      olhando. O risco não aparece no orçamento — aparece na primeira indisponibilidade.
+    </p>
+  </div>
+</section>
+
+<!-- ══════ 05 · RISCOS ══════ -->
+<section>
+  <div class="eyebrow">05 · Exposição</div>
+  <h2>Os seis riscos que não aparecem no painel</h2>
+  <p class="sub">
+    Todos são consequência direta da mesma causa: a organização não tem visão íntegra e contínua do
+    próprio parque criptográfico.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="n">RISCO 01</div>
+      <h3>Certificados fora do inventário</h3>
+      <p>
+        Emitidos por equipes de produto, fornecedores ou integradores sem passar pelo processo
+        central. Não estão em nenhuma planilha e vencem sem aviso.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">RISCO 02</div>
+      <h3>Emissões indevidas em nome da empresa</h3>
+      <p>
+        Certificados válidos emitidos para domínios da organização por quem não deveria. São
+        públicos e verificáveis nos registros de transparência de certificados — desde que alguém
+        esteja monitorando.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">RISCO 03</div>
+      <h3>Ausência de evidência íntegra</h3>
+      <p>
+        Quando o registro do que foi emitido vive em log editável ou em planilha compartilhada, a
+        resposta à auditoria é uma afirmação, não uma prova.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">RISCO 04</div>
+      <h3>Exposição criptográfica futura</h3>
+      <p>
+        Tráfego capturado hoje pode ser decifrado no futuro com capacidade computacional que ainda
+        não existe. Para dados com vida longa — contratos, prontuários, cadastros —, a migração para
+        criptografia resistente a computação quântica é decisão de hoje, não de 2030.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">RISCO 05</div>
+      <h3>Responsabilidade da administração</h3>
+      <p>
+        Indisponibilidade previsível, causada por controle conhecidamente frágil, é terreno fértil
+        para questionamento sobre diligência da diretoria — em apuração interna, em processo
+        regulatório ou em cobertura de seguro.
+      </p>
+    </div>
+    <div class="card">
+      <div class="n">RISCO 06</div>
+      <h3>Custo de oportunidade da equipe</h3>
+      <p>
+        Horas de engenheiros seniores consumidas em tarefa repetitiva e sem valor agregado. É o
+        custo mais alto e o menos contabilizado.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 06 · AUDITORIA ══════ -->
+<section>
+  <div class="eyebrow">06 · A pauta que já chegou</div>
+  <h2>O que o auditor pergunta — e como é uma resposta madura</h2>
+  <p class="sub">
+    Esta é a seção para encaminhar internamente antes da próxima reunião de comitê. As perguntas da
+    coluna esquerda já constam de trabalhos de auditoria interna e externa no setor financeiro
+    brasileiro.
+  </p>
+
+  <div class="check">
+    <table class="audit-tbl">
+      <thead>
+        <tr><th>Pergunta</th><th>Resposta madura</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Quantos certificados a organização possui neste momento?</td>
+          <td>Número exato, obtido por descoberta automatizada e contínua — não por consulta às equipes.</td>
+        </tr>
+        <tr>
+          <td>Algum vence nos próximos 30 dias?</td>
+          <td>Lista nominal com responsável, sistema afetado e status da renovação.</td>
+        </tr>
+        <tr>
+          <td>Existe certificado emitido para nossos domínios fora do processo?</td>
+          <td>Monitoramento contínuo dos registros públicos de transparência, com alerta ativo.</td>
+        </tr>
+        <tr>
+          <td>Quem autorizou a última emissão de certificado de produção?</td>
+          <td>Registro imutável com autor, data, algoritmo e cadeia de aprovação — verificável por terceiro.</td>
+        </tr>
+        <tr>
+          <td>Qual o plano para o regime de 100 dias?</td>
+          <td>Cronograma aprovado, com escopo, orçamento e data de entrada em produção anterior a março de 2027.</td>
+        </tr>
+        <tr>
+          <td>Qual a postura frente à ameaça criptográfica futura?</td>
+          <td>Inventário classificado por algoritmo e plano de migração para criptografia pós-quântica.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════ 07 · CHECKLIST ══════ -->
+<section>
+  <div class="eyebrow">07 · Autodiagnóstico</div>
+  <h2>Oito perguntas de prontidão</h2>
+  <p class="sub">
+    Marque apenas o que a organização consegue demonstrar hoje, com evidência. Percepção não conta.
+  </p>
+
+  <div class="check" id="checklist">
+    <label class="ck"><input type="checkbox"><span>Existe inventário centralizado e atualizado automaticamente de todos os certificados TLS, internos e públicos.</span></label>
+    <label class="ck"><input type="checkbox"><span>A descoberta cobre ambientes de nuvem, filiais, dispositivos de rede e sistemas legados — não apenas o datacenter principal.</span></label>
+    <label class="ck"><input type="checkbox"><span>A renovação ocorre sem intervenção manual em pelo menos 80% do parque.</span></label>
+    <label class="ck"><input type="checkbox"><span>Há monitoramento contínuo de emissões de certificados para os domínios da organização em registros públicos.</span></label>
+    <label class="ck"><input type="checkbox"><span>O registro de emissões e renovações é íntegro e não pode ser alterado por quem o opera.</span></label>
+    <label class="ck"><input type="checkbox"><span>Existe relatório de postura criptográfica que a auditoria consegue ler sem tradução da equipe técnica.</span></label>
+    <label class="ck"><input type="checkbox"><span>O parque está classificado por algoritmo, com plano definido de migração para criptografia pós-quântica.</span></label>
+    <label class="ck"><input type="checkbox"><span>Existe cronograma aprovado para operar sob o regime de 100 dias antes de março de 2027.</span></label>
+    <div class="score">
+      <div class="big"><span id="sc-n">0</span><em> / 8</em></div>
+      <div class="msg" id="sc-msg">Marque os itens que sua organização consegue demonstrar hoje.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 08 · CRITÉRIOS ══════ -->
+<section>
+  <div class="eyebrow">08 · Como avaliar</div>
+  <h2>Seis critérios para escolher uma plataforma de CLM</h2>
+  <p class="sub">
+    Independentemente do fornecedor escolhido, estes são os critérios que separam uma ferramenta de
+    inventário de uma plataforma que sustenta o regime de 47 dias e uma auditoria.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="n">CRITÉRIO 01</div>
+      <h3>Descoberta independente da equipe</h3>
+      <p>
+        A plataforma precisa encontrar o que a organização não sabe que tem, combinando varredura de
+        rede com monitoramento dos registros públicos de transparência de certificados.
+      </p>
+      <div class="why">Evita o inventário que só reflete o que já era conhecido</div>
+    </div>
+    <div class="card">
+      <div class="n">CRITÉRIO 02</div>
+      <h3>Automação de ponta a ponta</h3>
+      <p>
+        Emitir não basta. A plataforma precisa instalar, recarregar o serviço e validar o resultado,
+        inclusive em equipamentos que não aceitam automação nativa.
+      </p>
+      <div class="why">Evita a automação que para no meio do caminho</div>
+    </div>
+    <div class="card">
+      <div class="n">CRITÉRIO 03</div>
+      <h3>Trilha de auditoria imutável</h3>
+      <p>
+        O registro precisa ser verificável por um terceiro e resistente a alteração por quem opera a
+        própria plataforma. Registro em ledger distribuído é a forma tecnicamente defensável de
+        garantir isso.
+      </p>
+      <div class="why">Transforma controle em evidência</div>
+    </div>
+    <div class="card">
+      <div class="n">CRITÉRIO 04</div>
+      <h3>Criptografia pós-quântica no núcleo</h3>
+      <p>
+        Não como item de roteiro futuro, mas em operação: proteção híbrida combinando algoritmo
+        padronizado de encapsulamento de chaves resistente a computação quântica com cifra simétrica
+        de 256 bits.
+      </p>
+      <div class="why">Evita a migração emergencial daqui a três anos</div>
+    </div>
+    <div class="card">
+      <div class="n">CRITÉRIO 05</div>
+      <h3>Relatórios para três audiências</h3>
+      <p>
+        A mesma base de dados precisa gerar a visão operacional para a equipe, a visão de controle
+        para a auditoria e a visão de risco para o conselho — sem trabalho manual de consolidação.
+      </p>
+      <div class="why">Evita a planilha intermediária que ninguém mantém</div>
+    </div>
+    <div class="card">
+      <div class="n">CRITÉRIO 06</div>
+      <h3>Licenciamento sem surpresa</h3>
+      <p>
+        Módulos cobrados à parte e cobrança por conector transformam o custo declarado em estimativa.
+        O custo total deve ser conhecido no primeiro dia e crescer de forma previsível com o parque.
+      </p>
+      <div class="why">Evita o custo oculto no segundo ano</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ 09 · PRÓXIMO PASSO ══════ -->
+<section>
+  <div class="eyebrow">09 · Próximo passo</div>
+  <h2>Comece pelo dado, não pela ferramenta</h2>
+  <p class="sub">
+    A decisão sobre CLM fica objetiva quando a organização conhece seu inventário real. Por isso, o
+    primeiro passo recomendado não é uma demonstração — é um diagnóstico.
+  </p>
+
+  <div class="callout co-green">
+    <div class="co-title">Diagnóstico do parque de certificados</div>
+    <p>
+      Em duas semanas, sua organização recebe o inventário real de certificados — incluindo os que
+      estão fora do radar da equipe —, o mapa de expirações, o score de postura criptográfica e a
+      projeção de esforço para os regimes de 100 e 47 dias. Com esse dado em mãos, a decisão de
+      automatizar, e o seu dimensionamento, deixa de ser opinião.
+    </p>
+  </div>
+
+  <div class="cta">
+    <h3>A janela regulatória está aberta — e encurtando.</h3>
+    <p>
+      Solicite o diagnóstico do seu ambiente ou converse com nossa equipe sobre o que a SC-081v3
+      significa para o seu parque específico.
+    </p>
+    <a class="contact" href="mailto:contact@certledgerpro.com">contact@certledgerpro.com</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="fb">CertLedger <span>Pro</span> · Guia Executivo de CLM</div>
+  <div>Material educativo de distribuição livre · Elaborado em conformidade com a LGPD · certledgerpro.com</div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ── Contagem regressiva até o regime de 100 dias (15/03/2027) ── */
+  var alvo = new Date(2027, 2, 15);
+  var dias = Math.ceil((alvo - new Date()) / 86400000);
+  var elCd = document.getElementById('cd-dias');
+  if (elCd) elCd.textContent = dias > 0 ? dias.toLocaleString('pt-BR') : '0';
+
+  /* ── Calculadora de esforço por regime ── */
+  var REGIMES = [
+    { nome:'398 dias · legado',        dias:398, cor:'var(--text-3)'   },
+    { nome:'200 dias · vigente',       dias:200, cor:'var(--amber)'    },
+    { nome:'100 dias · mar/2027',      dias:100, cor:'var(--blue)'     },
+    { nome:'47 dias · mar/2029',       dias:47,  cor:'var(--purple)'   }
+  ];
+  var HORAS_FTE = 1760;
+
+  var elCert   = document.getElementById('q-cert');
+  var elHora   = document.getElementById('q-hora');
+  var elCusto  = document.getElementById('q-custo');
+  var elMargem = document.getElementById('q-margem');
+  var elBody   = document.getElementById('calc-body');
+
+  function num(el, padrao, min, max){
+    var v = parseFloat(String(el.value).replace(',', '.'));
+    if (!isFinite(v)) v = padrao;
+    if (v < min) v = min;
+    if (v > max) v = max;
+    return v;
+  }
+  function fmt(n, casas){
+    return n.toLocaleString('pt-BR', { minimumFractionDigits:casas, maximumFractionDigits:casas });
+  }
+
+  function calcular(){
+    var certs  = Math.round(num(elCert, 500, 1, 1000000));
+    var horas  = num(elHora, 4, 0.25, 40);
+    var custo  = num(elCusto, 120, 0, 10000);
+    var margem = elMargem.checked ? 14 : 0;
+
+    var linhas = REGIMES.map(function(r){
+      var ciclo = Math.max(r.dias - margem, 1);
+      var renov = (365 / ciclo) * certs;
+      var hAno  = renov * horas;
+      var fte   = hAno / HORAS_FTE;
+      var rs    = hAno * custo;
+      return '<tr>' +
+        '<td><span class="reg-tag"><span class="dot" style="background:' + r.cor + '"></span>' + r.nome + '</span></td>' +
+        '<td class="num">' + fmt(renov, 0) + '</td>' +
+        '<td class="num">' + fmt(hAno, 0) + ' h</td>' +
+        '<td class="num">' + fmt(fte, 1) + '</td>' +
+        '<td class="num">R$ ' + fmt(rs, 0) + '</td>' +
+        '</tr>';
+    });
+    elBody.innerHTML = linhas.join('');
+  }
+
+  [elCert, elHora, elCusto, elMargem].forEach(function(el){
+    el.addEventListener('input', calcular);
+    el.addEventListener('change', calcular);
+  });
+  calcular();
+
+  /* ── Checklist de prontidão ── */
+  var caixas = document.querySelectorAll('#checklist .ck input');
+  var scN = document.getElementById('sc-n');
+  var scMsg = document.getElementById('sc-msg');
+  var MENSAGENS = [
+    'Marque os itens que sua organização consegue demonstrar hoje.',
+    'Exposição relevante. O parque provavelmente contém certificados desconhecidos e a resposta à auditoria depende de memória da equipe.',
+    'Exposição relevante. O parque provavelmente contém certificados desconhecidos e a resposta à auditoria depende de memória da equipe.',
+    'Exposição relevante. O parque provavelmente contém certificados desconhecidos e a resposta à auditoria depende de memória da equipe.',
+    'Base parcial. O controle existe, mas não cobre o parque inteiro nem sustenta o regime de 100 dias sem esforço adicional.',
+    'Base parcial. O controle existe, mas não cobre o parque inteiro nem sustenta o regime de 100 dias sem esforço adicional.',
+    'Base parcial. O controle existe, mas não cobre o parque inteiro nem sustenta o regime de 100 dias sem esforço adicional.',
+    'Postura sólida. Vale concentrar esforço nos itens restantes antes de março de 2027.',
+    'Postura madura. A organização está preparada para o regime de 100 dias e tem o dado necessário para planejar 2029.'
+  ];
+  function pontuar(){
+    var n = 0;
+    caixas.forEach(function(c){ if (c.checked) n++; });
+    scN.textContent = n;
+    scMsg.textContent = MENSAGENS[n];
+  }
+  caixas.forEach(function(c){ c.addEventListener('change', pontuar); });
+  pontuar();
+})();
+</script>
+
+</body>
+</html>
